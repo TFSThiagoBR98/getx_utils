@@ -1,0 +1,55 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Flutter Debug development",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "-v",
+                "--dart-define",
+                "APP_TARGET=devel",
+                "--dart-define",
+                "APP_SUFIX=.devel",
+                "--dart-define",
+                "APP_NAME=Homologação",
+            ]
+        },
+        {
+            "name": "Flutter Debug production",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "-v",
+                "--dart-define",
+                "APP_TARGET=prod"
+            ]
+        },
+        {
+            "name": "Flutter Release development",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--release",
+                "-v",
+                "--dart-define",
+                "APP_TARGET=devel",
+                "--dart-define",
+                "APP_SUFIX=.devel",
+                "--dart-define",
+                "APP_NAME=Homologação",
+            ]
+        },
+        {
+            "name": "Flutter Release production",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--release",
+                "-v",
+                "--dart-define",
+                "APP_TARGET=prod"
+            ]
+        }
+    ]
+}
