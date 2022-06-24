@@ -8,7 +8,9 @@ import 'package:ferry/ferry.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:universal_io/io.dart';
 import '../exceptions/auth_exception.dart';
+import '../exceptions/auth_wrong_exception.dart';
 import '../exceptions/permission_exception.dart';
+import '../exceptions/outdated_client_exception.dart';
 import '../widgets/error_dialog.dart';
 
 abstract class GraphQLServerProvider {
@@ -16,7 +18,8 @@ abstract class GraphQLServerProvider {
 
   abstract BuildContext context;
   abstract String apiUrl;
-  abstract String userAgent;
+
+  Future<String> getUserAgent();
 
   void runCallbackOnMessageError(
       {required Future<void> Function() callback,
@@ -59,6 +62,23 @@ abstract class GraphQLServerProvider {
             onRetry: onRetry),
         barrierDismissible: false,
       ).whenComplete(() => onError);
+    } else if (error is AuthWrongException) {
+      Get.dialog(
+        ErrorDialog(
+            errorMessage: "Falha ao executar a ação\n"
+                "Usuário ou senha inválidos\n",
+            onRetry: onRetry),
+        barrierDismissible: false,
+      ).whenComplete(() => onError);
+    } else if (error is OutdatedClientException) {
+      Get.dialog(
+        ErrorDialog(
+            errorMessage: "Falha ao executar a ação\n"
+                "Este aplicativo está desatualizado\n"
+                "Por favor faça uma atualização na loja de aplicativos de seu dispositivo\n",
+            onRetry: onRetry),
+        barrierDismissible: false,
+      ).whenComplete(() => onError);
     } else if (error is ServerException) {
       Get.dialog(
         ErrorDialog(
@@ -90,7 +110,16 @@ abstract class GraphQLServerProvider {
           barrierDismissible: false,
         ).whenComplete(() => onError);
       } else {
-        if (error.response?.statusCode == 429) {
+        if (error.response?.statusCode == 460) {
+          Get.dialog(
+            ErrorDialog(
+                errorMessage: "Falha ao executar a ação\n"
+                    "Este aplicativo está desatualizado\n"
+                    "Por favor faça uma atualização na loja de aplicativos de seu dispositivo\n",
+                onRetry: onRetry),
+            barrierDismissible: false,
+          ).whenComplete(() => onError);
+        } else if (error.response?.statusCode == 429) {
           Get.dialog(
             ErrorDialog(
                 errorMessage: "Falha ao executar a ação\n"
@@ -145,10 +174,17 @@ abstract class GraphQLServerProvider {
   Future<OperationResponse<TData, TVars>> fetchFromGraphQl<TData, TVars>(OperationRequest<TData, TVars> request) async {
     var resp = await (await graphQlClient()).request(request).first;
     if (resp.hasErrors) {
-      if (resp.graphqlErrors?.first.message == "invalid_grant" ||
-          resp.graphqlErrors?.first.message == "Unauthenticated." ||
+      if (resp.graphqlErrors?.first.message == "Unauthenticated." ||
           resp.graphqlErrors?.first.message == "Not Authenticated") {
         throw AuthException(message: resp.graphqlErrors?.first.message ?? "");
+      }
+
+      if (resp.graphqlErrors?.first.message == "invalid_grant") {
+        throw AuthWrongException(message: resp.graphqlErrors?.first.message ?? "");
+      }
+
+      if (resp.graphqlErrors?.first.message == "Outdated Client") {
+        throw OutdatedClientException();
       }
 
       if (resp.graphqlErrors?.first.message == "This action is unauthorized.") {
@@ -204,7 +240,7 @@ abstract class GraphQLServerProvider {
   Future<Map<String, dynamic>> getHeaders() async {
     var headers = {
       "accept": "application/json",
-      "user-agent": userAgent,
+      "user-agent": await getUserAgent(),
       "authorization": accessToken != null ? "Bearer $accessToken" : "Bearer null",
     };
     return headers;
