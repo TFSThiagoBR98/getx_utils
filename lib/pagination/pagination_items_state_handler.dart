@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:paginated_items_builder/paginated_items_builder.dart';
+
+import 'models/paginated_items_response.dart';
 
 /// Do not have a controller for a list of items? Or do not want to create one just because of
 /// one time use, use [PaginationItemsStateHandler], it handles the state internally and

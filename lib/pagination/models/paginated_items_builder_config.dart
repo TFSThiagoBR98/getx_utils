@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:paginated_items_builder/paginated_items_builder.dart';
 
 /// The config for [PaginatedItemsBuilder].
 class PaginatedItemsBuilderConfig {

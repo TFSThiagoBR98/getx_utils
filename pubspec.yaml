@@ -1,6 +1,6 @@
 name: getx_utils
 description: Some utilities for my apps
-version: 1.0.0
+version: 1.1.0
 homepage: "https://tfs.dev.br"
 
 environment:
@@ -27,7 +27,6 @@ dependencies:
   ferry_flutter: ^0.5.5-dev.1
   gql_dio_link: ^0.2.2-alpha+1635885531750
   shimmer: ^2.0.0
-  paginated_items_builder: ^1.2.1+1
   built_collection: ^5.1.1
   built_value: ^8.3.3
   intl: ^0.17.0
