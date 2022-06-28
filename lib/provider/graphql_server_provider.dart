@@ -11,6 +11,7 @@ import '../exceptions/auth_exception.dart';
 import '../exceptions/auth_wrong_exception.dart';
 import '../exceptions/permission_exception.dart';
 import '../exceptions/outdated_client_exception.dart';
+import '../exceptions/register_must_verify_email_exception.dart';
 import '../widgets/error_dialog.dart';
 
 abstract class GraphQLServerProvider {
@@ -25,27 +26,28 @@ abstract class GraphQLServerProvider {
       {required Future<void> Function() callback,
       ProgressDialog? dialog,
       required Function onError,
-      VoidCallback? onRetry}) {
+      VoidCallback? onRetry,
+      VoidCallback? onSucess}) {
     callback().then((value) => null).onError((error, stackTrace) {
       logger.severe("Failed to run callback", error, stackTrace);
       dialog?.dismiss();
-      onErrorDialogs(error, onError: onError, onRetry: onRetry);
+      onErrorDialogs(error, onError: onError, onRetry: onRetry, onSucess: onSucess);
     });
   }
 
   Future<List<T>> fetchPaginateResult<T>(Future<List<T>> Function() onData, Function onError,
-      {VoidCallback? onRetry}) async {
+      {VoidCallback? onRetry, VoidCallback? onSucess}) async {
     try {
       var list = await onData();
       return list;
     } catch (e, stackTrace) {
       logger.severe("Failed to fetch paginated result from api", e, stackTrace);
-      onErrorDialogs(e, onError: onError, onRetry: onRetry);
+      onErrorDialogs(e, onError: onError, onRetry: onRetry, onSucess: onSucess);
       rethrow;
     }
   }
 
-  void onErrorDialogs(error, {required Function onError, VoidCallback? onRetry}) {
+  void onErrorDialogs(error, {required Function onError, VoidCallback? onRetry, VoidCallback? onSucess}) {
     if (error is AuthException) {
       Get.dialog(
         ErrorDialog(
@@ -70,6 +72,14 @@ abstract class GraphQLServerProvider {
             onRetry: onRetry),
         barrierDismissible: false,
       ).whenComplete(() => onError);
+    } else if (error is RegisterMustVerifyEmailException) {
+      Get.dialog(
+        ErrorDialog(
+            errorMessage: "Registro efetuado com sucesso\n"
+                "Por favor verifique seu email para ativar sua conta\n",
+            onRetry: onRetry),
+        barrierDismissible: false,
+      ).whenComplete(() => onSucess ?? () {});
     } else if (error is OutdatedClientException) {
       Get.dialog(
         ErrorDialog(
