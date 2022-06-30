@@ -4,6 +4,8 @@ export 'widgets/card_displayer.dart';
 export 'widgets/confirmation_dialog.dart';
 export 'widgets/continue_create.dart';
 export 'widgets/error_dialog.dart';
+export 'widgets/warning_dialog.dart';
+export 'widgets/info_dialog.dart';
 export 'widgets/input_formfield.dart';
 export 'widgets/list_expanded_item.dart';
 export 'widgets/list_expanded_item_view.dart';
@@ -21,7 +23,10 @@ export 'pagination/models/paginated_items_response.dart';
 export 'pagination/models/paginated_items_builder_config.dart';
 
 export 'exceptions/auth_exception.dart';
+export 'exceptions/auth_wrong_exception.dart';
+export 'exceptions/outdated_client_exception.dart';
 export 'exceptions/permission_exception.dart';
+export 'exceptions/register_must_verify_email_exception.dart';
 
 export 'app/app_scrollbehavior.dart';
 

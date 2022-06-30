@@ -13,6 +13,7 @@ import '../exceptions/permission_exception.dart';
 import '../exceptions/outdated_client_exception.dart';
 import '../exceptions/register_must_verify_email_exception.dart';
 import '../widgets/error_dialog.dart';
+import '../widgets/warning_dialog.dart';
 
 abstract class GraphQLServerProvider {
   static final logger = Logger('GraphQLServerProvider');
@@ -74,10 +75,10 @@ abstract class GraphQLServerProvider {
       ).whenComplete(() => onError);
     } else if (error is RegisterMustVerifyEmailException) {
       Get.dialog(
-        ErrorDialog(
+        WarningDialog(
             errorMessage: "Registro efetuado com sucesso\n"
                 "Por favor verifique seu email para ativar sua conta\n",
-            onRetry: onRetry),
+            onOk: onSucess),
         barrierDismissible: false,
       ).whenComplete(() => onSucess ?? () {});
     } else if (error is OutdatedClientException) {
@@ -106,7 +107,8 @@ abstract class GraphQLServerProvider {
           ErrorDialog(
               errorMessage: "Falha ao executar a ação\n"
                   "Tempo esgotado aguardando resposta do servidor\n"
-                  "Verifique sua conexão com a internet e tente novamente\n",
+                  "Verifique sua conexão com a internet e tente novamente.\n"
+                  "Caso o problema persista e não seja sua internet, entre em contato com o suporte.\n",
               onRetry: onRetry),
           barrierDismissible: false,
         ).whenComplete(() => onError);

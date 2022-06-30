@@ -19,10 +19,7 @@ class _ErrorDialogState extends State<ErrorDialog> {
       content: ListTile(
         dense: true,
         contentPadding: const EdgeInsets.symmetric(vertical: 10),
-        leading: Icon(
-          Icons.error,
-          color: Theme.of(context).hintColor,
-        ),
+        leading: const Icon(Icons.error_outline, size: 40, color: Colors.red),
         title: Text(
           "Ocorreu um problema ao executar a ação",
           style: Theme.of(context).textTheme.subtitle1,
@@ -47,10 +44,10 @@ class _ErrorDialogState extends State<ErrorDialog> {
                       backgroundColor: MaterialStateProperty.all<Color>(Colors.green.shade700),
                     ),
                     child: const Padding(
-                      padding: EdgeInsets.all(20.0),
+                      padding: EdgeInsets.all(10.0),
                       child: Text(
                         "OK",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     )),
               ),
@@ -73,10 +70,10 @@ class _ErrorDialogState extends State<ErrorDialog> {
                         backgroundColor: MaterialStateProperty.all<Color>(Colors.blue.shade700),
                       ),
                       child: const Padding(
-                        padding: EdgeInsets.all(20.0),
+                        padding: EdgeInsets.all(10.0),
                         child: Text(
                           "Tentar novamente",
-                          style: TextStyle(color: Colors.white, fontSize: 18),
+                          style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                       )),
                 ),
