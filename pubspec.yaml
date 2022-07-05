@@ -31,6 +31,7 @@ dependencies:
   built_value: ^8.3.3
   intl: ^0.17.0
   dio: ^4.0.6
+  fast_rsa: ^3.4.7
 
 dev_dependencies:
   flutter_test:
