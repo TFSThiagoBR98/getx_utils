@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class ErrorDialog extends StatefulWidget {
   final String errorMessage;
   final VoidCallback? onRetry;
+  final VoidCallback? onOk;
 
-  const ErrorDialog({Key? key, this.errorMessage = "", this.onRetry}) : super(key: key);
+  const ErrorDialog({Key? key, this.errorMessage = "", this.onRetry, this.onOk}) : super(key: key);
 
   @override
   State<ErrorDialog> createState() => _ErrorDialogState();
@@ -16,18 +17,25 @@ class _ErrorDialogState extends State<ErrorDialog> {
     return AlertDialog(
       scrollable: true,
       title: const Text("Ocorreu um problema"),
-      content: ListTile(
-        dense: true,
-        contentPadding: const EdgeInsets.symmetric(vertical: 10),
-        leading: const Icon(Icons.error_outline, size: 40, color: Colors.red),
-        title: Text(
-          "Ocorreu um problema ao executar a ação",
-          style: Theme.of(context).textTheme.subtitle1,
-        ),
-        subtitle: Text(
-          widget.errorMessage,
-          style: Theme.of(context).textTheme.subtitle2,
-        ),
+      content: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.error_outline, size: 56, color: Colors.red),
+          ),
+          ListTile(
+            dense: true,
+            contentPadding: const EdgeInsets.symmetric(vertical: 10),
+            title: Text(
+              "Ocorreu um problema ao executar a ação",
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+            subtitle: Text(
+              widget.errorMessage,
+              style: Theme.of(context).textTheme.subtitle2,
+            ),
+          ),
+        ],
       ),
       actions: [
         Row(
@@ -36,15 +44,15 @@ class _ErrorDialogState extends State<ErrorDialog> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextButton(
+                child: OutlinedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
+                      if (widget.onOk != null) {
+                        widget.onOk!();
+                      }
                     },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.green.shade700),
-                    ),
                     child: const Padding(
-                      padding: EdgeInsets.all(10.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                         "OK",
                         style: TextStyle(color: Colors.white, fontSize: 16),
@@ -65,12 +73,15 @@ class _ErrorDialogState extends State<ErrorDialog> {
                       onPressed: () {
                         Navigator.of(context).pop();
                         widget.onRetry!();
+                        if (widget.onRetry != null) {
+                          widget.onRetry!();
+                        }
                       },
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(Colors.blue.shade700),
                       ),
                       child: const Padding(
-                        padding: EdgeInsets.all(10.0),
+                        padding: EdgeInsets.all(8.0),
                         child: Text(
                           "Tentar novamente",
                           style: TextStyle(color: Colors.white, fontSize: 16),

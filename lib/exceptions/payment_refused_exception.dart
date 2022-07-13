@@ -5,10 +5,18 @@ import 'package:getx_utils/exceptions/ui_exception.dart';
 import '../utils/func_utils.dart';
 import '../widgets/error_dialog.dart';
 
-class PermissionException implements UiException {
+class PaymentRefusedException implements UiException {
   final String message;
+  final String? code;
+  final String? reason;
+  final String? operation;
 
-  PermissionException({this.message = "You are not authorized to run this command"}) : super();
+  PaymentRefusedException(
+      {this.code = "PAYMENT_REFUSED",
+      this.reason = "Entre em contato com a Operadora",
+      this.operation = "DECLINED",
+      this.message = "Seu Pagamento foi Recusado"})
+      : super();
 
   @override
   String toString() => message;
@@ -27,7 +35,10 @@ class PermissionException implements UiException {
     if (showDialog) {
       await Get.dialog(
         ErrorDialog(
-          errorMessage: "Você não tem permissão para executar esta ação\n",
+          errorMessage: "Seu pagamento foi Recusado\n"
+              "Seu pagamento foi Recusado pelo seguinte motivo\n"
+              "$reason\n"
+              "Verifique a forma de pagamento selecionada e tente novamente\n",
           onRetry: onRetry,
           onOk: onSuccess,
         ),

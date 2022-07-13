@@ -16,22 +16,29 @@ class _InfoDialogState extends State<InfoDialog> {
     return AlertDialog(
       scrollable: true,
       title: const Text("Aviso"),
-      content: ListTile(
-        dense: true,
-        contentPadding: const EdgeInsets.symmetric(vertical: 10),
-        leading: const Icon(
-          Icons.info_outline,
-          size: 40,
-          color: Colors.blue,
-        ),
-        title: Text(
-          "Informação",
-          style: Theme.of(context).textTheme.subtitle1,
-        ),
-        subtitle: Text(
-          widget.errorMessage,
-          style: Theme.of(context).textTheme.subtitle2,
-        ),
+      content: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.info_outline,
+              size: 56,
+              color: Colors.blue,
+            ),
+          ),
+          ListTile(
+            dense: true,
+            contentPadding: const EdgeInsets.symmetric(vertical: 10),
+            title: Text(
+              "Informação",
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+            subtitle: Text(
+              widget.errorMessage,
+              style: Theme.of(context).textTheme.subtitle2,
+            ),
+          ),
+        ],
       ),
       actions: [
         Row(

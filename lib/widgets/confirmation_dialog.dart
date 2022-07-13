@@ -17,23 +17,58 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
     return AlertDialog(
       scrollable: true,
       title: const Text("Confirmar ação"),
-      content: ListTile(
-        dense: true,
-        contentPadding: const EdgeInsets.symmetric(vertical: 10),
-        leading: Icon(
-          Icons.error,
-          color: Theme.of(context).hintColor,
-        ),
-        title: Text(
-          "Você deseja confirmar a ação abaixo?",
-          style: Theme.of(context).textTheme.subtitle1,
-        ),
-        subtitle: Text(
-          widget.message,
-          style: Theme.of(context).textTheme.subtitle2,
-        ),
+      content: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.warning_amber,
+              size: 56,
+              color: Colors.amber,
+            ),
+          ),
+          ListTile(
+            dense: true,
+            contentPadding: const EdgeInsets.symmetric(vertical: 10),
+            title: Text(
+              "Você deseja confirmar a ação abaixo?",
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+            subtitle: Text(
+              widget.message,
+              style: Theme.of(context).textTheme.subtitle2,
+            ),
+          ),
+        ],
       ),
       actions: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      if (widget.onConfirm != null) {
+                        widget.onConfirm!();
+                      }
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(Colors.green.shade700),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        "OK",
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      ),
+                    )),
+              ),
+            )
+          ],
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -51,38 +86,16 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                       backgroundColor: MaterialStateProperty.all<Color>(Colors.red.shade700),
                     ),
                     child: const Padding(
-                      padding: EdgeInsets.all(20.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                         "Cancelar",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     )),
               ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      if (widget.onConfirm != null) {
-                        widget.onConfirm!();
-                      }
-                    },
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.green.shade700),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(20.0),
-                      child: Text(
-                        "OK",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
-                      ),
-                    )),
-              ),
-            ),
+            )
           ],
-        )
+        ),
       ],
     );
   }

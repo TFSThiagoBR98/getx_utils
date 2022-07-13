@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
+import 'package:getx_utils/exceptions/payment_refused_exception.dart';
+import 'package:getx_utils/exceptions/validation_exception.dart';
 import 'package:hive/hive.dart';
 import 'package:logging/logging.dart';
 import "package:gql_dio_link/gql_dio_link.dart";
@@ -50,59 +52,29 @@ abstract class GraphQLServerProvider {
 
   void onErrorDialogs(error, {required Function onError, VoidCallback? onRetry, VoidCallback? onSucess}) {
     if (error is AuthException) {
-      Get.dialog(
-        ErrorDialog(
-            errorMessage: "Falha ao executar a ação\n"
-                "Você não está conectado a sua conta, por favor faça o login\n",
-            onRetry: onRetry),
-        barrierDismissible: false,
-      ).whenComplete(() => onError);
+      error.callDialog(onRetry: onRetry, onSuccess: onSucess).whenComplete(() => onError);
     } else if (error is PermissionException) {
-      Get.dialog(
-        ErrorDialog(
-            errorMessage: "Falha ao executar a ação\n"
-                "Você não tem permissão para executar esta ação\n",
-            onRetry: onRetry),
-        barrierDismissible: false,
-      ).whenComplete(() => onError);
+      error.callDialog(onRetry: onRetry, onSuccess: onSucess).whenComplete(() => onError);
     } else if (error is AuthWrongException) {
-      Get.dialog(
-        ErrorDialog(
-            errorMessage: "Falha ao executar a ação\n"
-                "Usuário ou senha inválidos\n",
-            onRetry: onRetry),
-        barrierDismissible: false,
-      ).whenComplete(() => onError);
+      error.callDialog(onRetry: onRetry, onSuccess: onSucess).whenComplete(() => onError);
     } else if (error is RegisterMustVerifyEmailException) {
-      Get.dialog(
-        WarningDialog(
-            errorMessage: "Registro efetuado com sucesso\n"
-                "Por favor verifique seu email para ativar sua conta\n",
-            onOk: onSucess),
-        barrierDismissible: false,
-      ).whenComplete(() => onSucess ?? () {});
+      error.callDialog(onSuccess: onSucess).whenComplete(() => onSucess ?? () {});
     } else if (error is OutdatedClientException) {
-      Get.dialog(
-        ErrorDialog(
-            errorMessage: "Falha ao executar a ação\n"
-                "Este aplicativo está desatualizado\n"
-                "Por favor faça uma atualização na loja de aplicativos de seu dispositivo\n",
-            onRetry: onRetry),
-        barrierDismissible: false,
-      ).whenComplete(() => onError);
+      error.callDialog(onRetry: onRetry, onSuccess: onSucess).whenComplete(() => onError);
     } else if (error is ServerException) {
       Get.dialog(
         ErrorDialog(
-            errorMessage: "Falha ao executar a ação\n"
-                "Falha no servidor\n"
+            errorMessage: "Falha no servidor\n"
                 "Ocorreu um problema no nosso sistema\n"
-                "Aguarde um pouco e tente novamente\n"
+                "Aguarde alguns minutos e tente novamente\n"
                 "Caso o problema persista entre em contato com o suporte.\n",
             onRetry: onRetry),
         barrierDismissible: false,
       ).whenComplete(() => onError);
     } else if (error is DioError) {
-      if (error.type == DioErrorType.connectTimeout) {
+      if (error.type == DioErrorType.connectTimeout ||
+          error.type == DioErrorType.receiveTimeout ||
+          error.type == DioErrorType.sendTimeout) {
         Get.dialog(
           ErrorDialog(
               errorMessage: "Falha ao executar a ação\n"
@@ -112,11 +84,18 @@ abstract class GraphQLServerProvider {
               onRetry: onRetry),
           barrierDismissible: false,
         ).whenComplete(() => onError);
+      } else if (error.type == DioErrorType.other) {
+        Get.dialog(
+          ErrorDialog(
+              errorMessage: "Falha ao conectar ao Servidor\n"
+                  "Verifique sua conexão com a internet e tente novamente\n",
+              onRetry: onRetry),
+          barrierDismissible: false,
+        ).whenComplete(() => onError);
       } else if (error.response == null) {
         Get.dialog(
           ErrorDialog(
-              errorMessage: "Falha ao executar a ação\n"
-                  "O Servidor não enviou uma resposta\n"
+              errorMessage: "O Servidor não enviou uma resposta\n"
                   "Verifique sua conexão com a internet e tente novamente\n",
               onRetry: onRetry),
           barrierDismissible: false,
@@ -125,8 +104,7 @@ abstract class GraphQLServerProvider {
         if (error.response?.statusCode == 460) {
           Get.dialog(
             ErrorDialog(
-                errorMessage: "Falha ao executar a ação\n"
-                    "Este aplicativo está desatualizado\n"
+                errorMessage: "Este aplicativo está desatualizado\n"
                     "Por favor faça uma atualização na loja de aplicativos de seu dispositivo\n",
                 onRetry: onRetry),
             barrierDismissible: false,
@@ -134,8 +112,7 @@ abstract class GraphQLServerProvider {
         } else if (error.response?.statusCode == 429) {
           Get.dialog(
             ErrorDialog(
-                errorMessage: "Falha ao executar a ação\n"
-                    "Você fez várias requisições em um curto periodo de tempo\n"
+                errorMessage: "Você fez várias requisições em um curto periodo de tempo\n"
                     "Muitas tentativas de conexão, tente mais tarde\n",
                 onRetry: onRetry),
             barrierDismissible: false,
@@ -143,8 +120,7 @@ abstract class GraphQLServerProvider {
         } else if (error.response?.statusCode == 500 || error.response?.statusCode == 502) {
           Get.dialog(
             ErrorDialog(
-                errorMessage: "Falha ao executar a ação\n"
-                    "Falha no servidor\n"
+                errorMessage: "Falha no servidor\n"
                     "Ocorreu um problema no nosso sistema\n"
                     "Aguarde um pouco e tente novamente\n"
                     "Caso o problema persista entre em contato com o suporte.\n",
@@ -154,10 +130,9 @@ abstract class GraphQLServerProvider {
         } else {
           Get.dialog(
             ErrorDialog(
-                errorMessage: "Falha ao executar a ação\n"
-                    "Erro desconhecido na conexão com o servidor\n"
+                errorMessage: "Erro desconhecido na conexão com o servidor\n"
                     "Verifique sua conexão com a internet e tente novamente\n"
-                    "Detalhes $error \n",
+                    "Detalhes do Erro $error \n",
                 onRetry: onRetry),
             barrierDismissible: false,
           ).whenComplete(() => onError);
@@ -166,8 +141,7 @@ abstract class GraphQLServerProvider {
     } else if (error is SocketException) {
       Get.dialog(
         ErrorDialog(
-            errorMessage: "Falha ao executar a ação\n"
-                "Falha ao conectar-se ao servidor\n"
+            errorMessage: "Falha ao conectar-se ao servidor\n"
                 "Verifique sua conexão com a internet e tente novamente\n",
             onRetry: onRetry),
         barrierDismissible: false,
@@ -203,8 +177,22 @@ abstract class GraphQLServerProvider {
         throw PermissionException(message: "Esta ação não está autorizada");
       }
 
+      if (resp.graphqlErrors?.first.message == "PAYMENT_REFUSED") {
+        throw PaymentRefusedException(
+          code: resp.graphqlErrors?.first.extensions?['code'],
+          reason: resp.graphqlErrors?.first.extensions?['reason'],
+          operation: resp.graphqlErrors?.first.extensions?['operation'],
+        );
+      }
+
+      if (resp.graphqlErrors?.first.message.contains("Validation failed") == true) {
+        if (resp.graphqlErrors?.first.extensions?["validation"] != null) {
+          throw ValidationException(fields: resp.graphqlErrors?.first.extensions?["validation"]);
+        }
+      }
+
       if (resp.graphqlErrors?.first.message == "Internal server error") {
-        throw ServerException(originalException: throw Exception("Failed to execute the request - SERVER ERROR"));
+        throw const ServerException();
       }
 
       if (resp.linkException != null) {
@@ -220,15 +208,15 @@ abstract class GraphQLServerProvider {
             throw resp.linkException as LinkException;
           }
         } else {
-          throw Exception("Failed to execute the request - LINK: ${resp.linkException}");
+          throw Exception("Falha ao se conectar ao servidor: ${resp.linkException}");
         }
       }
 
       if (resp.graphqlErrors != null && resp.graphqlErrors!.isNotEmpty) {
-        throw Exception("Failed to execute the request - GRAPHQL: ${resp.graphqlErrors}");
+        throw Exception("Erro não tratado pelo aplicativo: ${resp.graphqlErrors}");
       }
 
-      throw Exception("Failed to execute the request - UNKNOWN");
+      throw Exception("Falha desconhecida na conexão entre o servidor");
     } else {
       logger.finest("Request executed with SUCCESS");
 

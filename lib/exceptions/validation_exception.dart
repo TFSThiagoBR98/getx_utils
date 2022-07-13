@@ -4,14 +4,20 @@ import 'package:getx_utils/exceptions/ui_exception.dart';
 
 import '../utils/func_utils.dart';
 import '../widgets/error_dialog.dart';
+import '../widgets/warning_dialog.dart';
 
-class PermissionException implements UiException {
+class ValidationException implements UiException {
   final String message;
+  final Map? fields;
 
-  PermissionException({this.message = "You are not authorized to run this command"}) : super();
+  ValidationException({this.message = "Some fields have an invalid value", this.fields}) : super();
 
   @override
   String toString() => message;
+
+  String breakMap() {
+    return fields?.values.map((e) => (e as List<String>).join('\n')).join('\n') ?? "";
+  }
 
   @override
   Future<void> callDialog({
@@ -27,10 +33,10 @@ class PermissionException implements UiException {
     if (showDialog) {
       await Get.dialog(
         ErrorDialog(
-          errorMessage: "Você não tem permissão para executar esta ação\n",
-          onRetry: onRetry,
-          onOk: onSuccess,
-        ),
+            errorMessage: "Alguns campos contém valores inválidos\n"
+                "Reveja os valores fornecidos e tente novamente\n"
+                "${breakMap()}\n",
+            onOk: onSuccess),
         barrierDismissible: false,
       );
     }

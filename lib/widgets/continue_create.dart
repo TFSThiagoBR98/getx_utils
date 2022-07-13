@@ -17,17 +17,25 @@ class _ContinueCreateDialogState extends State<ContinueCreateDialog> {
     return AlertDialog(
       scrollable: true,
       title: const Text("Continuar a criar"),
-      content: ListTile(
-        dense: true,
-        contentPadding: const EdgeInsets.symmetric(vertical: 10),
-        leading: Icon(
-          Icons.error,
-          color: Theme.of(context).hintColor,
-        ),
-        title: Text(
-          "Você deseja continuar a criar ${widget.message}?",
-          style: Theme.of(context).textTheme.subtitle1,
-        ),
+      content: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.warning_amber,
+              size: 56,
+              color: Colors.amber,
+            ),
+          ),
+          ListTile(
+            dense: true,
+            contentPadding: const EdgeInsets.symmetric(vertical: 10),
+            title: Text(
+              "Você deseja continuar a criar ${widget.message}?",
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+          ),
+        ],
       ),
       actions: [
         Row(

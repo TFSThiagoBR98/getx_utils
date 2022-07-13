@@ -16,22 +16,29 @@ class _WarningDialogState extends State<WarningDialog> {
     return AlertDialog(
       scrollable: true,
       title: const Text("Aviso"),
-      content: ListTile(
-        dense: true,
-        contentPadding: const EdgeInsets.symmetric(vertical: 10),
-        leading: const Icon(
-          Icons.warning_amber,
-          size: 40,
-          color: Colors.amber,
-        ),
-        title: Text(
-          "Atenção",
-          style: Theme.of(context).textTheme.subtitle1,
-        ),
-        subtitle: Text(
-          widget.errorMessage,
-          style: Theme.of(context).textTheme.subtitle2,
-        ),
+      content: Column(
+        children: [
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(
+              Icons.warning_amber,
+              size: 56,
+              color: Colors.amber,
+            ),
+          ),
+          ListTile(
+            dense: true,
+            contentPadding: const EdgeInsets.symmetric(vertical: 10),
+            title: Text(
+              "Atenção",
+              style: Theme.of(context).textTheme.subtitle1,
+            ),
+            subtitle: Text(
+              widget.errorMessage,
+              style: Theme.of(context).textTheme.subtitle2,
+            ),
+          ),
+        ],
       ),
       actions: [
         Row(
@@ -51,7 +58,7 @@ class _WarningDialogState extends State<WarningDialog> {
                       backgroundColor: MaterialStateProperty.all<Color>(Colors.green.shade700),
                     ),
                     child: const Padding(
-                      padding: EdgeInsets.all(10.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                         "OK",
                         style: TextStyle(color: Colors.white, fontSize: 16),

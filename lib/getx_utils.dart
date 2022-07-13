@@ -13,6 +13,7 @@ export 'widgets/list_top.dart';
 export 'widgets/select_list_paginate.dart';
 
 export 'utils/main_utils.dart';
+export 'utils/func_utils.dart';
 
 export 'provider/graphql_base_repository.dart';
 export 'provider/graphql_server_provider.dart';
@@ -27,6 +28,9 @@ export 'exceptions/auth_wrong_exception.dart';
 export 'exceptions/outdated_client_exception.dart';
 export 'exceptions/permission_exception.dart';
 export 'exceptions/register_must_verify_email_exception.dart';
+export 'exceptions/payment_refused_exception.dart';
+export 'exceptions/ui_exception.dart';
+export 'exceptions/validation_exception.dart';
 
 export 'app/app_scrollbehavior.dart';
 
