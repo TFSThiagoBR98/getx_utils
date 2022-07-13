@@ -15,7 +15,10 @@ class _InfoDialogState extends State<InfoDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       scrollable: true,
-      title: const Text("Aviso"),
+      title: const Text(
+        "Aviso",
+        textAlign: TextAlign.center,
+      ),
       content: Column(
         children: [
           const Padding(

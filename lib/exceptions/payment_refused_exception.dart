@@ -35,11 +35,10 @@ class PaymentRefusedException implements UiException {
     if (showDialog) {
       await Get.dialog(
         ErrorDialog(
-          errorMessage: "Seu pagamento foi Recusado\n"
-              "Seu pagamento foi Recusado pelo seguinte motivo\n"
+          errorMessage: "Seu pagamento foi Recusado.\n"
+              "Ocorreu um problema durante ao tentar fazer o pagamento pelo seu cartão.\n"
               "$reason\n"
-              "Verifique a forma de pagamento selecionada e tente novamente\n",
-          onRetry: onRetry,
+              "Verifique a forma de pagamento selecionada e tente novamente.\n",
           onOk: onSuccess,
         ),
         barrierDismissible: false,

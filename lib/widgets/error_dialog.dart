@@ -16,7 +16,10 @@ class _ErrorDialogState extends State<ErrorDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       scrollable: true,
-      title: const Text("Ocorreu um problema"),
+      title: const Text(
+        "Ocorreu um problema",
+        textAlign: TextAlign.center,
+      ),
       content: Column(
         children: [
           const Padding(
@@ -52,10 +55,10 @@ class _ErrorDialogState extends State<ErrorDialog> {
                       }
                     },
                     child: const Padding(
-                      padding: EdgeInsets.all(12.0),
+                      padding: EdgeInsets.all(16.0),
                       child: Text(
                         "OK",
-                        style: TextStyle(color: Colors.green, fontSize: 16),
+                        style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
                     )),
               ),

@@ -15,7 +15,10 @@ class _WarningDialogState extends State<WarningDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       scrollable: true,
-      title: const Text("Aviso"),
+      title: const Text(
+        "Aviso",
+        textAlign: TextAlign.center,
+      ),
       content: Column(
         children: [
           const Padding(
