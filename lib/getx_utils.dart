@@ -32,6 +32,8 @@ export 'exceptions/payment_refused_exception.dart';
 export 'exceptions/ui_exception.dart';
 export 'exceptions/validation_exception.dart';
 
+export 'pagseguro/pagseguro.dart';
+
 export 'app/app_scrollbehavior.dart';
 
 export 'app/getx_auto_binder_view.dart';

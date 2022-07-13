@@ -7,26 +7,26 @@ import 'package:sodium_libs/sodium_libs.dart' as sodium_lib;
 import 'package:fast_rsa/fast_rsa.dart';
 
 abstract class PagSeguro {
-  Future<String> cryptoServerData({required String data, required Uint8List publicKey}) async {
+  static Future<String> cryptoServerData({required String data, required Uint8List publicKey}) async {
     final sodium = await sodium_lib.SodiumInit.init();
     final Uint8List messageBytes = data.toCharArray().unsignedView();
     final Uint8List sealMessage = sodium.crypto.box.seal(message: messageBytes, publicKey: publicKey);
     return base64Encode(sealMessage);
   }
 
-  String generateNonce([int length = 32]) {
+  static String generateNonce([int length = 32]) {
     const charset = '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
     final random = Random.secure();
     return List.generate(length, (_) => charset[random.nextInt(charset.length)]).join();
   }
 
-  String sha256ofString(String input) {
+  static String sha256ofString(String input) {
     final bytes = utf8.encode(input);
     final digest = sha256.convert(bytes);
     return digest.toString();
   }
 
-  Future<String> addNounce({
+  static Future<String> addNounce({
     required String data,
     required Uint8List publicKey,
   }) async {
@@ -38,7 +38,7 @@ abstract class PagSeguro {
     return result;
   }
 
-  Future<String> cryptoCardDataPagSeguro(
+  static Future<String> cryptoCardDataPagSeguro(
       {required String number,
       required String securityCode,
       required String expMonth,
