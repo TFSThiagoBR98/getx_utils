@@ -52,10 +52,10 @@ class _ErrorDialogState extends State<ErrorDialog> {
                       }
                     },
                     child: const Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(12.0),
                       child: Text(
                         "OK",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                        style: TextStyle(color: Colors.green, fontSize: 16),
                       ),
                     )),
               ),

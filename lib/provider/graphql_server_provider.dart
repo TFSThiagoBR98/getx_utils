@@ -61,6 +61,10 @@ abstract class GraphQLServerProvider {
       error.callDialog(onSuccess: onSucess).whenComplete(() => onSucess ?? () {});
     } else if (error is OutdatedClientException) {
       error.callDialog(onRetry: onRetry, onSuccess: onSucess).whenComplete(() => onError);
+    } else if (error is ValidationException) {
+      error.callDialog(onRetry: onRetry, onSuccess: onSucess).whenComplete(() => onError);
+    } else if (error is PaymentRefusedException) {
+      error.callDialog(onRetry: onRetry, onSuccess: onSucess).whenComplete(() => onError);
     } else if (error is ServerException) {
       Get.dialog(
         ErrorDialog(
