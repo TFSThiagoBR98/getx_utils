@@ -16,7 +16,7 @@ class ValidationException implements UiException {
   String toString() => message;
 
   String breakMap() {
-    return fields?.values.map((e) => (e as List<String>).join('\n')).join('\n') ?? "";
+    return fields?.values.map((e) => (e as List).join('\n')).join('\n') ?? "";
   }
 
   @override
