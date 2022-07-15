@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
+import 'package:getx_utils/exceptions/account_deletation_in_progress.dart';
 import 'package:getx_utils/exceptions/payment_refused_exception.dart';
 import 'package:getx_utils/exceptions/validation_exception.dart';
 import 'package:hive/hive.dart';
@@ -64,6 +65,8 @@ abstract class GraphQLServerProvider {
     } else if (error is ValidationException) {
       error.callDialog(onRetry: onRetry, onSuccess: onSucess).whenComplete(() => onError);
     } else if (error is PaymentRefusedException) {
+      error.callDialog(onRetry: onRetry, onSuccess: onSucess).whenComplete(() => onError);
+    } else if (error is AccountDeletationInProgressException) {
       error.callDialog(onRetry: onRetry, onSuccess: onSucess).whenComplete(() => onError);
     } else if (error is ServerException) {
       Get.dialog(
@@ -187,6 +190,10 @@ abstract class GraphQLServerProvider {
           reason: resp.graphqlErrors?.first.extensions?['reason'],
           operation: resp.graphqlErrors?.first.extensions?['operation'],
         );
+      }
+
+      if (resp.graphqlErrors?.first.message == "Account Terminated.") {
+        throw AccountDeletationInProgressException();
       }
 
       if (resp.graphqlErrors?.first.message.contains("Validation failed") == true) {
