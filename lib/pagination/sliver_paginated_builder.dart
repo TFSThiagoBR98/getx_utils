@@ -11,7 +11,7 @@ import 'paginated_items_builder.dart';
 /// Handles rendering the items on the screen. Can have [PaginationItemsStateHandler]
 /// as parent if state is not handled externally.
 class SliverPaginatedItemsBuilder<T> extends StatefulWidget {
-  const SliverPaginatedItemsBuilder({
+  SliverPaginatedItemsBuilder({
     Key? key,
     required this.fetchPageData,
     required this.response,
@@ -23,6 +23,7 @@ class SliverPaginatedItemsBuilder<T> extends StatefulWidget {
       child: CircularProgressIndicator.adaptive(),
     ),
     this.loaderItemsCount = 6,
+    PaginatedItemsBuilderConfig? config,
     this.emptyText,
     this.maxLength,
     this.separatorWidget,
@@ -32,7 +33,8 @@ class SliverPaginatedItemsBuilder<T> extends StatefulWidget {
     this.gridCrossAxisSpacing,
     this.gridChildAspectRatio,
     this.gridDelegate,
-  }) : super(key: key);
+  })  : config = config ?? PaginatedItemsBuilderConfig.defaultConfig(),
+        super(key: key);
 
   /// This is the controller function that should handle fetching the list
   /// and updating in the state.
@@ -80,7 +82,7 @@ class SliverPaginatedItemsBuilder<T> extends StatefulWidget {
   final Widget loader;
 
   /// config
-  static PaginatedItemsBuilderConfig? config;
+  final PaginatedItemsBuilderConfig? config;
 
   /// The gap between concurrent list items.
   /// Has no effect if [separatorWidget] is not null.
@@ -151,9 +153,9 @@ class _SliverPaginatedItemsBuilderState<T> extends State<SliverPaginatedItemsBui
   Widget _loaderBuilder() {
     Widget _buildLoader() => mockItem != null
         ? Shimmer.fromColors(
-            highlightColor: SliverPaginatedItemsBuilder.config!.shimmerConfig.highlightColor,
-            baseColor: SliverPaginatedItemsBuilder.config!.shimmerConfig.baseColor,
-            period: SliverPaginatedItemsBuilder.config!.shimmerConfig.period,
+            highlightColor: widget.config!.shimmerConfig.highlightColor,
+            baseColor: widget.config!.shimmerConfig.baseColor,
+            period: widget.config!.shimmerConfig.period,
             child: IgnorePointer(
               child: widget.itemBuilder(context, 0, mockItem as T),
             ),
@@ -176,8 +178,8 @@ class _SliverPaginatedItemsBuilderState<T> extends State<SliverPaginatedItemsBui
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            text ?? SliverPaginatedItemsBuilder.config!.noItemsTextGetter(itemName),
-            style: SliverPaginatedItemsBuilder.config!.noItemsTextStyle,
+            text ?? widget.config!.noItemsTextGetter(itemName),
+            style: widget.config!.noItemsTextStyle,
           ),
           if (widget.showRefreshIcon)
             IconButton(
@@ -194,11 +196,9 @@ class _SliverPaginatedItemsBuilderState<T> extends State<SliverPaginatedItemsBui
 
   @override
   void initState() {
-    mockItem = SliverPaginatedItemsBuilder.config?.mockItemGetter<T>();
+    mockItem = widget.config?.mockItemGetter<T>();
 
     if (widget.response?.items == null) fetchData();
-
-    SliverPaginatedItemsBuilder.config ??= PaginatedItemsBuilderConfig.defaultConfig();
 
     super.initState();
   }

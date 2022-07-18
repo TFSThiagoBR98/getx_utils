@@ -1,6 +1,6 @@
 name: getx_utils
 description: Some utilities for my apps
-version: 1.2.0
+version: 2.0.0
 homepage: "https://tfs.dev.br"
 
 environment:
@@ -33,6 +33,8 @@ dependencies:
   dio: ^4.0.6
   fast_rsa: ^3.4.7
   sodium_libs: ^1.2.3
+  flutter_svg: ^1.1.1+1
+  flutter_svg_provider: ^1.0.3
   crypto: ^3.0.1
 
 dev_dependencies:
