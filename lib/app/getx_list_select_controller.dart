@@ -45,7 +45,7 @@ class GetXListSelectController {
                 itemBuilder: (context, index, item) {
                   return ListTile(
                     leading: item.value.image != null
-                        ? Image.network(
+                        ? Image.asset(
                             item.value.image!,
                             height: imageSize,
                             width: imageSize,
