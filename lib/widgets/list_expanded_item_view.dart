@@ -3,17 +3,20 @@ import 'package:flutter/material.dart';
 class ListExpandedItemView extends StatelessWidget {
   final String id;
   final String name;
+  final Widget? leading;
+  final ImageProvider<Object>? image;
 
   final ValueChanged<String>? onEdit;
   final ValueChanged<String>? onPayment;
 
-  const ListExpandedItemView({Key? key, required this.id, required this.name, this.onEdit, this.onPayment})
+  const ListExpandedItemView(
+      {Key? key, required this.id, required this.name, this.onEdit, this.onPayment, this.leading, this.image})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      leading: const CircleAvatar(backgroundImage: AssetImage("assets/images/product_noimage_tile.png")),
+      leading: leading ?? CircleAvatar(backgroundImage: image ?? const AssetImage("assets/images/item.webp")),
       title: Text(
         name,
         style: Theme.of(context).textTheme.headline6,
