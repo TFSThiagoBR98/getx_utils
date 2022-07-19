@@ -45,7 +45,7 @@ class GetXListSelectController {
                 itemBuilder: (context, index, item) {
                   return ListTile(
                     leading: item.value.image != null
-                        ? SvgPicture.network(
+                        ? Image.network(
                             item.value.image!,
                             height: imageSize,
                             width: imageSize,
@@ -67,7 +67,7 @@ class GetXListSelectController {
       {this.titleTextStyle = const TextStyle(
         fontSize: 18,
       ),
-      this.defaultItemImage = const Icon(Icons.list),
+      this.defaultItemImage = const Icon(Icons.list, size: 36),
       this.imageSize = 36,
       required this.fetchPageData,
       required this.response,
