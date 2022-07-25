@@ -55,47 +55,45 @@ class ListExpandedItemView extends StatelessWidget {
       children: hideChildren
           ? []
           : [
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        color: Colors.transparent,
-                        width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.all(8),
-                        height: 70,
-                        child: ElevatedButton.icon(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<OutlinedBorder?>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            )),
-                          ),
-                          onPressed: onEdit != null ? () => onEdit!(id) : null,
-                          icon: const Icon(Icons.edit_outlined),
-                          label: const Text("Editar"),
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      color: Colors.transparent,
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.all(8.0),
+                      height: 70,
+                      child: OutlinedButton.icon(
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder?>(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(3.0),
+                          )),
                         ),
+                        onPressed: onEdit != null ? () => onEdit!(id) : null,
+                        icon: const Icon(Icons.edit_outlined),
+                        label: const Text("Editar"),
                       ),
-                      Container(
-                        color: Colors.transparent,
-                        width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.all(8),
-                        height: 70,
-                        child: ElevatedButton.icon(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<OutlinedBorder?>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            )),
-                          ),
-                          onPressed: onPayment != null ? () => onPayment!(id) : null,
-                          icon: const Icon(Icons.payment_outlined),
-                          label: const Text("Pagamentos"),
+                    ),
+                    Container(
+                      color: Colors.transparent,
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.all(8.0),
+                      height: 70,
+                      child: OutlinedButton.icon(
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder?>(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(3.0),
+                          )),
                         ),
+                        onPressed: onPayment != null ? () => onPayment!(id) : null,
+                        icon: const Icon(Icons.payment_outlined),
+                        label: const Text("Pagamentos"),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],

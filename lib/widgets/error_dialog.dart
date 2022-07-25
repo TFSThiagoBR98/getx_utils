@@ -72,7 +72,7 @@ class _ErrorDialogState extends State<ErrorDialog> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: TextButton(
+                  child: OutlinedButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                         widget.onRetry!();

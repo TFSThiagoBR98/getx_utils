@@ -44,7 +44,7 @@ class _ContinueCreateDialogState extends State<ContinueCreateDialog> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextButton(
+                child: OutlinedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                       if (widget.onCancel != null) {
@@ -66,7 +66,7 @@ class _ContinueCreateDialogState extends State<ContinueCreateDialog> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextButton(
+                child: OutlinedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                       if (widget.onConfirm != null) {

@@ -50,7 +50,7 @@ class _InfoDialogState extends State<InfoDialog> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TextButton(
+                child: OutlinedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
                       if (widget.onOk != null) {

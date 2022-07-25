@@ -55,9 +55,8 @@ class ListExpandedItem extends StatelessWidget {
       children: hideChildren
           ? []
           : [
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+              Padding(
+                  padding: const EdgeInsets.all(2.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -65,12 +64,12 @@ class ListExpandedItem extends StatelessWidget {
                       Container(
                         color: Colors.transparent,
                         width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8.0),
                         height: 70,
-                        child: ElevatedButton.icon(
+                        child: OutlinedButton.icon(
                           style: ButtonStyle(
                             shape: MaterialStateProperty.all<OutlinedBorder?>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
+                              borderRadius: BorderRadius.circular(3.0),
                             )),
                           ),
                           onPressed: onEdit != null ? () => onEdit!(id) : null,
@@ -81,12 +80,12 @@ class ListExpandedItem extends StatelessWidget {
                       Container(
                         color: Colors.transparent,
                         width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.all(8),
+                        padding: const EdgeInsets.all(8.0),
                         height: 70,
-                        child: ElevatedButton.icon(
+                        child: OutlinedButton.icon(
                           style: ButtonStyle(
                             shape: MaterialStateProperty.all<OutlinedBorder?>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
+                              borderRadius: BorderRadius.circular(3.0),
                             )),
                           ),
                           onPressed: onDelete != null ? () => onDelete!(id) : null,
@@ -97,7 +96,6 @@ class ListExpandedItem extends StatelessWidget {
                     ],
                   ),
                 ),
-              ),
             ],
     );
   }

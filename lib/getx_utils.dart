@@ -23,6 +23,7 @@ export 'pagination/sliver_paginated_builder.dart';
 export 'pagination/models/paginated_items_response.dart';
 export 'pagination/models/paginated_items_builder_config.dart';
 
+export 'exceptions/account_deletation_in_progress.dart';
 export 'exceptions/auth_exception.dart';
 export 'exceptions/auth_wrong_exception.dart';
 export 'exceptions/outdated_client_exception.dart';
@@ -44,5 +45,5 @@ export 'app/getx_list_select_controller.dart';
 export 'app/getx_money_percentage_controller.dart';
 export 'app/getx_text_controller.dart';
 export 'app/json_utils.dart';
-export 'app/log_extension.dart';
 export 'app/mask_text_input_formatter.dart';
+export 'app/uppercase_formatter.dart';
