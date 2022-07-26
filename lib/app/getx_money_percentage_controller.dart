@@ -18,7 +18,7 @@ class GetXMoneyPercentageController {
 
   void setData(Decimal value, bool isPercent) {
     isPercentage = isPercent;
-    controller.text = isPercentage ? MainUtils.decimal2string(value) : MainUtils.decimal2money(value);
+    controller.text = isPercentage ? decimal2string(value) : decimal2money(value);
     data = value;
   }
 
