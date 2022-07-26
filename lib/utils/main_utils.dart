@@ -11,71 +11,69 @@ import 'package:money2/money2.dart';
 
 import 'func_utils.dart';
 
-abstract class MainUtils {
-  static Future<void> initFlutterApp() async {
-    WidgetsFlutterBinding.ensureInitialized();
-    await Hive.initFlutter();
-    await Hive.openBox("settings");
-    Logger.root.level = Level.ALL;
-    Logger.root.onRecord.listen((record) {
-      debugPrint('${record.level.name}: ${record.time}: ${record.message}');
-    });
-  }
+Future<void> initFlutterApp() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await Hive.openBox("settings");
+  Logger.root.level = Level.ALL;
+  Logger.root.onRecord.listen((record) {
+    debugPrint('${record.level.name}: ${record.time}: ${record.message}');
+  });
+}
 
-  static final NumberFormat lformatMoney = NumberFormat.currency(
-    locale: "pt_BR",
-    symbol: "R\$",
-  );
+final NumberFormat lformatMoney = NumberFormat.currency(
+  locale: "pt_BR",
+  symbol: "R\$",
+);
 
-  static final NumberFormat lformatDouble = NumberFormat.currency(
-    locale: "pt_BR",
-    symbol: "",
-  );
+final NumberFormat lformatDouble = NumberFormat.currency(
+  locale: "pt_BR",
+  symbol: "",
+);
 
-  static final Currency brlCurrency = Currency.create('BRL', 2, symbol: "R\$");
+final Currency brlCurrency = Currency.create('BRL', 2, symbol: "R\$");
 
-  static String stringDecimalToMoney(String decimalValue) {
-    return decimal2money(Decimal.tryParse(decimalValue) ?? Decimal.zero);
-  }
+String stringDecimalToMoney(String decimalValue) {
+  return decimal2money(Decimal.tryParse(decimalValue) ?? Decimal.zero);
+}
 
-  static Decimal money2decimal(String value) {
-    return Decimal.parse(MainUtils.lformatMoney.parse(value).toStringAsFixed(8));
-  }
+Decimal money2decimal(String value) {
+  return Decimal.parse(lformatMoney.parse(value).toStringAsFixed(8));
+}
 
-  static String decimal2money(Decimal value) {
-    return MainUtils.lformatMoney.format(DecimalIntl(value));
-  }
+String decimal2money(Decimal value) {
+  return lformatMoney.format(DecimalIntl(value));
+}
 
-  static Decimal string2decimal(String value) {
-    return Decimal.parse(MainUtils.lformatDouble.parse(value).toStringAsFixed(8));
-  }
+Decimal string2decimal(String value) {
+  return Decimal.parse(lformatDouble.parse(value).toStringAsFixed(8));
+}
 
-  static String decimal2string(Decimal value) {
-    return MainUtils.lformatDouble.format(DecimalIntl(value));
-  }
+String decimal2string(Decimal value) {
+  return lformatDouble.format(DecimalIntl(value));
+}
 
-  static Money centsToMoney(int cents) {
-    return Money.fromIntWithCurrency(cents, brlCurrency);
-  }
+Money centsToMoney(int cents) {
+  return Money.fromIntWithCurrency(cents, brlCurrency);
+}
 
-  static String moneyToString(Money money) {
-    return money.toString();
-  }
+String moneyToString(Money money) {
+  return money.toString();
+}
 
-  static Money stringToMoney(String money) {
-    return brlCurrency.parse(money);
-  }
+Money stringToMoney(String money) {
+  return brlCurrency.parse(money);
+}
 
-  static BigInt moneyToCents(Money money) {
-    return money.minorUnits;
-  }
+BigInt moneyToCents(Money money) {
+  return money.minorUnits;
+}
 
-  static void runWhenContextAvaliable(ContextCallback callback) {
-    Timer.periodic(const Duration(seconds: 1), (Timer t) async {
-      if (Get.context != null) {
-        callback(Get.context!);
-        t.cancel();
-      }
-    });
-  }
+void runWhenContextAvaliable(ContextCallback callback) {
+  Timer.periodic(const Duration(seconds: 1), (Timer t) async {
+    if (Get.context != null) {
+      callback(Get.context!);
+      t.cancel();
+    }
+  });
 }
