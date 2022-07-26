@@ -36,6 +36,10 @@ dependencies:
   flutter_svg: ^1.1.1+1
   flutter_svg_provider: ^1.0.3
   crypto: ^3.0.1
+  money2: ^3.1.2
+
+dependency_overrides:
+  decimal: ^2.1.0 # force decimal new version
 
 dev_dependencies:
   flutter_test:
