@@ -14,6 +14,7 @@ export 'widgets/select_list_paginate.dart';
 
 export 'utils/main_utils.dart';
 export 'utils/func_utils.dart';
+export 'utils/timer_utils.dart';
 
 export 'provider/graphql_base_repository.dart';
 export 'provider/graphql_server_provider.dart';

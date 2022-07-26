@@ -1,10 +1,10 @@
 name: getx_utils
 description: Some utilities for my apps
-version: 2.0.0
+version: 2.2.0
 homepage: "https://tfs.dev.br"
 
 environment:
-  sdk: ">=2.15.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
   flutter: ">=2.0.0"
 
 dependencies:
