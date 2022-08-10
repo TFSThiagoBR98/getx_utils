@@ -1,6 +1,6 @@
 name: getx_utils
 description: Some utilities for my apps
-version: 2.2.0
+version: 2.3.0
 homepage: "https://tfs.dev.br"
 
 environment:
@@ -23,9 +23,10 @@ dependencies:
   ndialog: ^4.1.0
   currency_text_input_formatter: ^2.1.2
   decimal: ^2.1.0
-  ferry: ^0.10.4
-  ferry_flutter: ^0.5.5-dev.1
-  gql_dio_link: ^0.2.2-alpha+1635885531750
+  ferry:
+  ferry_flutter:
+  gql_dio_link:
+  shared_preferences: ^2.0.15
   shimmer: ^2.0.0
   built_collection: ^5.1.1
   built_value: ^8.3.3

@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart';
-import 'package:hive/hive.dart';
 import 'package:logging/logging.dart';
-import "package:gql_dio_link/gql_dio_link.dart";
-import 'package:ferry/ferry.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:universal_io/io.dart';
+import 'package:hive/hive.dart';
+import '../exceptions/account_deletation_in_progress.dart';
+import '../exceptions/payment_refused_exception.dart';
+import '../exceptions/validation_exception.dart';
 import '../exceptions/auth_exception.dart';
 import '../exceptions/auth_wrong_exception.dart';
 import '../exceptions/permission_exception.dart';
 import '../exceptions/outdated_client_exception.dart';
 import '../exceptions/register_must_verify_email_exception.dart';
 import '../widgets/error_dialog.dart';
-import '../exceptions/account_deletation_in_progress.dart';
-import '../exceptions/payment_refused_exception.dart';
-import '../exceptions/validation_exception.dart';
+import '../widgets/warning_dialog.dart';
 
-abstract class GraphQLServerProvider {
-  static final logger = Logger('GraphQLServerProvider');
+abstract class FirebaseBaseProvider {
+  static final logger = Logger('FirebaseBaseProvider');
 
   abstract BuildContext context;
   abstract String apiUrl;
@@ -67,17 +66,8 @@ abstract class GraphQLServerProvider {
       error.callDialog(onRetry: onRetry, onSuccess: onSucess).whenComplete(() => onError);
     } else if (error is AccountDeletationInProgressException) {
       error.callDialog(onRetry: onRetry, onSuccess: onSucess).whenComplete(() => onError);
-    } else if (error is ServerException) {
-      Get.dialog(
-        ErrorDialog(
-            errorMessage: "Falha no servidor\n"
-                "Ocorreu um problema no nosso sistema\n"
-                "Aguarde alguns minutos e tente novamente\n"
-                "Caso o problema persista entre em contato com o suporte.\n",
-            onRetry: onRetry),
-        barrierDismissible: false,
-      ).whenComplete(() => onError);
-    } else if (error is DioError) {
+    }
+    if (error is DioError) {
       if (error.type == DioErrorType.connectTimeout ||
           error.type == DioErrorType.receiveTimeout ||
           error.type == DioErrorType.sendTimeout) {
@@ -163,77 +153,6 @@ abstract class GraphQLServerProvider {
     }
   }
 
-  Future<OperationResponse<TData, TVars>> fetchFromGraphQl<TData, TVars>(OperationRequest<TData, TVars> request) async {
-    var resp = await (await graphQlClient()).request(request).first;
-    if (resp.hasErrors) {
-      if (resp.graphqlErrors?.first.message == "Unauthenticated." ||
-          resp.graphqlErrors?.first.message == "Not Authenticated") {
-        throw AuthException(message: resp.graphqlErrors?.first.message ?? "");
-      }
-
-      if (resp.graphqlErrors?.first.message == "invalid_grant") {
-        throw AuthWrongException(message: resp.graphqlErrors?.first.message ?? "");
-      }
-
-      if (resp.graphqlErrors?.first.message == "Outdated Client") {
-        throw OutdatedClientException();
-      }
-
-      if (resp.graphqlErrors?.first.message == "This action is unauthorized.") {
-        throw PermissionException(message: "Esta ação não está autorizada");
-      }
-
-      if (resp.graphqlErrors?.first.message == "PAYMENT_REFUSED") {
-        throw PaymentRefusedException(
-          code: resp.graphqlErrors?.first.extensions?['code'],
-          reason: resp.graphqlErrors?.first.extensions?['reason'],
-          operation: resp.graphqlErrors?.first.extensions?['operation'],
-        );
-      }
-
-      if (resp.graphqlErrors?.first.message == "Account Terminated.") {
-        throw AccountDeletationInProgressException();
-      }
-
-      if (resp.graphqlErrors?.first.message.contains("Validation failed") == true) {
-        if (resp.graphqlErrors?.first.extensions?["validation"] != null) {
-          throw ValidationException(fields: resp.graphqlErrors?.first.extensions?["validation"]);
-        }
-      }
-
-      if (resp.graphqlErrors?.first.message == "Internal server error") {
-        throw const ServerException();
-      }
-
-      if (resp.linkException != null) {
-        if (resp.linkException is ServerException) {
-          if (resp.linkException?.originalException is Exception) {
-            throw (resp.linkException?.originalException as Exception);
-          }
-          throw resp.linkException as ServerException;
-        } else if (resp.linkException is LinkException) {
-          if (resp.linkException?.originalException is DioError) {
-            throw (resp.linkException?.originalException as DioError);
-          } else {
-            throw resp.linkException as LinkException;
-          }
-        } else {
-          throw Exception("Falha ao se conectar ao servidor: ${resp.linkException}");
-        }
-      }
-
-      if (resp.graphqlErrors != null && resp.graphqlErrors!.isNotEmpty) {
-        throw Exception("Erro não tratado pelo aplicativo: ${resp.graphqlErrors}");
-      }
-
-      throw Exception("Falha desconhecida na conexão entre o servidor");
-    } else {
-      logger.finest("Request executed with SUCCESS");
-
-      return resp;
-    }
-  }
-
   Future<Dio> dio() async {
     return Dio(BaseOptions(
       baseUrl: "https://$apiUrl/",
@@ -241,10 +160,6 @@ abstract class GraphQLServerProvider {
       connectTimeout: 15000,
       contentType: "application/json; charset=utf-8",
     ));
-  }
-
-  Future<Client> graphQlClient() async {
-    return Client(link: DioLink("/graphql", client: await dio()));
   }
 
   Future<Map<String, dynamic>> getHeaders() async {
