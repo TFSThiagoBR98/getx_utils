@@ -4,5 +4,5 @@ import 'package:logging/logging.dart';
 abstract class BaseProvider {
   Logger logger();
 
-  abstract BuildContext context;
+  BuildContext get context;
 }
