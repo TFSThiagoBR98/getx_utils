@@ -1,8 +1,8 @@
-import 'package:getx_utils/time_scheduling/datetime_interval.dart';
+import 'datetime_interval.dart';
 
 typedef PeriodIntervalFilter = PeriodIteratorValidation Function(DateTimeInterval current);
 
-enum PeriodIteratorValidation { valid, invalid, end_iterator }
+enum PeriodIteratorValidation { valid, invalid, endIterator }
 
 class DateTimePeriod implements Iterator<DateTimeInterval> {
   final DateTimeInterval dateTimeBetween;
@@ -26,7 +26,7 @@ class DateTimePeriod implements Iterator<DateTimeInterval> {
       return PeriodIteratorValidation.valid;
     }
 
-    return PeriodIteratorValidation.end_iterator;
+    return PeriodIteratorValidation.endIterator;
   }
 
   DateTimeInterval fromStartTime({required DateTime start, required Duration duration}) {
@@ -63,11 +63,11 @@ class DateTimePeriod implements Iterator<DateTimeInterval> {
     var intFilters = filters.toList();
     intFilters.add(_endTimeFilter);
 
-    for (var funct in intFilters) {
+    for (final funct in intFilters) {
       var ret = funct(current);
       switch (ret) {
         case PeriodIteratorValidation.invalid:
-        case PeriodIteratorValidation.end_iterator:
+        case PeriodIteratorValidation.endIterator:
           return ret;
         case PeriodIteratorValidation.valid:
           continue;
@@ -83,7 +83,7 @@ class DateTimePeriod implements Iterator<DateTimeInterval> {
       _rewind();
     }
 
-    if (_iteratorValidation != PeriodIteratorValidation.end_iterator) {
+    if (_iteratorValidation != PeriodIteratorValidation.endIterator) {
       _incrementCurrentDateUntilValid();
       return true;
     } else {

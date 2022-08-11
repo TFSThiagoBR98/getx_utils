@@ -4,7 +4,7 @@ class WarningDialog extends StatefulWidget {
   final String errorMessage;
   final VoidCallback? onOk;
 
-  const WarningDialog({Key? key, this.errorMessage = "", this.onOk}) : super(key: key);
+  const WarningDialog({Key? key, this.errorMessage = '', this.onOk}) : super(key: key);
 
   @override
   State<WarningDialog> createState() => _WarningDialogState();
@@ -16,7 +16,7 @@ class _WarningDialogState extends State<WarningDialog> {
     return AlertDialog(
       scrollable: true,
       title: const Text(
-        "Aviso",
+        'Aviso',
         textAlign: TextAlign.center,
       ),
       content: Column(
@@ -33,7 +33,7 @@ class _WarningDialogState extends State<WarningDialog> {
             dense: true,
             contentPadding: const EdgeInsets.symmetric(vertical: 10),
             title: Text(
-              "Atenção",
+              'Atenção',
               style: Theme.of(context).textTheme.subtitle1,
             ),
             subtitle: Text(
@@ -63,7 +63,7 @@ class _WarningDialogState extends State<WarningDialog> {
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        "OK",
+                        'OK',
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     )),

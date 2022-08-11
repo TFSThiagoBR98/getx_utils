@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'getx_list_item.dart';
+
 import '../pagination/models/paginated_items_response.dart';
 import '../widgets/select_list_paginate.dart';
+import 'getx_list_item.dart';
 
 class GetXListMultiSelectController {
   GetXListMultiSelectController(
@@ -40,7 +41,7 @@ class GetXListMultiSelectController {
 
   void resetFields() {
     selectEntries.clear();
-    itemController.text = "";
+    itemController.text = '';
   }
 
   bool isSelected(MapEntry<String, GetXListItem> item) {
@@ -63,7 +64,7 @@ class GetXListMultiSelectController {
 
   Map<String, GetXListItem> getMapAdded() {
     Map<String, GetXListItem> diff = {};
-    for (var item in selectEntries.keys) {
+    for (final item in selectEntries.keys) {
       if (!initialMap.containsKey(item)) {
         diff[item] = selectEntries[item]!;
       }
@@ -73,7 +74,7 @@ class GetXListMultiSelectController {
 
   Map<String, GetXListItem> getMapRemoved() {
     Map<String, GetXListItem> diff = {};
-    for (var item in initialMap.keys) {
+    for (final item in initialMap.keys) {
       if (!selectEntries.containsKey(item)) {
         diff[item] = initialMap[item]!;
       }
@@ -82,17 +83,17 @@ class GetXListMultiSelectController {
   }
 
   void showList() {
-    Navigator.push(
+    Navigator.push<dynamic>(
         Get.context!,
-        MaterialPageRoute(
+        MaterialPageRoute<dynamic>(
             builder: (context) => SelectListPaginate<MapEntry<String, GetXListItem>>(
                 onRefresh: () async => fetchPageData(reset: true, showLoaderOnReset: true),
                 fetchPageData: (reset) => fetchPageData(reset: reset, showLoaderOnReset: reset),
                 response: response,
                 onItemTap: () {},
-                title: "Selecione um ou mais itens",
+                title: 'Selecione um ou mais itens',
                 floatingActionButton: FloatingActionButton.extended(
-                  label: const Text("Salvar"),
+                  label: const Text('Salvar'),
                   icon: const Icon(Icons.save),
                   onPressed: () {
                     Navigator.of(context).pop(selectEntries);

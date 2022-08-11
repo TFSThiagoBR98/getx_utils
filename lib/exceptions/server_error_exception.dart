@@ -5,10 +5,10 @@ import '../utils/func_utils.dart';
 import '../widgets/error_dialog.dart';
 import 'ui_exception.dart';
 
-class PermissionException implements UiException {
+class ServerErrorException implements UiException {
   final String message;
 
-  PermissionException({this.message = 'You are not authorized to run this command'}) : super();
+  ServerErrorException({this.message = 'Internal Server Error'}) : super();
 
   @override
   String toString() => message;
@@ -27,7 +27,10 @@ class PermissionException implements UiException {
     if (showDialog) {
       await Get.dialog<void>(
         ErrorDialog(
-          errorMessage: 'Você não tem permissão para executar esta ação\n',
+          errorMessage: 'Falha no servidor\n'
+              'Ocorreu um problema no nosso sistema\n'
+              'Aguarde alguns minutos e tente novamente\n'
+              'Caso o problema persista entre em contato com o suporte.\n',
           onRetry: onRetry,
           onOk: onSuccess,
         ),

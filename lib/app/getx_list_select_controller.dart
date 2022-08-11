@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../pagination/models/paginated_items_response.dart';
@@ -26,7 +25,7 @@ class GetXListSelectController {
 
   void resetFields() {
     selectEntry = null;
-    itemController.text = "";
+    itemController.text = '';
   }
 
   void selectItem(MapEntry<String, GetXListItem> item) {
@@ -35,9 +34,9 @@ class GetXListSelectController {
   }
 
   void showList() {
-    Navigator.push(
+    Navigator.push<dynamic>(
         Get.context!,
-        MaterialPageRoute(
+        MaterialPageRoute<dynamic>(
             builder: (context) => SelectListPaginate<MapEntry<String, GetXListItem>>(
                 onRefresh: () async => fetchPageData(reset: true, showLoaderOnReset: true),
                 fetchPageData: (reset) => fetchPageData(reset: reset, showLoaderOnReset: reset),

@@ -5,7 +5,7 @@ class ConfirmationDialog extends StatefulWidget {
   final VoidCallback? onConfirm;
   final VoidCallback? onCancel;
 
-  const ConfirmationDialog({Key? key, this.message = "", this.onConfirm, this.onCancel}) : super(key: key);
+  const ConfirmationDialog({Key? key, this.message = '', this.onConfirm, this.onCancel}) : super(key: key);
 
   @override
   State<ConfirmationDialog> createState() => _ConfirmationDialogState();
@@ -16,7 +16,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       scrollable: true,
-      title: const Text("Confirmar ação"),
+      title: const Text('Confirmar ação'),
       content: Column(
         children: [
           const Padding(
@@ -31,7 +31,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
             dense: true,
             contentPadding: const EdgeInsets.symmetric(vertical: 10),
             title: Text(
-              "Você deseja confirmar a ação abaixo?",
+              'Você deseja confirmar a ação abaixo?',
               style: Theme.of(context).textTheme.subtitle1,
             ),
             subtitle: Text(
@@ -61,7 +61,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        "OK",
+                        'OK',
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     )),
@@ -88,7 +88,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
-                        "Cancelar",
+                        'Cancelar',
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     )),

@@ -5,7 +5,7 @@ class ContinueCreateDialog extends StatefulWidget {
   final VoidCallback? onConfirm;
   final VoidCallback? onCancel;
 
-  const ContinueCreateDialog({Key? key, this.message = "", this.onConfirm, this.onCancel}) : super(key: key);
+  const ContinueCreateDialog({Key? key, this.message = '', this.onConfirm, this.onCancel}) : super(key: key);
 
   @override
   State<ContinueCreateDialog> createState() => _ContinueCreateDialogState();
@@ -16,7 +16,7 @@ class _ContinueCreateDialogState extends State<ContinueCreateDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       scrollable: true,
-      title: const Text("Continuar a criar"),
+      title: const Text('Continuar a criar'),
       content: Column(
         children: [
           const Padding(
@@ -31,7 +31,7 @@ class _ContinueCreateDialogState extends State<ContinueCreateDialog> {
             dense: true,
             contentPadding: const EdgeInsets.symmetric(vertical: 10),
             title: Text(
-              "Você deseja continuar a criar ${widget.message}?",
+              'Você deseja continuar a criar ${widget.message}?',
               style: Theme.of(context).textTheme.subtitle1,
             ),
           ),
@@ -57,7 +57,7 @@ class _ContinueCreateDialogState extends State<ContinueCreateDialog> {
                     child: const Padding(
                       padding: EdgeInsets.all(20.0),
                       child: Text(
-                        "Finalizar",
+                        'Finalizar',
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
                     )),
@@ -79,7 +79,7 @@ class _ContinueCreateDialogState extends State<ContinueCreateDialog> {
                     child: const Padding(
                       padding: EdgeInsets.all(20.0),
                       child: Text(
-                        "Continuar a criar",
+                        'Continuar a criar',
                         style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
                     )),

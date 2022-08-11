@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_utils/exceptions/ui_exception.dart';
 
 import '../utils/func_utils.dart';
 import '../widgets/error_dialog.dart';
+import 'ui_exception.dart';
 
 class OutdatedClientException implements UiException {
   final String message;
 
-  OutdatedClientException({this.message = "This client is outdated, please update the app"}) : super();
+  OutdatedClientException({this.message = 'This client is outdated, please update the app'}) : super();
 
   @override
   String toString() => message;
@@ -25,10 +25,10 @@ class OutdatedClientException implements UiException {
     }
 
     if (showDialog) {
-      await Get.dialog(
+      await Get.dialog<void>(
         ErrorDialog(
-          errorMessage: "Este aplicativo está desatualizado\n"
-              "Por favor faça uma atualização na loja de aplicativos de seu dispositivo\n",
+          errorMessage: 'Este aplicativo está desatualizado\n'
+              'Por favor faça uma atualização na loja de aplicativos de seu dispositivo\n',
           onRetry: onRetry,
           onOk: onSuccess,
         ),

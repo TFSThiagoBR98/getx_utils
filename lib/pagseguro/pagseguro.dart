@@ -3,8 +3,8 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
-import 'package:sodium_libs/sodium_libs.dart' as sodium_lib;
 import 'package:fast_rsa/fast_rsa.dart';
+import 'package:sodium_libs/sodium_libs.dart' as sodium_lib;
 
 abstract class PagSeguro {
   static Future<String> cryptoServerData({required String data, required Uint8List publicKey}) async {
@@ -33,7 +33,7 @@ abstract class PagSeguro {
     final now = DateTime.now().millisecondsSinceEpoch;
     final rawNonce = generateNonce();
     final nonce = sha256ofString(rawNonce);
-    final message = "$data;$now;$nonce";
+    final message = '$data;$now;$nonce';
     var result = await cryptoServerData(data: message, publicKey: publicKey);
     return result;
   }
@@ -46,7 +46,7 @@ abstract class PagSeguro {
       required String holder,
       required String publicKey}) async {
     final now = DateTime.now().millisecondsSinceEpoch;
-    final message = "$number;$securityCode;$expMonth;$expYear;$holder;$now";
+    final message = '$number;$securityCode;$expMonth;$expYear;$holder;$now';
     final result = await RSA.encryptPKCS1v15(message, publicKey);
     return result;
   }

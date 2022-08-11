@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_utils/exceptions/ui_exception.dart';
 
 import '../utils/func_utils.dart';
 import '../widgets/error_dialog.dart';
+import 'ui_exception.dart';
 
 class AuthWrongException implements UiException {
   final String message;
 
-  AuthWrongException({this.message = "Wrong username or password"}) : super();
+  AuthWrongException({this.message = 'Wrong username or password'}) : super();
 
   @override
   String toString() => message;
@@ -25,9 +25,9 @@ class AuthWrongException implements UiException {
     }
 
     if (showDialog) {
-      await Get.dialog(
+      await Get.dialog<void>(
         ErrorDialog(
-          errorMessage: "Usuário ou senha inválidos\n",
+          errorMessage: 'Usuário ou senha inválidos\n',
           onRetry: onRetry,
           onOk: onSuccess,
         ),

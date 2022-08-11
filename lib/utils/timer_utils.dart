@@ -13,16 +13,16 @@ String fetchTimeLeftFromDuration(Duration duration) {
   var minutes = microseconds ~/ Duration.microsecondsPerMinute;
   microseconds = microseconds.remainder(Duration.microsecondsPerMinute);
 
-  var minutesPadding = minutes < 10 ? "0" : "";
+  var minutesPadding = minutes < 10 ? '0' : '';
 
   var seconds = microseconds ~/ Duration.microsecondsPerSecond;
   microseconds = microseconds.remainder(Duration.microsecondsPerSecond);
 
-  var secondsPadding = seconds < 10 ? "0" : "";
+  var secondsPadding = seconds < 10 ? '0' : '';
 
-  return "$hours:"
-      "$minutesPadding$minutes:"
-      "$secondsPadding$seconds";
+  return '$hours:'
+      '$minutesPadding$minutes:'
+      '$secondsPadding$seconds';
 }
 
 double percentageLeftFromPadding(String startDateTime, String? targetDateTime) {
@@ -39,11 +39,11 @@ double percentageLeftFromPadding(String startDateTime, String? targetDateTime) {
   }
 }
 
-const String displayDateFormat = "dd/MM/yyyy";
-const String displayTimeFormat = "HH:mm:ss";
+const String displayDateFormat = 'dd/MM/yyyy';
+const String displayTimeFormat = 'HH:mm:ss';
 
-const String internalDateFormat = "yyyy-MM-dd";
-const String internalTimeFormat = "HH:mm:ss";
+const String internalDateFormat = 'yyyy-MM-dd';
+const String internalTimeFormat = 'HH:mm:ss';
 
 String displayFormat(GetXDateTimeControllerDisplayFormat format) {
   if (format == GetXDateTimeControllerDisplayFormat.date) {
@@ -51,7 +51,7 @@ String displayFormat(GetXDateTimeControllerDisplayFormat format) {
   } else if (format == GetXDateTimeControllerDisplayFormat.time) {
     return displayTimeFormat;
   } else {
-    return "$displayDateFormat $displayTimeFormat";
+    return '$displayDateFormat $displayTimeFormat';
   }
 }
 
@@ -61,7 +61,7 @@ String internalFormat(GetXDateTimeControllerDisplayFormat format) {
   } else if (format == GetXDateTimeControllerDisplayFormat.time) {
     return internalTimeFormat;
   } else {
-    return "$internalDateFormat $internalTimeFormat";
+    return '$internalDateFormat $internalTimeFormat';
   }
 }
 

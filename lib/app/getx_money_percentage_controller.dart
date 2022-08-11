@@ -1,7 +1,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_utils/utils/main_utils.dart';
+
+import '../utils/main_utils.dart';
 
 class GetXMoneyPercentageController {
   late final Rxn<Decimal> dataRx;

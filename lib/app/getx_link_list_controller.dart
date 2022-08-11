@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import 'getx_text_controller.dart';
 
 class GetXItemListController<T, J> {
@@ -13,16 +14,16 @@ class GetXItemListController<T, J> {
 
   Map<String, String> addItem(String name, String item) {
     var valor = {
-      "name": name,
-      "item": item,
+      'name': name,
+      'item': item,
     };
     items.add(valor);
     return valor;
   }
 
   void resetFields() {
-    itemName.setData("");
-    itemNumber.setData("");
+    itemName.setData('');
+    itemNumber.setData('');
   }
 
   void removeItem(int index) {

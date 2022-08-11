@@ -4,7 +4,7 @@ class InfoDialog extends StatefulWidget {
   final String errorMessage;
   final VoidCallback? onOk;
 
-  const InfoDialog({Key? key, this.errorMessage = "", this.onOk}) : super(key: key);
+  const InfoDialog({Key? key, this.errorMessage = '', this.onOk}) : super(key: key);
 
   @override
   State<InfoDialog> createState() => _InfoDialogState();
@@ -16,7 +16,7 @@ class _InfoDialogState extends State<InfoDialog> {
     return AlertDialog(
       scrollable: true,
       title: const Text(
-        "Aviso",
+        'Aviso',
         textAlign: TextAlign.center,
       ),
       content: Column(
@@ -33,7 +33,7 @@ class _InfoDialogState extends State<InfoDialog> {
             dense: true,
             contentPadding: const EdgeInsets.symmetric(vertical: 10),
             title: Text(
-              "Informação",
+              'Informação',
               style: Theme.of(context).textTheme.subtitle1,
             ),
             subtitle: Text(
@@ -63,7 +63,7 @@ class _InfoDialogState extends State<InfoDialog> {
                     child: const Padding(
                       padding: EdgeInsets.all(10.0),
                       child: Text(
-                        "OK",
+                        'OK',
                         style: TextStyle(color: Colors.white, fontSize: 16),
                       ),
                     )),

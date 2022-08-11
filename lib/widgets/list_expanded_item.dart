@@ -26,7 +26,7 @@ class ListExpandedItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      leading: leading ?? CircleAvatar(backgroundImage: image ?? const AssetImage("assets/images/item.webp")),
+      leading: leading ?? CircleAvatar(backgroundImage: image ?? const AssetImage('assets/images/item.webp')),
       title: Text(
         name,
         style: Theme.of(context).textTheme.headline6,
@@ -56,46 +56,46 @@ class ListExpandedItem extends StatelessWidget {
           ? []
           : [
               Padding(
-                  padding: const EdgeInsets.all(2.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        color: Colors.transparent,
-                        width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.all(8.0),
-                        height: 70,
-                        child: OutlinedButton.icon(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<OutlinedBorder?>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(3.0),
-                            )),
-                          ),
-                          onPressed: onEdit != null ? () => onEdit!(id) : null,
-                          icon: const Icon(Icons.edit_outlined),
-                          label: const Text("Editar"),
+                padding: const EdgeInsets.all(2.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      color: Colors.transparent,
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.all(8.0),
+                      height: 70,
+                      child: OutlinedButton.icon(
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder?>(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(3.0),
+                          )),
                         ),
+                        onPressed: onEdit != null ? () => onEdit!(id) : null,
+                        icon: const Icon(Icons.edit_outlined),
+                        label: const Text('Editar'),
                       ),
-                      Container(
-                        color: Colors.transparent,
-                        width: MediaQuery.of(context).size.width,
-                        padding: const EdgeInsets.all(8.0),
-                        height: 70,
-                        child: OutlinedButton.icon(
-                          style: ButtonStyle(
-                            shape: MaterialStateProperty.all<OutlinedBorder?>(RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(3.0),
-                            )),
-                          ),
-                          onPressed: onDelete != null ? () => onDelete!(id) : null,
-                          icon: const Icon(Icons.delete_outline),
-                          label: const Text("Apagar"),
+                    ),
+                    Container(
+                      color: Colors.transparent,
+                      width: MediaQuery.of(context).size.width,
+                      padding: const EdgeInsets.all(8.0),
+                      height: 70,
+                      child: OutlinedButton.icon(
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all<OutlinedBorder?>(RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(3.0),
+                          )),
                         ),
+                        onPressed: onDelete != null ? () => onDelete!(id) : null,
+                        icon: const Icon(Icons.delete_outline),
+                        label: const Text('Apagar'),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+              ),
             ],
     );
   }

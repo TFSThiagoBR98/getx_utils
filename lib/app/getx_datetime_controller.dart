@@ -15,11 +15,11 @@ class GetXDateTimeController<T> {
 
   final GetXDateTimeControllerDisplayFormat format;
 
-  final String displayDateFormat = "dd/MM/yyyy";
-  final String displayTimeFormat = "HH:mm:ss";
+  final String displayDateFormat = 'dd/MM/yyyy';
+  final String displayTimeFormat = 'HH:mm:ss';
 
-  final String internalDateFormat = "yyyy-MM-dd";
-  final String internalTimeFormat = "HH:mm:ss";
+  final String internalDateFormat = 'yyyy-MM-dd';
+  final String internalTimeFormat = 'HH:mm:ss';
 
   String get displayFormat {
     if (format == GetXDateTimeControllerDisplayFormat.date) {
@@ -27,7 +27,7 @@ class GetXDateTimeController<T> {
     } else if (format == GetXDateTimeControllerDisplayFormat.time) {
       return displayTimeFormat;
     } else {
-      return "$displayDateFormat $displayTimeFormat";
+      return '$displayDateFormat $displayTimeFormat';
     }
   }
 
@@ -37,7 +37,7 @@ class GetXDateTimeController<T> {
     } else if (format == GetXDateTimeControllerDisplayFormat.time) {
       return internalTimeFormat;
     } else {
-      return "$internalDateFormat $internalTimeFormat";
+      return '$internalDateFormat $internalTimeFormat';
     }
   }
 
@@ -56,7 +56,7 @@ class GetXDateTimeController<T> {
       controller.text = DateFormat(displayFormat).format(data!);
     } on FormatException {
       data = null;
-      controller.text = "";
+      controller.text = '';
     }
   }
 
@@ -99,7 +99,7 @@ class GetXDateTimeController<T> {
     }
 
     if (data == null) {
-      controller.text = "";
+      controller.text = '';
       return null;
     }
 

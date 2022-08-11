@@ -7,14 +7,13 @@ import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
-// import 'package:money2/money2.dart';
 
 import 'func_utils.dart';
 
 Future<void> initFlutterApp() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  await Hive.openBox("settings");
+  await Hive.openBox<dynamic>('settings');
   Logger.root.level = Level.ALL;
   Logger.root.onRecord.listen((record) {
     debugPrint('${record.level.name}: ${record.time}: ${record.message}');
@@ -22,13 +21,13 @@ Future<void> initFlutterApp() async {
 }
 
 final NumberFormat lformatMoney = NumberFormat.currency(
-  locale: "pt_BR",
-  symbol: "R\$",
+  locale: 'pt_BR',
+  symbol: 'R\$',
 );
 
 final NumberFormat lformatDouble = NumberFormat.currency(
-  locale: "pt_BR",
-  symbol: "",
+  locale: 'pt_BR',
+  symbol: '',
 );
 
 String stringDecimalToMoney(String decimalValue) {
@@ -50,24 +49,6 @@ Decimal string2decimal(String value) {
 String decimal2string(Decimal value) {
   return lformatDouble.format(DecimalIntl(value));
 }
-
-// final Currency brlCurrency = Currency.create('BRL', 2, symbol: "R\$");
-
-// Money centsToMoney(int cents) {
-//   return Money.fromIntWithCurrency(cents, brlCurrency);
-// }
-
-// String moneyToString(Money money) {
-//   return money.toString();
-// }
-
-// Money stringToMoney(String money) {
-//   return brlCurrency.parse(money);
-// }
-
-// BigInt moneyToCents(Money money) {
-//   return money.minorUnits;
-// }
 
 void runWhenContextAvaliable(ContextCallback callback) {
   Timer.periodic(const Duration(seconds: 1), (Timer t) async {

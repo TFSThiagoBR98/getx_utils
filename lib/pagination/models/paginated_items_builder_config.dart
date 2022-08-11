@@ -15,7 +15,7 @@ class PaginatedItemsBuilderConfig {
             (<T>() {
               return null;
             }),
-        noItemsTextGetter = noItemsTextGetter ?? ((name) => "No ${name}s found!");
+        noItemsTextGetter = noItemsTextGetter ?? ((name) => 'No ${name}s found!');
 
   /// Default config
   PaginatedItemsBuilderConfig.defaultConfig() {
@@ -23,7 +23,7 @@ class PaginatedItemsBuilderConfig {
     mockItemGetter = <T>() {
       return null;
     };
-    noItemsTextGetter = (name) => "No ${name}s found!";
+    noItemsTextGetter = (name) => 'No ${name}s found!';
     noItemsTextStyle = const TextStyle(
       fontWeight: FontWeight.w600,
       fontSize: 14,

@@ -5,7 +5,7 @@ class ErrorDialog extends StatefulWidget {
   final VoidCallback? onRetry;
   final VoidCallback? onOk;
 
-  const ErrorDialog({Key? key, this.errorMessage = "", this.onRetry, this.onOk}) : super(key: key);
+  const ErrorDialog({Key? key, this.errorMessage = '', this.onRetry, this.onOk}) : super(key: key);
 
   @override
   State<ErrorDialog> createState() => _ErrorDialogState();
@@ -17,7 +17,7 @@ class _ErrorDialogState extends State<ErrorDialog> {
     return AlertDialog(
       scrollable: true,
       title: const Text(
-        "Ocorreu um problema",
+        'Ocorreu um problema',
         textAlign: TextAlign.center,
       ),
       content: Column(
@@ -30,7 +30,7 @@ class _ErrorDialogState extends State<ErrorDialog> {
             dense: true,
             contentPadding: const EdgeInsets.symmetric(vertical: 10),
             title: Text(
-              "Ocorreu um problema ao executar a ação",
+              'Ocorreu um problema ao executar a ação',
               style: Theme.of(context).textTheme.subtitle1,
             ),
             subtitle: Text(
@@ -57,7 +57,7 @@ class _ErrorDialogState extends State<ErrorDialog> {
                     child: const Padding(
                       padding: EdgeInsets.all(16.0),
                       child: Text(
-                        "OK",
+                        'OK',
                         style: TextStyle(color: Colors.black, fontSize: 16),
                       ),
                     )),
@@ -86,7 +86,7 @@ class _ErrorDialogState extends State<ErrorDialog> {
                       child: const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
-                          "Tentar novamente",
+                          'Tentar novamente',
                           style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                       )),

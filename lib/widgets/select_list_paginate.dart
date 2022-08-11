@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../pagination/models/paginated_items_response.dart';
 import '../pagination/sliver_paginated_builder.dart';
 
@@ -42,7 +43,7 @@ class _SelectListPaginateState<T> extends State<SelectListPaginate<T>> {
               SliverPaginatedItemsBuilder<T>(
                 fetchPageData: widget.fetchPageData,
                 loaderItemsCount: 10,
-                emptyText: "Não há o que selecionar, cadastre novo item para continuar",
+                emptyText: 'Não há o que selecionar, cadastre novo item para continuar',
                 response: widget.response.value,
                 itemBuilder: (context, index, item) => GestureDetector(
                   onTap: widget.onItemTap ??

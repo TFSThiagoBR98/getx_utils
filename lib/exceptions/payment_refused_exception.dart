@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_utils/exceptions/ui_exception.dart';
 
 import '../utils/func_utils.dart';
 import '../widgets/error_dialog.dart';
+import 'ui_exception.dart';
 
 class PaymentRefusedException implements UiException {
   final String message;
@@ -12,10 +12,10 @@ class PaymentRefusedException implements UiException {
   final String? operation;
 
   PaymentRefusedException(
-      {this.code = "PAYMENT_REFUSED",
-      this.reason = "Entre em contato com a Operadora",
-      this.operation = "DECLINED",
-      this.message = "Seu Pagamento foi Recusado"})
+      {this.code = 'PAYMENT_REFUSED',
+      this.reason = 'Entre em contato com a Operadora',
+      this.operation = 'DECLINED',
+      this.message = 'Seu Pagamento foi Recusado'})
       : super();
 
   @override
@@ -33,12 +33,12 @@ class PaymentRefusedException implements UiException {
     }
 
     if (showDialog) {
-      await Get.dialog(
+      await Get.dialog<void>(
         ErrorDialog(
-          errorMessage: "Seu pagamento foi Recusado.\n"
-              "Ocorreu um problema ao tentar fazer o pagamento.\n"
-              "$reason\n"
-              "Verifique a forma de pagamento selecionada e tente novamente.\n",
+          errorMessage: 'Seu pagamento foi Recusado.\n'
+              'Ocorreu um problema ao tentar fazer o pagamento.\n'
+              '$reason\n'
+              'Verifique a forma de pagamento selecionada e tente novamente.\n',
           onOk: onSuccess,
         ),
         barrierDismissible: false,

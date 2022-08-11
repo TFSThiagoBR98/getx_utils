@@ -26,7 +26,7 @@ class ListExpandedItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      leading: leading ?? CircleAvatar(backgroundImage: image ?? const AssetImage("assets/images/item.webp")),
+      leading: leading ?? CircleAvatar(backgroundImage: image ?? const AssetImage('assets/images/item.webp')),
       title: Text(
         name,
         style: Theme.of(context).textTheme.headline6,
@@ -74,7 +74,7 @@ class ListExpandedItemView extends StatelessWidget {
                         ),
                         onPressed: onEdit != null ? () => onEdit!(id) : null,
                         icon: const Icon(Icons.edit_outlined),
-                        label: const Text("Editar"),
+                        label: const Text('Editar'),
                       ),
                     ),
                     Container(
@@ -90,7 +90,7 @@ class ListExpandedItemView extends StatelessWidget {
                         ),
                         onPressed: onPayment != null ? () => onPayment!(id) : null,
                         icon: const Icon(Icons.payment_outlined),
-                        label: const Text("Pagamentos"),
+                        label: const Text('Pagamentos'),
                       ),
                     ),
                   ],
