@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import 'getx_text_controller.dart';
 
-class GetXItemListController<T, J> {
+class GetXItemListController {
   final RxList<Map<String, String>> _items = <Map<String, String>>[].obs;
   List<Map<String, String>> get items => _items;
   set items(List<Map<String, String>> value) => _items.assignAll(value);

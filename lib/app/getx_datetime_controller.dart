@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 enum GetXDateTimeControllerDisplayFormat { date, time, datetime }
 
-class GetXDateTimeController<T> {
+class GetXDateTimeController {
   late final Rxn<DateTime> dataRx;
   DateTime? get data => dataRx.value;
   set data(DateTime? value) => dataRx.value = value;
