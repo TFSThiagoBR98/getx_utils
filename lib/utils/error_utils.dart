@@ -8,6 +8,7 @@ import 'package:universal_io/io.dart';
 import '../exceptions/account_deletation_in_progress.dart';
 import '../exceptions/auth_exception.dart';
 import '../exceptions/auth_wrong_exception.dart';
+import '../exceptions/generic_error_exception.dart';
 import '../exceptions/graphql_error_exception.dart';
 import '../exceptions/outdated_client_exception.dart';
 import '../exceptions/payment_refused_exception.dart';
@@ -25,6 +26,14 @@ Future<T> runFutureWithErrorDialog<T>(
     VoidCallback? onSuccess}) async {
   try {
     return await callback();
+  } on GraphQLErrorException catch (e) {
+    try {
+      throw rethrowAuth(e);
+    } catch (e) {
+      dialog?.dismiss();
+      displayErrorDialog(e, onError: onError, onRetry: onRetry, onSuccess: onSuccess);
+      rethrow;
+    }
   } catch (e) {
     dialog?.dismiss();
     displayErrorDialog(e, onError: onError, onRetry: onRetry, onSuccess: onSuccess);
@@ -32,34 +41,36 @@ Future<T> runFutureWithErrorDialog<T>(
   }
 }
 
-void rethrowAuth(GraphQLErrorException exception) {
+Exception rethrowAuth(GraphQLErrorException exception) {
   if (exception.errors != null) {
     for (final error in exception.errors!) {
       switch (error.message) {
         case 'Unauthenticated.':
         case 'Not Authenticated':
-          throw AuthException();
+          return AuthException();
         case 'invalid_grant':
-          throw AuthWrongException();
+          return AuthWrongException();
         case 'Outdated Client':
-          throw OutdatedClientException();
+          return OutdatedClientException();
         case 'This action is unauthorized.':
-          throw PermissionException();
+          return PermissionException();
         case 'PAYMENT_REFUSED':
-          throw PaymentRefusedException(
+          return PaymentRefusedException(
             code: error.extensions?['code'] as String?,
             reason: error.extensions?['reason'] as String?,
             operation: error.extensions?['operation'] as String?,
           );
         case 'Account Terminated.':
-          throw AccountDeletationInProgressException();
+          return AccountDeletationInProgressException();
         case 'Internal server error':
-          throw ServerErrorException();
+          return ServerErrorException();
+        case 'Generic Error':
+          return GenericErrorException();
         default:
           if (error.message.contains('Validation failed')) {
-            throw ValidationException(fields: error.extensions?['validation'] as Map?);
+            return ValidationException(fields: error.extensions?['validation'] as Map?);
           } else {
-            throw Exception('Unknown Error');
+            return Exception('Unknown Error');
           }
       }
     }
@@ -67,17 +78,19 @@ void rethrowAuth(GraphQLErrorException exception) {
 
   if (exception.linkException != null) {
     if (exception.linkException is ServerException && exception.linkException!.originalException is DioError) {
-      throw exception.linkException!.originalException! as DioError;
+      return exception.linkException!.originalException! as DioError;
     } else if (exception.linkException is ServerException && exception.linkException!.originalException is Exception) {
-      throw exception.linkException!.originalException! as Exception;
+      return exception.linkException!.originalException! as Exception;
     } else if (exception.linkException is LinkException && exception.linkException!.originalException is DioError) {
-      throw exception.linkException!.originalException! as DioError;
+      return exception.linkException!.originalException! as DioError;
     } else if (exception.linkException is LinkException && exception.linkException!.originalException is Exception) {
-      throw exception.linkException!.originalException! as Exception;
+      return exception.linkException!.originalException! as Exception;
     } else {
-      throw exception;
+      return exception;
     }
   }
+
+  return Exception('Unknown Error');
 }
 
 void displayErrorDialog(dynamic error, {required Function onError, VoidCallback? onRetry, VoidCallback? onSuccess}) {
