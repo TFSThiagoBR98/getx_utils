@@ -31,7 +31,6 @@ linter:
     - cancel_subscriptions
     - await_only_futures
     - eol_at_end_of_file
-    - sort_pub_dependencies
     - close_sinks
     - file_names
     - comment_references

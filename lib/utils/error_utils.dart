@@ -65,7 +65,11 @@ Exception rethrowAuth(GraphQLErrorException exception) {
         case 'Internal server error':
           return ServerErrorException();
         case 'Generic Error':
-          return GenericErrorException();
+          return GenericErrorException(
+            code: error.extensions?['code'] as String?,
+            reason: error.extensions?['reason'] as String?,
+            operation: error.extensions?['operation'] as String?,
+          );
         default:
           if (error.message.contains('Validation failed')) {
             return ValidationException(fields: error.extensions?['validation'] as Map?);
@@ -112,6 +116,9 @@ void displayErrorDialog(dynamic error, {required Function onError, VoidCallback?
     error.callDialog(onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
   } else if (error is ServerErrorException) {
     error.callDialog(onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
+  } else if (error is GraphQLErrorException) {
+    var r = rethrowAuth(error);
+    return displayErrorDialog(r, onError: onError, onRetry: onRetry, onSuccess: onSuccess);
   } else if (error is DioError) {
     if (error.type == DioErrorType.connectTimeout ||
         error.type == DioErrorType.receiveTimeout ||
