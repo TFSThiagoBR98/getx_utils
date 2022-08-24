@@ -7,6 +7,13 @@ class InputFormfield extends StatelessWidget {
   final String? labelText;
   final bool readOnly;
   final bool visible;
+  final bool isDense;
+  final bool filled;
+  final Color? fillColor;
+  final TextStyle? hintStyle;
+  final InputBorder? enabledBorder;
+  final InputBorder? focusedBorder;
+  final EdgeInsetsGeometry? contentPadding;
   final GestureTapCallback? onTap;
   final FormFieldValidator<String>? validator;
   final int? lines;
@@ -15,10 +22,13 @@ class InputFormfield extends StatelessWidget {
   final bool obscureText;
   final Widget? suffixIcon;
   final FocusNode? focusNode;
-
+  final InputBorder? border;
+  final EdgeInsetsGeometry externalPadding;
+  final TextStyle? style;
   final TextInputType? keyboardType;
-
   final String? helperText;
+  final String? hintText;
+  final TextCapitalization textCapitalization;
 
   const InputFormfield(
       {Key? key,
@@ -28,14 +38,26 @@ class InputFormfield extends StatelessWidget {
       this.visible = true,
       this.prefixIcon,
       this.suffixIcon,
+      this.externalPadding = const EdgeInsets.all(8.0),
       this.lines,
+      this.style,
+      this.border = const OutlineInputBorder(),
       this.inputFormatters,
       this.validator,
       this.focusNode,
       this.obscureText = false,
       this.readOnly = false,
+      this.isDense = false,
+      this.filled = false,
+      this.fillColor,
+      this.hintStyle,
+      this.enabledBorder,
+      this.focusedBorder,
+      this.contentPadding,
       this.keyboardType,
       this.helperText,
+      this.hintText,
+      this.textCapitalization = TextCapitalization.none,
       this.onTap})
       : super(key: key);
 
@@ -44,7 +66,7 @@ class InputFormfield extends StatelessWidget {
     return Visibility(
       visible: visible,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: externalPadding,
         child: TextFormField(
           onTap: onTap,
           controller: controller,
@@ -57,9 +79,19 @@ class InputFormfield extends StatelessWidget {
           minLines: lines,
           readOnly: readOnly,
           maxLines: lines,
+          textCapitalization: textCapitalization,
+          style: style,
           decoration: InputDecoration(
               suffixIcon: suffixIcon,
-              border: const OutlineInputBorder(),
+              border: border,
+              isDense: isDense,
+              filled: filled,
+              fillColor: fillColor,
+              hintText: hintText,
+              hintStyle: hintStyle,
+              enabledBorder: enabledBorder,
+              focusedBorder: focusedBorder,
+              contentPadding: contentPadding,
               prefixIcon: prefixIcon,
               helperText: helperText,
               labelText: labelText),
