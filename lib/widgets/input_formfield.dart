@@ -48,7 +48,7 @@ class InputFormfield extends StatelessWidget {
       this.obscureText = false,
       this.readOnly = false,
       this.isDense = false,
-      this.filled = false,
+      this.filled = true,
       this.fillColor,
       this.hintStyle,
       this.enabledBorder,
