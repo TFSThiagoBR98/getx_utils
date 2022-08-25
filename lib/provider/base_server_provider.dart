@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
+import 'package:universal_io/io.dart';
 
 import 'base_provider.dart';
 
@@ -15,6 +16,23 @@ abstract class BaseServerProvider extends BaseProvider {
       connectTimeout: 15000,
       contentType: 'application/json; charset=utf-8',
     ));
+  }
+
+  Future<String> uploadFile(String model, String id, File file) async {
+    String fileName = file.path.split('/').last;
+    FormData formData = FormData.fromMap(<String, dynamic>{
+      'model': model,
+      'id': id,
+      'media_type': 'file',
+      'collection': 'images',
+      'file': await MultipartFile.fromFile(file.path, filename: fileName),
+    });
+    var response = await (await dio()).post<Map<dynamic, dynamic>>('/api/upload', data: formData);
+    return response.data!['id'] as String;
+  }
+
+  String getImageUrl(String uuid) {
+    return 'https://$apiUrl/api/fetch_file/$uuid';
   }
 
   Future<Map<String, dynamic>> getHeaders() async {
