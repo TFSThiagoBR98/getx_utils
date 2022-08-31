@@ -5,6 +5,7 @@ import 'package:decimal/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
 
@@ -60,4 +61,50 @@ void runWhenContextAvaliable(ContextCallback callback) {
       t.cancel();
     }
   });
+}
+
+Future<XFile?> selectImagePicker() async {
+  final ImagePicker picker = ImagePicker();
+  return showModalBottomSheet<XFile?>(
+      context: Get.context!,
+      builder: (context) {
+        return SafeArea(
+          child: BottomSheet(
+            onClosing: () {},
+            builder: (context) {
+              return Container(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(mainAxisSize: MainAxisSize.min, children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextButton(
+                      child: const Text(
+                        'Abrir na câmera',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                      onPressed: () async {
+                        var file = await picker.pickImage(source: ImageSource.camera);
+                        Navigator.of(context).pop(file);
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: TextButton(
+                      child: const Text(
+                        'Escolher na Galeria',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                      onPressed: () async {
+                        var file = await picker.pickImage(source: ImageSource.gallery);
+                        Navigator.of(context).pop(file);
+                      },
+                    ),
+                  ),
+                ]),
+              );
+            },
+          ),
+        );
+      });
 }
