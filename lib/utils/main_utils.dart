@@ -20,6 +20,9 @@ Future<void> initFlutterApp() async {
   });
 }
 
+final appRouteKey = GlobalKey<NavigatorState>(debugLabel: 'Key Created by default');
+BuildContext? get appContext => Get.context!;
+
 final NumberFormat lformatMoney = NumberFormat.currency(
   locale: 'pt_BR',
   symbol: 'R\$',
@@ -52,8 +55,8 @@ String decimal2string(Decimal value) {
 
 void runWhenContextAvaliable(ContextCallback callback) {
   Timer.periodic(const Duration(seconds: 1), (Timer t) async {
-    if (Get.context != null) {
-      callback(Get.context!);
+    if (appContext != null) {
+      callback(appContext!);
       t.cancel();
     }
   });

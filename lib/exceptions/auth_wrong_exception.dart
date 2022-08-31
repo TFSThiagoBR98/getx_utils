@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../utils/func_utils.dart';
+import '../utils/main_utils.dart';
 import '../widgets/error_dialog.dart';
 import 'ui_exception.dart';
 
@@ -19,14 +19,15 @@ class AuthWrongException implements UiException {
     VoidCallback? onRetry,
     VoidCallback? onSuccess,
   }) async {
-    var showDialog = true;
+    var willShowDialog = true;
     if (onError != null) {
-      showDialog = onError(this);
+      willShowDialog = onError(this);
     }
 
-    if (showDialog) {
-      await Get.dialog<void>(
-        ErrorDialog(
+    if (willShowDialog) {
+      await showDialog<void>(
+        context: appContext!,
+        builder: (context) => ErrorDialog(
           errorMessage: 'Usuário ou senha inválidos\n',
           onRetry: onRetry,
           onOk: onSuccess,

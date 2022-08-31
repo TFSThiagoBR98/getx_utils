@@ -2,6 +2,8 @@ import 'package:flutter/material.dart' hide Builder;
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
+import '../utils/main_utils.dart';
+
 enum GetXDateTimeControllerDisplayFormat { date, time, datetime }
 
 class GetXDateTimeController {
@@ -69,7 +71,7 @@ class GetXDateTimeController {
         initialEntryMode: DatePickerEntryMode.calendar,
         textDirection: null,
         lastDate: DateTime.now().add(const Duration(days: 1)),
-        context: Get.context!,
+        context: appContext!,
       );
 
       if (range != null) {
@@ -86,7 +88,7 @@ class GetXDateTimeController {
         initialTime: data != null ? TimeOfDay.fromDateTime(data!) : const TimeOfDay(hour: 00, minute: 00),
         useRootNavigator: true,
         initialEntryMode: TimePickerEntryMode.input,
-        context: Get.context!,
+        context: appContext!,
       );
 
       if (range != null) {
