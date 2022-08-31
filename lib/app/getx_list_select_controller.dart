@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../pagination/models/paginated_items_response.dart';
+import '../utils/main_utils.dart';
 import '../widgets/select_list_paginate.dart';
 import 'getx_list_item.dart';
 
@@ -35,7 +36,7 @@ class GetXListSelectController {
 
   void showList() {
     Navigator.push<dynamic>(
-        Get.context!,
+        appContext!,
         MaterialPageRoute<dynamic>(
             builder: (context) => SelectListPaginate<MapEntry<String, GetXListItem>>(
                 onRefresh: () async => fetchPageData(reset: true, showLoaderOnReset: true),

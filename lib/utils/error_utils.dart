@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:ferry/typed_links.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
+import 'package:flutter/material.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:universal_io/io.dart';
 
@@ -17,6 +17,7 @@ import '../exceptions/register_must_verify_email_exception.dart';
 import '../exceptions/server_error_exception.dart';
 import '../exceptions/validation_exception.dart';
 import '../widgets/error_dialog.dart';
+import 'main_utils.dart';
 
 Future<T> runFutureWithErrorDialog<T>(
     {required Future<T> Function() callback,
@@ -123,8 +124,9 @@ void displayErrorDialog(dynamic error, {required Function onError, VoidCallback?
     if (error.type == DioErrorType.connectTimeout ||
         error.type == DioErrorType.receiveTimeout ||
         error.type == DioErrorType.sendTimeout) {
-      Get.dialog<void>(
-        ErrorDialog(
+      showDialog<void>(
+        context: appContext!,
+        builder: (context) => ErrorDialog(
             errorMessage: 'Falha ao executar a ação\n'
                 'Tempo esgotado aguardando resposta do servidor\n'
                 'Verifique sua conexão com a internet e tente novamente.\n'
@@ -133,16 +135,18 @@ void displayErrorDialog(dynamic error, {required Function onError, VoidCallback?
         barrierDismissible: false,
       ).whenComplete(() => onError);
     } else if (error.type == DioErrorType.other) {
-      Get.dialog<void>(
-        ErrorDialog(
+      showDialog<void>(
+        context: appContext!,
+        builder: (context) => ErrorDialog(
             errorMessage: 'Falha ao conectar ao Servidor\n'
                 'Verifique sua conexão com a internet e tente novamente\n',
             onRetry: onRetry),
         barrierDismissible: false,
       ).whenComplete(() => onError);
     } else if (error.response == null) {
-      Get.dialog<void>(
-        ErrorDialog(
+      showDialog<void>(
+        context: appContext!,
+        builder: (context) => ErrorDialog(
             errorMessage: 'O Servidor não enviou uma resposta\n'
                 'Verifique sua conexão com a internet e tente novamente\n',
             onRetry: onRetry),
@@ -150,8 +154,9 @@ void displayErrorDialog(dynamic error, {required Function onError, VoidCallback?
       ).whenComplete(() => onError);
     } else {
       if (error.response?.statusCode == null) {
-        Get.dialog<void>(
-          ErrorDialog(
+        showDialog<void>(
+          context: appContext!,
+          builder: (context) => ErrorDialog(
               errorMessage: 'Erro desconhecido na conexão com o servidor\n'
                   'Verifique sua conexão com a internet e tente novamente\n'
                   'Detalhes do Erro: Código de Estado HTTP está Nulo \n',
@@ -159,24 +164,27 @@ void displayErrorDialog(dynamic error, {required Function onError, VoidCallback?
           barrierDismissible: false,
         ).whenComplete(() => onError);
       } else if (error.response?.statusCode == 460) {
-        Get.dialog<void>(
-          ErrorDialog(
+        showDialog<void>(
+          context: appContext!,
+          builder: (context) => ErrorDialog(
               errorMessage: 'Este aplicativo está desatualizado\n'
                   'Por favor faça uma atualização na loja de aplicativos de seu dispositivo\n',
               onRetry: onRetry),
           barrierDismissible: false,
         ).whenComplete(() => onError);
       } else if (error.response?.statusCode == 429) {
-        Get.dialog<void>(
-          ErrorDialog(
+        showDialog<void>(
+          context: appContext!,
+          builder: (context) => ErrorDialog(
               errorMessage: 'Você fez várias requisições em um curto periodo de tempo\n'
                   'Muitas tentativas de conexão, tente mais tarde\n',
               onRetry: onRetry),
           barrierDismissible: false,
         ).whenComplete(() => onError);
       } else if (error.response!.statusCode! >= 500 || error.response!.statusCode! <= 599) {
-        Get.dialog<void>(
-          ErrorDialog(
+        showDialog<void>(
+          context: appContext!,
+          builder: (context) => ErrorDialog(
               errorMessage: 'Falha no servidor\n'
                   'Ocorreu um problema no nosso sistema\n'
                   'Aguarde um pouco e tente novamente\n'
@@ -185,8 +193,9 @@ void displayErrorDialog(dynamic error, {required Function onError, VoidCallback?
           barrierDismissible: false,
         ).whenComplete(() => onError);
       } else {
-        Get.dialog<void>(
-          ErrorDialog(
+        showDialog<void>(
+          context: appContext!,
+          builder: (context) => ErrorDialog(
               errorMessage: 'Erro desconhecido na conexão com o servidor\n'
                   'Verifique sua conexão com a internet e tente novamente\n'
                   'Detalhes do Erro $error \n',
@@ -196,16 +205,18 @@ void displayErrorDialog(dynamic error, {required Function onError, VoidCallback?
       }
     }
   } else if (error is SocketException) {
-    Get.dialog<void>(
-      ErrorDialog(
+    showDialog<void>(
+      context: appContext!,
+      builder: (context) => ErrorDialog(
           errorMessage: 'Falha ao conectar-se ao servidor\n'
               'Verifique sua conexão com a internet e tente novamente\n',
           onRetry: onRetry),
       barrierDismissible: false,
     ).whenComplete(() => onError);
   } else {
-    Get.dialog<void>(
-      ErrorDialog(
+    showDialog<void>(
+      context: appContext!,
+      builder: (context) => ErrorDialog(
           errorMessage: 'Falha ao executar a ação\n'
               'Erro: $error\n',
           onRetry: onRetry),

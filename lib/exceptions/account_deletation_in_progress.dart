@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../utils/func_utils.dart';
+import '../utils/main_utils.dart';
 import '../widgets/warning_dialog.dart';
 import 'ui_exception.dart';
 
@@ -19,14 +19,15 @@ class AccountDeletationInProgressException implements UiException {
     VoidCallback? onRetry,
     VoidCallback? onSuccess,
   }) async {
-    var showDialog = true;
+    var willShowDialog = true;
     if (onError != null) {
-      showDialog = onError(this);
+      willShowDialog = onError(this);
     }
 
-    if (showDialog) {
-      await Get.dialog<void>(
-        WarningDialog(
+    if (willShowDialog) {
+      await showDialog<void>(
+        context: appContext!,
+        builder: (context) => WarningDialog(
             errorMessage: 'Esta conta encontra-se em processo de exclusão\n'
                 'Esse processo pode levar até 7 dias úteis para ser efetuado\n'
                 'Após a exclusão será possível criar uma nova conta com os mesmos dados.\n',
