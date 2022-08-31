@@ -1,6 +1,6 @@
+import 'package:cross_file/cross_file.dart';
 import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
-import 'package:universal_io/io.dart';
 
 import 'base_provider.dart';
 
@@ -18,14 +18,14 @@ abstract class BaseServerProvider extends BaseProvider {
     ));
   }
 
-  Future<String> uploadFile(String model, String id, File file) async {
+  Future<String> uploadFile(String model, String id, XFile file) async {
     String fileName = file.path.split('/').last;
     FormData formData = FormData.fromMap(<String, dynamic>{
       'model': model,
       'id': id,
       'media_type': 'file',
       'collection': 'images',
-      'file': await MultipartFile.fromFile(file.path, filename: fileName),
+      'file': MultipartFile.fromBytes(await file.readAsBytes(), filename: fileName),
     });
     var response = await (await dio()).post<Map<dynamic, dynamic>>('/api/upload', data: formData);
     return response.data!['id'] as String;
