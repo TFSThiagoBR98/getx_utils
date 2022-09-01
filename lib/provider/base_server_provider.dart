@@ -18,21 +18,27 @@ abstract class BaseServerProvider extends BaseProvider {
     ));
   }
 
-  Future<String> uploadFile<T>(String model, String id, GetxMedia<T> file) async {
+  Future<String> uploadFile<T>(String model, String id, GetxMedia<T> file, {String? replace}) async {
     String fileName = file.file!.path.split('/').last;
     FormData formData = FormData.fromMap(<String, dynamic>{
       'model': model,
       'id': id,
       'media_type': 'file',
+      'replace': replace,
       'collection': 'images',
       'file': MultipartFile.fromBytes(await file.file!.readAsBytes(), filename: fileName),
     });
     var response = await (await dio()).post<Map<dynamic, dynamic>>('/api/upload', data: formData);
-    return response.data!['id'] as String;
+    return response.data!['uuid'] as String;
   }
 
-  String getImageUrl(String uuid) {
-    return 'https://$apiUrl/api/fetch_file/$uuid';
+  Future<String> deleteFile(String uuid) async {
+    var response = await (await dio()).delete<Map<dynamic, dynamic>>('/api/upload/$uuid');
+    return response.data!['uuid'] as String;
+  }
+
+  String getImageUrl(String uuid, {String conversion = ''}) {
+    return 'https://$apiUrl/api/fetch_file/$uuid/$conversion';
   }
 
   Future<Map<String, dynamic>> getHeaders() async {
