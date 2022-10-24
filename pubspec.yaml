@@ -25,7 +25,7 @@ dependencies:
   intl: ^0.17.0
   dio: ^4.0.6
   fast_rsa: ^3.4.7
-  sodium_libs: ^1.2.3
+  sodium_libs: ">=1.2.3 <3.0.0"
   crypto: ^3.0.1
 
 dev_dependencies:
