@@ -6,18 +6,18 @@ import '../utils/main_utils.dart';
 import '../widgets/select_list_paginate.dart';
 import 'getx_list_item.dart';
 
-class GetXListSelectController {
+class GetXListSelectController<T> {
   final Future<void> Function({bool reset, bool showLoaderOnReset}) fetchPageData;
 
   final Rx<TextEditingController> _itemController = TextEditingController().obs;
   TextEditingController get itemController => _itemController.value;
   set itemController(TextEditingController value) => _itemController.value = value;
 
-  final Rxn<MapEntry<String, GetXListItem>> _selectEntry = Rxn<MapEntry<String, GetXListItem>>();
-  MapEntry<String, GetXListItem>? get selectEntry => _selectEntry.value;
-  set selectEntry(MapEntry<String, GetXListItem>? value) => _selectEntry.value = value;
+  final Rxn<MapEntry<String, GetXListItem<T>>> _selectEntry = Rxn<MapEntry<String, GetXListItem<T>>>();
+  MapEntry<String, GetXListItem<T>>? get selectEntry => _selectEntry.value;
+  set selectEntry(MapEntry<String, GetXListItem<T>>? value) => _selectEntry.value = value;
 
-  final Rxn<PaginatedItemsResponse<MapEntry<String, GetXListItem>>> response;
+  final Rxn<PaginatedItemsResponse<MapEntry<String, GetXListItem<T>>>> response;
 
   final TextStyle? titleTextStyle;
   final double? imageSize;
@@ -29,7 +29,7 @@ class GetXListSelectController {
     itemController.text = '';
   }
 
-  void selectItem(MapEntry<String, GetXListItem> item) {
+  void selectItem(MapEntry<String, GetXListItem<T>> item) {
     selectEntry = item;
     itemController.text = item.value.label;
   }
@@ -38,7 +38,7 @@ class GetXListSelectController {
     Navigator.push<dynamic>(
         appContext!,
         MaterialPageRoute<dynamic>(
-            builder: (context) => SelectListPaginate<MapEntry<String, GetXListItem>>(
+            builder: (context) => SelectListPaginate<MapEntry<String, GetXListItem<T>>>(
                 onRefresh: () async => fetchPageData(reset: true, showLoaderOnReset: true),
                 fetchPageData: (reset) => fetchPageData(reset: reset, showLoaderOnReset: reset),
                 response: response,
@@ -71,7 +71,7 @@ class GetXListSelectController {
       this.imageSize = 36,
       required this.fetchPageData,
       required this.response,
-      MapEntry<String, GetXListItem>? value}) {
+      MapEntry<String, GetXListItem<T>>? value}) {
     selectEntry = value;
   }
 }
