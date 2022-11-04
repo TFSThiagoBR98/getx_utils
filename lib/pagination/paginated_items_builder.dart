@@ -306,9 +306,12 @@ class _PaginatedItemsBuilderState<T> extends State<PaginatedItemsBuilder<T>> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            text ?? PaginatedItemsBuilder.config!.noItemsTextGetter(itemName),
-            style: PaginatedItemsBuilder.config!.noItemsTextStyle,
+          Expanded(
+            child: Text(
+              text ?? PaginatedItemsBuilder.config!.noItemsTextGetter(itemName),
+              style: PaginatedItemsBuilder.config!.noItemsTextStyle,
+              overflow: TextOverflow.clip,
+            ),
           ),
           if (widget.showRefreshIcon)
             IconButton(

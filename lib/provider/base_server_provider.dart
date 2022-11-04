@@ -13,7 +13,7 @@ abstract class BaseServerProvider extends BaseProvider {
     return Dio(BaseOptions(
       baseUrl: 'https://$apiUrl/',
       headers: await getHeaders(),
-      connectTimeout: 15000,
+      connectTimeout: 30000,
       contentType: 'application/json; charset=utf-8',
     ));
   }
