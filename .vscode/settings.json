@@ -1,5 +1,5 @@
 {
-    "dart.flutterSdkPath": ".fvm/flutter_sdk",
+    "dart.flutterSdkPath": ".fvm/versions/3.16.7",
     // Remove .fvm files from search
     "search.exclude": {
         "**/.fvm": true,
@@ -24,7 +24,7 @@
         "editor.suggest.snippetsPreventQuickSuggestions": false,
         "editor.suggestSelection": "first",
         "editor.tabCompletion": "onlySnippets",
-        "editor.wordBasedSuggestions": false
+        "editor.wordBasedSuggestions": "off"
     },
     
     "dart.debugSdkLibraries": true,
