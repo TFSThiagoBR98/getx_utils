@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 
 import '../utils/func_utils.dart';
-import '../utils/main_utils.dart';
 import '../widgets/warning_dialog.dart';
 import 'ui_exception.dart';
 
 class AccountDeletationInProgressException implements UiException {
   final String message;
 
-  AccountDeletationInProgressException({this.message = 'Account in Deletation process'}) : super();
+  AccountDeletationInProgressException(
+      {this.message = 'Account in Deletation process'})
+      : super();
 
   @override
   String toString() => message;
 
   @override
-  Future<void> callDialog({
+  Future<void> callDialog(
+    BuildContext context, {
     ErrorCallback? onError,
     VoidCallback? onRetry,
     VoidCallback? onSuccess,
@@ -26,7 +28,7 @@ class AccountDeletationInProgressException implements UiException {
 
     if (willShowDialog) {
       await showDialog<void>(
-        context: appContext!,
+        context: context,
         builder: (context) => WarningDialog(
             errorMessage: 'Esta conta encontra-se em processo de exclusão\n'
                 'Esse processo pode levar até 7 dias úteis para ser efetuado\n'

@@ -1,29 +1,29 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
-import '../app/getx_list_item.dart';
+import '../app/tfs_list_item.dart';
 
 class SelectorDropdownFormfield<T> extends StatelessWidget {
-  final ValueChanged<GetXListItem<T>?>? onChanged;
+  final ValueChanged<TFSListItem<T>?>? onChanged;
   final String? labelText;
   final bool visible;
   final bool isDense;
   final bool filled;
   final Color? fillColor;
-  final List<GetXListItem<T>> items;
+  final List<TFSListItem<T>> items;
   final TextStyle? hintStyle;
   final InputBorder? enabledBorder;
   final InputBorder? focusedBorder;
   final EdgeInsetsGeometry? contentPadding;
   final GestureTapCallback? onTap;
-  final FormFieldValidator<GetXListItem<T>?>? validator;
+  final FormFieldValidator<TFSListItem<T>?>? validator;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final FocusNode? focusNode;
   final InputBorder? border;
   final EdgeInsetsGeometry externalPadding;
   final TextStyle? style;
-  final GetXListItem<T>? selectedItem;
+  final TFSListItem<T>? selectedItem;
   final String? helperText;
   final String? hintText;
 
@@ -58,7 +58,7 @@ class SelectorDropdownFormfield<T> extends StatelessWidget {
       visible: visible,
       child: Padding(
         padding: externalPadding,
-        child: DropdownSearch<GetXListItem<T>>(
+        child: DropdownSearch<TFSListItem<T>>(
           popupProps: const PopupProps.menu(
             showSelectedItems: true,
           ),

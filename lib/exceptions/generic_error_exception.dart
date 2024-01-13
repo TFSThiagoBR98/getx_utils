@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../utils/func_utils.dart';
-import '../utils/main_utils.dart';
 import '../widgets/error_dialog.dart';
 import 'ui_exception.dart';
 
@@ -22,7 +21,8 @@ class GenericErrorException implements UiException {
   String toString() => message;
 
   @override
-  Future<void> callDialog({
+  Future<void> callDialog(
+    BuildContext context, {
     ErrorCallback? onError,
     VoidCallback? onRetry,
     VoidCallback? onSuccess,
@@ -34,7 +34,7 @@ class GenericErrorException implements UiException {
 
     if (willShowDialog) {
       await showDialog<void>(
-        context: appContext!,
+        context: context,
         builder: (context) => ErrorDialog(
           errorMessage: 'Operação falhou\n'
               'Ocorreu um problema ao tentar fazer essa ação.\n'

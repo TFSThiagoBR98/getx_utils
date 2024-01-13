@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-abstract class GetxAutoBinderView<C> extends GetView<C> {
-  GetxAutoBinderView({super.key, Bindings? binding}) {
+abstract class TFSAutoBinderView<C> extends GetView<C> {
+  TFSAutoBinderView({super.key, Bindings? binding}) {
     binding?.dependencies();
   }
 }
 
-abstract class GetxFullView<T extends GetxController> extends StatefulWidget {
-  GetxFullView({super.key, Bindings? binding}) {
+abstract class TFSFullView<T extends GetxController> extends StatefulWidget {
+  TFSFullView({super.key, Bindings? binding}) {
     binding?.dependencies();
   }
 }

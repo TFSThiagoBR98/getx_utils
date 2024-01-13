@@ -3,13 +3,10 @@ import 'dart:async';
 import 'package:decimal/decimal.dart';
 import 'package:decimal/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:logging/logging.dart';
-
-import 'func_utils.dart';
 
 Future<void> initFlutterApp() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +20,6 @@ Future<void> initFlutterApp() async {
 
 final appRouteKey =
     GlobalKey<NavigatorState>(debugLabel: 'Key Created by default');
-BuildContext? get appContext => Get.context!;
 
 final NumberFormat lformatMoney = NumberFormat.currency(
   locale: 'pt_BR',
@@ -55,19 +51,10 @@ String decimal2string(Decimal value) {
   return lformatDouble.format(DecimalIntl(value));
 }
 
-void runWhenContextAvaliable(ContextCallback callback) {
-  Timer.periodic(const Duration(seconds: 1), (Timer t) async {
-    if (appContext != null) {
-      callback(appContext!);
-      t.cancel();
-    }
-  });
-}
-
-Future<XFile?> selectImagePicker() async {
+Future<XFile?> selectImagePicker(BuildContext context) async {
   final ImagePicker picker = ImagePicker();
   return showModalBottomSheet<XFile?>(
-      context: Get.context!,
+      context: context,
       builder: (context) {
         return SafeArea(
           child: BottomSheet(

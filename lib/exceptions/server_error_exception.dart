@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../utils/func_utils.dart';
-import '../utils/main_utils.dart';
 import '../widgets/error_dialog.dart';
 import 'ui_exception.dart';
 
@@ -14,7 +13,8 @@ class ServerErrorException implements UiException {
   String toString() => message;
 
   @override
-  Future<void> callDialog({
+  Future<void> callDialog(
+    BuildContext context, {
     ErrorCallback? onError,
     VoidCallback? onRetry,
     VoidCallback? onSuccess,
@@ -26,7 +26,7 @@ class ServerErrorException implements UiException {
 
     if (willShowDialog) {
       await showDialog<void>(
-        context: appContext!,
+        context: context,
         builder: (context) => ErrorDialog(
           errorMessage: 'Falha no servidor\n'
               'Ocorreu um problema no nosso sistema\n'

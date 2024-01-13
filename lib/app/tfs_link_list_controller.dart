@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'getx_text_controller.dart';
+import 'tfs_text_controller.dart';
 
-class GetXItemListController {
+class TFSItemListController {
   final RxList<Map<String, String>> _items = <Map<String, String>>[].obs;
   List<Map<String, String>> get items => _items;
   set items(List<Map<String, String>> value) => _items.assignAll(value);
 
   final formKey = GlobalKey<FormState>();
-  final GetXTextController<String> itemName = GetXTextController<String>();
-  final GetXTextController<String> itemNumber = GetXTextController<String>();
+  final TFSTextController<String> itemName = TFSTextController<String>();
+  final TFSTextController<String> itemNumber = TFSTextController<String>();
 
   Map<String, String> addItem(String name, String item) {
     var valor = {
@@ -34,5 +34,5 @@ class GetXItemListController {
     items.addAll(list ?? []);
   }
 
-  GetXItemListController();
+  TFSItemListController();
 }

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../utils/main_utils.dart';
 
-class GetXMoneyPercentageController {
+class TFSMoneyPercentageController {
   late final Rxn<Decimal> dataRx;
   Decimal? get data => dataRx.value;
   set data(Decimal? value) => dataRx.value = value;
@@ -19,11 +19,12 @@ class GetXMoneyPercentageController {
 
   void setData(Decimal value, bool isPercent) {
     isPercentage = isPercent;
-    controller.text = isPercentage ? decimal2string(value) : decimal2money(value);
+    controller.text =
+        isPercentage ? decimal2string(value) : decimal2money(value);
     data = value;
   }
 
-  GetXMoneyPercentageController({bool percentage = false}) {
+  TFSMoneyPercentageController({bool percentage = false}) {
     dataRx = Rxn<Decimal>();
     isPercentage = percentage;
   }

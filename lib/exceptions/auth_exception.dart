@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
 
 import '../utils/func_utils.dart';
-import '../utils/main_utils.dart';
 import '../widgets/error_dialog.dart';
 import 'ui_exception.dart';
 
 class AuthException implements UiException {
   final String message;
 
-  AuthException({this.message = 'You are not authenticated, please login to continue'}) : super();
+  AuthException(
+      {this.message = 'You are not authenticated, please login to continue'})
+      : super();
 
   @override
   String toString() => message;
 
   @override
-  Future<void> callDialog({
+  Future<void> callDialog(
+    BuildContext context, {
     ErrorCallback? onError,
     VoidCallback? onRetry,
     VoidCallback? onSuccess,
@@ -26,9 +28,10 @@ class AuthException implements UiException {
 
     if (willShowDialog) {
       await showDialog<void>(
-        context: appContext!,
+        context: context,
         builder: (context) => ErrorDialog(
-          errorMessage: 'Você não está conectado a sua conta, por favor faça o login\n',
+          errorMessage:
+              'Você não está conectado a sua conta, por favor faça o login\n',
           onRetry: onRetry,
           onOk: onSuccess,
         ),

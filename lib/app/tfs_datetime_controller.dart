@@ -2,11 +2,9 @@ import 'package:flutter/material.dart' hide Builder;
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-import '../utils/main_utils.dart';
+enum TFSDateTimeControllerDisplayFormat { date, time, datetime }
 
-enum GetXDateTimeControllerDisplayFormat { date, time, datetime }
-
-class GetXDateTimeController {
+class TFSDateTimeController {
   late final Rxn<DateTime> dataRx;
   DateTime? get data => dataRx.value;
   set data(DateTime? value) => dataRx.value = value;
@@ -15,7 +13,7 @@ class GetXDateTimeController {
   TextEditingController get controller => _controller.value;
   set controller(TextEditingController value) => _controller.value = value;
 
-  final GetXDateTimeControllerDisplayFormat format;
+  final TFSDateTimeControllerDisplayFormat format;
 
   final String displayDateFormat = 'dd/MM/yyyy';
   final String displayTimeFormat = 'HH:mm:ss';
@@ -24,9 +22,9 @@ class GetXDateTimeController {
   final String internalTimeFormat = 'HH:mm:ss';
 
   String get displayFormat {
-    if (format == GetXDateTimeControllerDisplayFormat.date) {
+    if (format == TFSDateTimeControllerDisplayFormat.date) {
       return displayDateFormat;
-    } else if (format == GetXDateTimeControllerDisplayFormat.time) {
+    } else if (format == TFSDateTimeControllerDisplayFormat.time) {
       return displayTimeFormat;
     } else {
       return '$displayDateFormat $displayTimeFormat';
@@ -34,9 +32,9 @@ class GetXDateTimeController {
   }
 
   String get internalFormat {
-    if (format == GetXDateTimeControllerDisplayFormat.date) {
+    if (format == TFSDateTimeControllerDisplayFormat.date) {
       return internalDateFormat;
-    } else if (format == GetXDateTimeControllerDisplayFormat.time) {
+    } else if (format == TFSDateTimeControllerDisplayFormat.time) {
       return internalTimeFormat;
     } else {
       return '$internalDateFormat $internalTimeFormat';
@@ -62,8 +60,9 @@ class GetXDateTimeController {
     }
   }
 
-  Future<DateTime?> selectPeriod() async {
-    if (format == GetXDateTimeControllerDisplayFormat.date || format == GetXDateTimeControllerDisplayFormat.datetime) {
+  Future<DateTime?> selectPeriod(BuildContext context) async {
+    if (format == TFSDateTimeControllerDisplayFormat.date ||
+        format == TFSDateTimeControllerDisplayFormat.datetime) {
       var range = await showDatePicker(
         initialDate: data ?? DateTime(2019),
         firstDate: DateTime(1900),
@@ -71,29 +70,35 @@ class GetXDateTimeController {
         initialEntryMode: DatePickerEntryMode.calendar,
         textDirection: null,
         lastDate: DateTime.now().add(const Duration(days: 1)),
-        context: appContext!,
+        context: context,
       );
 
       if (range != null) {
         if (data != null) {
-          data = DateTime(range.year, range.month, range.day, data!.hour, data!.minute);
+          data = DateTime(
+              range.year, range.month, range.day, data!.hour, data!.minute);
         } else {
           data = DateTime(range.year, range.month, range.day, 0, 0);
         }
       }
     }
 
-    if (format == GetXDateTimeControllerDisplayFormat.time || format == GetXDateTimeControllerDisplayFormat.datetime) {
+    if (format == TFSDateTimeControllerDisplayFormat.time ||
+        format == TFSDateTimeControllerDisplayFormat.datetime) {
+      // ignore: use_build_context_synchronously
       var range = await showTimePicker(
-        initialTime: data != null ? TimeOfDay.fromDateTime(data!) : const TimeOfDay(hour: 00, minute: 00),
+        initialTime: data != null
+            ? TimeOfDay.fromDateTime(data!)
+            : const TimeOfDay(hour: 00, minute: 00),
         useRootNavigator: true,
         initialEntryMode: TimePickerEntryMode.input,
-        context: appContext!,
+        context: context,
       );
 
       if (range != null) {
         if (data != null) {
-          data = DateTime(data!.year, data!.month, data!.day, range.hour, range.minute);
+          data = DateTime(
+              data!.year, data!.month, data!.day, range.hour, range.minute);
         } else {
           data = DateTime(2019, 1, 1, range.hour, range.minute);
         }
@@ -109,7 +114,7 @@ class GetXDateTimeController {
     return data;
   }
 
-  GetXDateTimeController(this.format) {
+  TFSDateTimeController(this.format) {
     dataRx = Rxn<DateTime>();
   }
 }

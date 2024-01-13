@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-import '../app/getx_datetime_controller.dart';
+import '../app/tfs_datetime_controller.dart';
 
 String fetchTimeLeftFromDuration(Duration duration) {
   var microseconds = duration.inMicroseconds;
@@ -28,8 +28,10 @@ String fetchTimeLeftFromDuration(Duration duration) {
 double percentageLeftFromPadding(String startDateTime, String? targetDateTime) {
   if (targetDateTime != null) {
     DateTime now = DateTime.now().toUtc();
-    DateTime start = fromInternal(startDateTime, GetXDateTimeControllerDisplayFormat.datetime)!;
-    DateTime end = fromInternal(targetDateTime, GetXDateTimeControllerDisplayFormat.datetime)!;
+    DateTime start = fromInternal(
+        startDateTime, TFSDateTimeControllerDisplayFormat.datetime)!;
+    DateTime end = fromInternal(
+        targetDateTime, TFSDateTimeControllerDisplayFormat.datetime)!;
     Duration total = end.difference(start);
     Duration left = end.difference(now);
     double percentage = (left.inMilliseconds / total.inMilliseconds);
@@ -45,27 +47,28 @@ const String displayTimeFormat = 'HH:mm:ss';
 const String internalDateFormat = 'yyyy-MM-dd';
 const String internalTimeFormat = 'HH:mm:ss';
 
-String displayFormat(GetXDateTimeControllerDisplayFormat format) {
-  if (format == GetXDateTimeControllerDisplayFormat.date) {
+String displayFormat(TFSDateTimeControllerDisplayFormat format) {
+  if (format == TFSDateTimeControllerDisplayFormat.date) {
     return displayDateFormat;
-  } else if (format == GetXDateTimeControllerDisplayFormat.time) {
+  } else if (format == TFSDateTimeControllerDisplayFormat.time) {
     return displayTimeFormat;
   } else {
     return '$displayDateFormat $displayTimeFormat';
   }
 }
 
-String internalFormat(GetXDateTimeControllerDisplayFormat format) {
-  if (format == GetXDateTimeControllerDisplayFormat.date) {
+String internalFormat(TFSDateTimeControllerDisplayFormat format) {
+  if (format == TFSDateTimeControllerDisplayFormat.date) {
     return internalDateFormat;
-  } else if (format == GetXDateTimeControllerDisplayFormat.time) {
+  } else if (format == TFSDateTimeControllerDisplayFormat.time) {
     return internalTimeFormat;
   } else {
     return '$internalDateFormat $internalTimeFormat';
   }
 }
 
-String? toInternalFormat(DateTime? data, GetXDateTimeControllerDisplayFormat format) {
+String? toInternalFormat(
+    DateTime? data, TFSDateTimeControllerDisplayFormat format) {
   if (data == null) return null;
   try {
     return DateFormat(internalFormat(format)).format(data.toUtc());
@@ -74,7 +77,8 @@ String? toInternalFormat(DateTime? data, GetXDateTimeControllerDisplayFormat for
   }
 }
 
-String? fromInternalToDisplayFormat(String value, GetXDateTimeControllerDisplayFormat format) {
+String? fromInternalToDisplayFormat(
+    String value, TFSDateTimeControllerDisplayFormat format) {
   try {
     DateTime? data = fromInternal(value, format);
     if (data == null) return null;
@@ -84,7 +88,8 @@ String? fromInternalToDisplayFormat(String value, GetXDateTimeControllerDisplayF
   }
 }
 
-String? toDisplayFormat(DateTime? data, GetXDateTimeControllerDisplayFormat format) {
+String? toDisplayFormat(
+    DateTime? data, TFSDateTimeControllerDisplayFormat format) {
   if (data == null) return null;
   try {
     return DateFormat(displayFormat(format)).format(data);
@@ -93,7 +98,8 @@ String? toDisplayFormat(DateTime? data, GetXDateTimeControllerDisplayFormat form
   }
 }
 
-DateTime? fromInternal(String value, GetXDateTimeControllerDisplayFormat format) {
+DateTime? fromInternal(
+    String value, TFSDateTimeControllerDisplayFormat format) {
   try {
     return DateFormat(internalFormat(format)).parse(value, true);
   } on FormatException {
@@ -101,7 +107,7 @@ DateTime? fromInternal(String value, GetXDateTimeControllerDisplayFormat format)
   }
 }
 
-DateTime? fromDisplay(String value, GetXDateTimeControllerDisplayFormat format) {
+DateTime? fromDisplay(String value, TFSDateTimeControllerDisplayFormat format) {
   try {
     return DateFormat(displayFormat(format)).parse(value, false);
   } on FormatException {

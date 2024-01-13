@@ -16,9 +16,8 @@ import '../exceptions/register_must_verify_email_exception.dart';
 import '../exceptions/server_error_exception.dart';
 import '../exceptions/validation_exception.dart';
 import '../widgets/error_dialog.dart';
-import 'main_utils.dart';
 
-Future<T> runFutureWithErrorDialog<T>(
+Future<T> runFutureWithErrorDialog<T>(BuildContext context,
     {required Future<T> Function() callback,
     required VoidCallback onError,
     ProgressDialog? dialog,
@@ -31,14 +30,14 @@ Future<T> runFutureWithErrorDialog<T>(
       throw rethrowAuth(e);
     } catch (e) {
       dialog?.dismiss();
-      displayErrorDialog(e,
-          onError: onError, onRetry: onRetry, onSuccess: onSuccess);
+      displayErrorDialog(context,
+          error: e, onError: onError, onRetry: onRetry, onSuccess: onSuccess);
       rethrow;
     }
   } catch (e) {
     dialog?.dismiss();
-    displayErrorDialog(e,
-        onError: onError, onRetry: onRetry, onSuccess: onSuccess);
+    displayErrorDialog(context,
+        error: e, onError: onError, onRetry: onRetry, onSuccess: onSuccess);
     rethrow;
   }
 }
@@ -104,56 +103,57 @@ Exception rethrowAuth(GraphQLErrorException exception) {
   return Exception('Unknown Error');
 }
 
-void displayErrorDialog(dynamic error,
-    {required Function onError,
+void displayErrorDialog(BuildContext context,
+    {required dynamic error,
+    required Function onError,
     VoidCallback? onRetry,
     VoidCallback? onSuccess}) {
   if (error is AuthException) {
     error
-        .callDialog(onRetry: onRetry, onSuccess: onSuccess)
+        .callDialog(context, onRetry: onRetry, onSuccess: onSuccess)
         .whenComplete(() => onError);
   } else if (error is PermissionException) {
     error
-        .callDialog(onRetry: onRetry, onSuccess: onSuccess)
+        .callDialog(context, onRetry: onRetry, onSuccess: onSuccess)
         .whenComplete(() => onError);
   } else if (error is AuthWrongException) {
     error
-        .callDialog(onRetry: onRetry, onSuccess: onSuccess)
+        .callDialog(context, onRetry: onRetry, onSuccess: onSuccess)
         .whenComplete(() => onError);
   } else if (error is RegisterMustVerifyEmailException) {
     error
-        .callDialog(onSuccess: onSuccess)
+        .callDialog(context, onSuccess: onSuccess)
         .whenComplete(() => onSuccess ?? () {});
   } else if (error is OutdatedClientException) {
     error
-        .callDialog(onRetry: onRetry, onSuccess: onSuccess)
+        .callDialog(context, onRetry: onRetry, onSuccess: onSuccess)
         .whenComplete(() => onError);
   } else if (error is ValidationException) {
     error
-        .callDialog(onRetry: onRetry, onSuccess: onSuccess)
+        .callDialog(context, onRetry: onRetry, onSuccess: onSuccess)
         .whenComplete(() => onError);
   } else if (error is PaymentRefusedException) {
     error
-        .callDialog(onRetry: onRetry, onSuccess: onSuccess)
+        .callDialog(context, onRetry: onRetry, onSuccess: onSuccess)
         .whenComplete(() => onError);
   } else if (error is AccountDeletationInProgressException) {
     error
-        .callDialog(onRetry: onRetry, onSuccess: onSuccess)
+        .callDialog(context, onRetry: onRetry, onSuccess: onSuccess)
         .whenComplete(() => onError);
   } else if (error is ServerErrorException) {
     error
-        .callDialog(onRetry: onRetry, onSuccess: onSuccess)
+        .callDialog(context, onRetry: onRetry, onSuccess: onSuccess)
         .whenComplete(() => onError);
   } else if (error is GraphQLErrorException) {
     var r = rethrowAuth(error);
-    return displayErrorDialog(r,
-        onError: onError, onRetry: onRetry, onSuccess: onSuccess);
+    return displayErrorDialog(context,
+        error: r, onError: onError, onRetry: onRetry, onSuccess: onSuccess);
   } else if (error is DioException) {
     if (error.type == DioExceptionType.connectionTimeout ||
         error.type == DioExceptionType.receiveTimeout ||
         error.type == DioExceptionType.sendTimeout) {
       showDialog<void>(
-        context: appContext!,
+        context: context,
         builder: (context) => ErrorDialog(
             errorMessage: 'Falha ao executar a ação\n'
                 'Tempo esgotado aguardando resposta do servidor\n'
@@ -164,7 +164,7 @@ void displayErrorDialog(dynamic error,
       ).whenComplete(() => onError);
     } else if (error.type == DioExceptionType.badCertificate) {
       showDialog<void>(
-        context: appContext!,
+        context: context,
         builder: (context) => ErrorDialog(
             errorMessage: 'Falha ao conectar ao Servidor\n'
                 'Falha na verificação de segurança, não é possível conectar no momento\n',
@@ -173,7 +173,7 @@ void displayErrorDialog(dynamic error,
       ).whenComplete(() => onError);
     } else if (error.type == DioExceptionType.badResponse) {
       showDialog<void>(
-        context: appContext!,
+        context: context,
         builder: (context) => ErrorDialog(
             errorMessage: 'Falha ao conectar ao Servidor\n'
                 'Resposta inválida do servidor\n'
@@ -183,7 +183,7 @@ void displayErrorDialog(dynamic error,
       ).whenComplete(() => onError);
     } else if (error.type == DioExceptionType.cancel) {
       showDialog<void>(
-        context: appContext!,
+        context: context,
         builder: (context) => ErrorDialog(
             errorMessage: 'Falha ao conectar ao Servidor\n'
                 'Conexão cancelada antes de obter os dados do servidor',
@@ -192,7 +192,7 @@ void displayErrorDialog(dynamic error,
       ).whenComplete(() => onError);
     } else if (error.type == DioExceptionType.connectionError) {
       showDialog<void>(
-        context: appContext!,
+        context: context,
         builder: (context) => ErrorDialog(
             errorMessage: 'Falha ao conectar ao Servidor\n'
                 'Não foi possível fazer uma conexão no momento\n'
@@ -202,7 +202,7 @@ void displayErrorDialog(dynamic error,
       ).whenComplete(() => onError);
     } else if (error.type == DioExceptionType.unknown) {
       showDialog<void>(
-        context: appContext!,
+        context: context,
         builder: (context) => ErrorDialog(
             errorMessage: 'Falha ao conectar ao Servidor\n'
                 'Verifique sua conexão com a internet e tente novamente\n',
@@ -211,7 +211,7 @@ void displayErrorDialog(dynamic error,
       ).whenComplete(() => onError);
     } else if (error.response == null) {
       showDialog<void>(
-        context: appContext!,
+        context: context,
         builder: (context) => ErrorDialog(
             errorMessage: 'O Servidor não enviou uma resposta\n'
                 'Verifique sua conexão com a internet e tente novamente\n',
@@ -221,7 +221,7 @@ void displayErrorDialog(dynamic error,
     } else {
       if (error.response?.statusCode == null) {
         showDialog<void>(
-          context: appContext!,
+          context: context,
           builder: (context) => ErrorDialog(
               errorMessage: 'Erro desconhecido na conexão com o servidor\n'
                   'Verifique sua conexão com a internet e tente novamente\n'
@@ -231,7 +231,7 @@ void displayErrorDialog(dynamic error,
         ).whenComplete(() => onError);
       } else if (error.response?.statusCode == 460) {
         showDialog<void>(
-          context: appContext!,
+          context: context,
           builder: (context) => ErrorDialog(
               errorMessage: 'Este aplicativo está desatualizado\n'
                   'Por favor faça uma atualização na loja de aplicativos de seu dispositivo\n',
@@ -240,7 +240,7 @@ void displayErrorDialog(dynamic error,
         ).whenComplete(() => onError);
       } else if (error.response?.statusCode == 429) {
         showDialog<void>(
-          context: appContext!,
+          context: context,
           builder: (context) => ErrorDialog(
               errorMessage:
                   'Você fez várias requisições em um curto periodo de tempo\n'
@@ -251,7 +251,7 @@ void displayErrorDialog(dynamic error,
       } else if (error.response!.statusCode! >= 500 ||
           error.response!.statusCode! <= 599) {
         showDialog<void>(
-          context: appContext!,
+          context: context,
           builder: (context) => ErrorDialog(
               errorMessage: 'Falha no servidor\n'
                   'Ocorreu um problema no nosso sistema\n'
@@ -262,7 +262,7 @@ void displayErrorDialog(dynamic error,
         ).whenComplete(() => onError);
       } else {
         showDialog<void>(
-          context: appContext!,
+          context: context,
           builder: (context) => ErrorDialog(
               errorMessage: 'Erro desconhecido na conexão com o servidor\n'
                   'Verifique sua conexão com a internet e tente novamente\n'
@@ -274,7 +274,7 @@ void displayErrorDialog(dynamic error,
     }
   } else if (error is SocketException) {
     showDialog<void>(
-      context: appContext!,
+      context: context,
       builder: (context) => ErrorDialog(
           errorMessage: 'Falha ao conectar-se ao servidor\n'
               'Verifique sua conexão com a internet e tente novamente\n',
@@ -283,7 +283,7 @@ void displayErrorDialog(dynamic error,
     ).whenComplete(() => onError);
   } else {
     showDialog<void>(
-      context: appContext!,
+      context: context,
       builder: (context) => ErrorDialog(
           errorMessage: 'Falha ao executar a ação\n'
               'Erro: $error\n',

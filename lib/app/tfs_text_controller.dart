@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class GetXTextController<V> {
+class TFSTextController<V> {
   final RxnString dataRx = RxnString();
   String? get data => dataRx.value;
   set data(String? value) => dataRx.value = value;
@@ -15,5 +15,5 @@ class GetXTextController<V> {
     controller.text = value ?? '';
   }
 
-  GetXTextController();
+  TFSTextController();
 }
