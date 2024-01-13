@@ -12,7 +12,7 @@ import 'paginated_items_builder.dart';
 /// as parent if state is not handled externally.
 class SliverPaginatedItemsBuilder<T> extends StatefulWidget {
   SliverPaginatedItemsBuilder({
-    Key? key,
+    super.key,
     required this.fetchPageData,
     required this.response,
     required this.itemBuilder,
@@ -33,8 +33,7 @@ class SliverPaginatedItemsBuilder<T> extends StatefulWidget {
     this.gridCrossAxisSpacing,
     this.gridChildAspectRatio,
     this.gridDelegate,
-  })  : config = config ?? PaginatedItemsBuilderConfig.defaultConfig(),
-        super(key: key);
+  }) : config = config ?? PaginatedItemsBuilderConfig.defaultConfig();
 
   /// This is the controller function that should handle fetching the list
   /// and updating in the state.
@@ -102,10 +101,12 @@ class SliverPaginatedItemsBuilder<T> extends StatefulWidget {
   final SliverGridDelegate? gridDelegate;
 
   @override
-  State<SliverPaginatedItemsBuilder<T>> createState() => _SliverPaginatedItemsBuilderState<T>();
+  State<SliverPaginatedItemsBuilder<T>> createState() =>
+      _SliverPaginatedItemsBuilderState<T>();
 }
 
-class _SliverPaginatedItemsBuilderState<T> extends State<SliverPaginatedItemsBuilder<T>> {
+class _SliverPaginatedItemsBuilderState<T>
+    extends State<SliverPaginatedItemsBuilder<T>> {
   bool _initialLoading = true;
   bool _loadingMoreData = false;
 
@@ -118,7 +119,10 @@ class _SliverPaginatedItemsBuilderState<T> extends State<SliverPaginatedItemsBui
 
   Future<void> fetchData({bool reset = false}) async {
     if (!mounted) return;
-    if (!reset && (widget.response != null && !widget.response!.hasMoreData && !_loadingMoreData)) return;
+    if (!reset &&
+        (widget.response != null &&
+            !widget.response!.hasMoreData &&
+            !_loadingMoreData)) return;
     setState(() {
       if (_initialLoading) {
         _initialLoading = false;
@@ -151,7 +155,7 @@ class _SliverPaginatedItemsBuilderState<T> extends State<SliverPaginatedItemsBui
   }
 
   Widget _loaderBuilder() {
-    Widget _buildLoader() => mockItem != null
+    Widget buildLoader() => mockItem != null
         ? Shimmer.fromColors(
             highlightColor: widget.config!.shimmerConfig.highlightColor,
             baseColor: widget.config!.shimmerConfig.baseColor,
@@ -166,9 +170,9 @@ class _SliverPaginatedItemsBuilderState<T> extends State<SliverPaginatedItemsBui
         ? VisibilityDetector(
             key: _loaderKey,
             onVisibilityChanged: (_) => fetchData(),
-            child: _buildLoader(),
+            child: buildLoader(),
           )
-        : _buildLoader();
+        : buildLoader();
   }
 
   Widget _emptyWidget([String? text]) {
@@ -208,12 +212,17 @@ class _SliverPaginatedItemsBuilderState<T> extends State<SliverPaginatedItemsBui
     showLoader = (widget.paginate && (widget.response?.hasMoreData ?? false));
 
     (() {
-      final itemsLen = (widget.response?.items?.length ?? widget.loaderItemsCount) + (showLoader ? 1 : 0);
-      itemCount = widget.maxLength == null ? itemsLen : min(itemsLen, widget.maxLength!);
+      final itemsLen =
+          (widget.response?.items?.length ?? widget.loaderItemsCount) +
+              (showLoader ? 1 : 0);
+      itemCount = widget.maxLength == null
+          ? itemsLen
+          : min(itemsLen, widget.maxLength!);
     })();
 
     if (widget.response?.items?.isEmpty ?? false) {
-      return SliverFillRemaining(hasScrollBody: false, child: _emptyWidget(widget.emptyText));
+      return SliverFillRemaining(
+          hasScrollBody: false, child: _emptyWidget(widget.emptyText));
     } else if (widget.response?.items == null && mockItem == null) {
       return SliverFillRemaining(hasScrollBody: false, child: _loaderBuilder());
     } else {
@@ -221,7 +230,9 @@ class _SliverPaginatedItemsBuilderState<T> extends State<SliverPaginatedItemsBui
     }
   }
 
-  Widget _buildItems() => widget.itemsDisplayType == ItemsDisplayType.list ? _buildListView() : _buildGridView();
+  Widget _buildItems() => widget.itemsDisplayType == ItemsDisplayType.list
+      ? _buildListView()
+      : _buildGridView();
 
   static int _computeActualChildCount(int itemCount) {
     return max(0, itemCount * 2 - 1);

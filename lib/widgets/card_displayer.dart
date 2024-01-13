@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CardDisplayer extends StatelessWidget {
   final List<Widget> children;
 
-  const CardDisplayer({Key? key, this.children = const <Widget>[]}) : super(key: key);
+  const CardDisplayer({super.key, this.children = const <Widget>[]});
 
   @override
   Widget build(BuildContext context) {

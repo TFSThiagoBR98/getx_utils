@@ -5,7 +5,8 @@ class ConfirmationDialog extends StatefulWidget {
   final VoidCallback? onConfirm;
   final VoidCallback? onCancel;
 
-  const ConfirmationDialog({Key? key, this.message = '', this.onConfirm, this.onCancel}) : super(key: key);
+  const ConfirmationDialog(
+      {super.key, this.message = '', this.onConfirm, this.onCancel});
 
   @override
   State<ConfirmationDialog> createState() => _ConfirmationDialogState();
@@ -32,11 +33,11 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
             contentPadding: const EdgeInsets.symmetric(vertical: 10),
             title: Text(
               'Você deseja confirmar a ação abaixo?',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             subtitle: Text(
               widget.message,
-              style: Theme.of(context).textTheme.subtitle2,
+              style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
         ],
@@ -56,7 +57,8 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                       }
                     },
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.green.shade700),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Colors.green.shade700),
                     ),
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),
@@ -83,7 +85,8 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                       }
                     },
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.red.shade700),
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.red.shade700),
                     ),
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),

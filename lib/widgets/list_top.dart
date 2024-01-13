@@ -8,7 +8,12 @@ class ListTop extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final String? labelText;
 
-  const ListTop({Key? key, required this.title, this.controller, this.onChanged, this.labelText}) : super(key: key);
+  const ListTop(
+      {super.key,
+      required this.title,
+      this.controller,
+      this.onChanged,
+      this.labelText});
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +25,11 @@ class ListTop extends StatelessWidget {
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 4),
                   child: Text(
                     title,
-                    style: Theme.of(context).textTheme.headline5,
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                 ),
               ),
@@ -34,7 +40,10 @@ class ListTop extends StatelessWidget {
               Expanded(
                   child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 4),
-                child: InputFormfield(controller: controller, onChanged: onChanged, labelText: labelText),
+                child: InputFormfield(
+                    controller: controller,
+                    onChanged: onChanged,
+                    labelText: labelText),
               ))
             ],
           )

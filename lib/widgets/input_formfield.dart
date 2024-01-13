@@ -31,7 +31,7 @@ class InputFormfield extends StatelessWidget {
   final TextCapitalization textCapitalization;
 
   const InputFormfield(
-      {Key? key,
+      {super.key,
       this.controller,
       this.onChanged,
       this.labelText,
@@ -58,8 +58,7 @@ class InputFormfield extends StatelessWidget {
       this.helperText,
       this.hintText,
       this.textCapitalization = TextCapitalization.none,
-      this.onTap})
-      : super(key: key);
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {

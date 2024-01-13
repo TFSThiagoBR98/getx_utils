@@ -7,7 +7,7 @@ import '../pagination/sliver_paginated_builder.dart';
 
 class SelectListPaginate<T> extends StatefulWidget {
   const SelectListPaginate(
-      {Key? key,
+      {super.key,
       required this.onRefresh,
       required this.fetchPageData,
       required this.response,
@@ -19,8 +19,7 @@ class SelectListPaginate<T> extends StatefulWidget {
       this.gridCrossAxisSpacing,
       this.gridChildAspectRatio,
       this.itemsDisplayType = ItemsDisplayType.list,
-      this.onItemTap})
-      : super(key: key);
+      this.onItemTap});
 
   final RefreshCallback onRefresh;
   final String? title;
@@ -58,7 +57,8 @@ class _SelectListPaginateState<T> extends State<SelectListPaginate<T>> {
                 gridCrossAxisSpacing: widget.gridCrossAxisSpacing ?? 15,
                 fetchPageData: widget.fetchPageData,
                 loaderItemsCount: 10,
-                emptyText: 'Não há o que selecionar.\nCadastre novo item para continuar.',
+                emptyText:
+                    'Não há o que selecionar.\nCadastre novo item para continuar.',
                 response: widget.response.value,
                 itemBuilder: (context, index, item) => GestureDetector(
                   onTap: widget.onItemTap ??

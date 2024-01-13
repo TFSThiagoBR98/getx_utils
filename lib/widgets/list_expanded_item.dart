@@ -12,7 +12,7 @@ class ListExpandedItem extends StatelessWidget {
   final ValueChanged<String>? onDelete;
 
   const ListExpandedItem(
-      {Key? key,
+      {super.key,
       required this.id,
       required this.name,
       this.onEdit,
@@ -20,16 +20,18 @@ class ListExpandedItem extends StatelessWidget {
       this.leading,
       this.image,
       this.hideTrailing = false,
-      this.hideChildren = false})
-      : super(key: key);
+      this.hideChildren = false});
 
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      leading: leading ?? CircleAvatar(backgroundImage: image ?? const AssetImage('assets/images/item.webp')),
+      leading: leading ??
+          CircleAvatar(
+              backgroundImage:
+                  image ?? const AssetImage('assets/images/item.webp')),
       title: Text(
         name,
-        style: Theme.of(context).textTheme.headline6,
+        style: Theme.of(context).textTheme.titleLarge,
       ),
       tilePadding: const EdgeInsets.all(14.0),
       trailing: hideTrailing
@@ -68,7 +70,8 @@ class ListExpandedItem extends StatelessWidget {
                       height: 70,
                       child: OutlinedButton.icon(
                         style: ButtonStyle(
-                          shape: MaterialStateProperty.all<OutlinedBorder?>(RoundedRectangleBorder(
+                          shape: MaterialStateProperty.all<OutlinedBorder?>(
+                              RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(3.0),
                           )),
                         ),
@@ -84,11 +87,13 @@ class ListExpandedItem extends StatelessWidget {
                       height: 70,
                       child: OutlinedButton.icon(
                         style: ButtonStyle(
-                          shape: MaterialStateProperty.all<OutlinedBorder?>(RoundedRectangleBorder(
+                          shape: MaterialStateProperty.all<OutlinedBorder?>(
+                              RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(3.0),
                           )),
                         ),
-                        onPressed: onDelete != null ? () => onDelete!(id) : null,
+                        onPressed:
+                            onDelete != null ? () => onDelete!(id) : null,
                         icon: const Icon(Icons.delete_outline),
                         label: const Text('Apagar'),
                       ),

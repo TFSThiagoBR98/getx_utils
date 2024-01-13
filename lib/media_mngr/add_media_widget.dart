@@ -4,7 +4,7 @@ class AddMediaWidget extends StatelessWidget {
   final VoidCallback? onTap;
   final Color? cardColor;
 
-  const AddMediaWidget({Key? key, required this.onTap, this.cardColor}) : super(key: key);
+  const AddMediaWidget({super.key, required this.onTap, this.cardColor});
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +20,11 @@ class AddMediaWidget extends StatelessWidget {
                 Center(
                   child: InkWell(
                     onTap: onTap,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
-                        children: const [
+                        children: [
                           Icon(
                             Icons.add_circle_rounded,
                             size: 75,

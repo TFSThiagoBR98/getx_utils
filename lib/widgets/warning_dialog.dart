@@ -4,7 +4,7 @@ class WarningDialog extends StatefulWidget {
   final String errorMessage;
   final VoidCallback? onOk;
 
-  const WarningDialog({Key? key, this.errorMessage = '', this.onOk}) : super(key: key);
+  const WarningDialog({super.key, this.errorMessage = '', this.onOk});
 
   @override
   State<WarningDialog> createState() => _WarningDialogState();
@@ -34,11 +34,11 @@ class _WarningDialogState extends State<WarningDialog> {
             contentPadding: const EdgeInsets.symmetric(vertical: 10),
             title: Text(
               'Atenção',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleSmall,
             ),
             subtitle: Text(
               widget.errorMessage,
-              style: Theme.of(context).textTheme.subtitle2,
+              style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
         ],
@@ -58,7 +58,8 @@ class _WarningDialogState extends State<WarningDialog> {
                       }
                     },
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.green.shade700),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Colors.green.shade700),
                     ),
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),

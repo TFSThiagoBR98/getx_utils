@@ -13,12 +13,13 @@ abstract class BaseServerProvider extends BaseProvider {
     return Dio(BaseOptions(
       baseUrl: 'https://$apiUrl/',
       headers: await getHeaders(),
-      connectTimeout: 30000,
+      connectTimeout: const Duration(seconds: 15),
       contentType: 'application/json; charset=utf-8',
     ));
   }
 
-  Future<String> uploadFile<T>(String model, String id, GetxMedia<T> file, {String? replace}) async {
+  Future<String> uploadFile<T>(String model, String id, GetxMedia<T> file,
+      {String? replace}) async {
     String fileName = file.file!.path.split('/').last;
     FormData formData = FormData.fromMap(<String, dynamic>{
       'model': model,
@@ -26,14 +27,17 @@ abstract class BaseServerProvider extends BaseProvider {
       'media_type': 'file',
       'replace': replace,
       'collection': 'images',
-      'file': MultipartFile.fromBytes(await file.file!.readAsBytes(), filename: fileName),
+      'file': MultipartFile.fromBytes(await file.file!.readAsBytes(),
+          filename: fileName),
     });
-    var response = await (await dio()).post<Map<dynamic, dynamic>>('/api/upload', data: formData);
+    var response = await (await dio())
+        .post<Map<dynamic, dynamic>>('/api/upload', data: formData);
     return response.data!['uuid'] as String;
   }
 
   Future<String> deleteFile(String uuid) async {
-    var response = await (await dio()).delete<Map<dynamic, dynamic>>('/api/upload/$uuid');
+    var response =
+        await (await dio()).delete<Map<dynamic, dynamic>>('/api/upload/$uuid');
     return response.data!['uuid'] as String;
   }
 
@@ -45,7 +49,8 @@ abstract class BaseServerProvider extends BaseProvider {
     var headers = {
       'accept': 'application/json',
       'user-agent': await getUserAgent(),
-      'authorization': accessToken != null ? 'Bearer $accessToken' : 'Bearer null',
+      'authorization':
+          accessToken != null ? 'Bearer $accessToken' : 'Bearer null',
     };
     return headers;
   }
@@ -72,7 +77,8 @@ abstract class BaseServerProvider extends BaseProvider {
 
   DateTime? get expiresIn {
     final login = Hive.box<dynamic>('settings');
-    return DateTime.fromMillisecondsSinceEpoch((login.get('expiresIn', defaultValue: 0) as int?) ?? 0);
+    return DateTime.fromMillisecondsSinceEpoch(
+        (login.get('expiresIn', defaultValue: 0) as int?) ?? 0);
   }
 
   set expiresIn(DateTime? value) {

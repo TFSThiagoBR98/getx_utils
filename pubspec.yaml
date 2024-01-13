@@ -24,6 +24,7 @@ dependencies:
   decimal: ">=2.1.0"
   ferry: ">=0.11.0"
   gql_dio_link: ">=0.2.3"
+  gql_exec: ">=1.0.0+1"
   image_picker: ">=0.8.5+3"
   shimmer: ">=2.0.0"
   intl: ">=0.17.0"

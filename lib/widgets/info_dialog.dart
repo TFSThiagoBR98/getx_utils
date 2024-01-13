@@ -4,7 +4,7 @@ class InfoDialog extends StatefulWidget {
   final String errorMessage;
   final VoidCallback? onOk;
 
-  const InfoDialog({Key? key, this.errorMessage = '', this.onOk}) : super(key: key);
+  const InfoDialog({super.key, this.errorMessage = '', this.onOk});
 
   @override
   State<InfoDialog> createState() => _InfoDialogState();
@@ -34,11 +34,11 @@ class _InfoDialogState extends State<InfoDialog> {
             contentPadding: const EdgeInsets.symmetric(vertical: 10),
             title: Text(
               'Informação',
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleSmall,
             ),
             subtitle: Text(
               widget.errorMessage,
-              style: Theme.of(context).textTheme.subtitle2,
+              style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
         ],
@@ -58,7 +58,8 @@ class _InfoDialogState extends State<InfoDialog> {
                       }
                     },
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.green.shade700),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Colors.green.shade700),
                     ),
                     child: const Padding(
                       padding: EdgeInsets.all(10.0),

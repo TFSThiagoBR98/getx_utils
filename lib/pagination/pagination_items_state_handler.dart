@@ -9,7 +9,8 @@ import 'models/paginated_items_response.dart';
 /// The [itemsBuilder] provides the required arguments needed by the [PaginatedItemsBuilder].
 class PaginationItemsStateHandler<T> extends StatefulWidget {
   /// Pass in a function that calls the API and returns a [PaginatedItemsResponse].
-  final Future<PaginatedItemsResponse<T>?> Function(String? paginationKey) pageFetchData;
+  final Future<PaginatedItemsResponse<T>?> Function(String? paginationKey)
+      pageFetchData;
 
   /// Callback method that usually should return a [PaginatedItemsBuilder] and
   /// pass the [response] and [fetchPageData] params to the builder.
@@ -19,16 +20,18 @@ class PaginationItemsStateHandler<T> extends StatefulWidget {
   ) itemsBuilder;
 
   const PaginationItemsStateHandler({
-    Key? key,
+    super.key,
     required this.pageFetchData,
     required this.itemsBuilder,
-  }) : super(key: key);
+  });
 
   @override
-  State<PaginationItemsStateHandler<T>> createState() => _PaginationItemsStateHandlerState<T>();
+  State<PaginationItemsStateHandler<T>> createState() =>
+      _PaginationItemsStateHandlerState<T>();
 }
 
-class _PaginationItemsStateHandlerState<T> extends State<PaginationItemsStateHandler<T>> {
+class _PaginationItemsStateHandlerState<T>
+    extends State<PaginationItemsStateHandler<T>> {
   PaginatedItemsResponse<T>? itemsResponse;
 
   Future<void> _update(bool reset) async {
@@ -38,7 +41,8 @@ class _PaginationItemsStateHandlerState<T> extends State<PaginationItemsStateHan
     }
 
     try {
-      final res = await widget.pageFetchData(itemsResponse?.paginationKey as String?);
+      final res =
+          await widget.pageFetchData(itemsResponse?.paginationKey as String?);
       if (itemsResponse == null) {
         itemsResponse = res;
       } else {

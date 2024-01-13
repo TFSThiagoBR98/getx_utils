@@ -21,7 +21,7 @@ enum ItemsDisplayType {
 /// as parent if state is not handled externally.
 class PaginatedItemsBuilder<T> extends StatefulWidget {
   const PaginatedItemsBuilder({
-    Key? key,
+    super.key,
     required this.fetchPageData,
     required this.response,
     required this.itemBuilder,
@@ -50,8 +50,9 @@ class PaginatedItemsBuilder<T> extends StatefulWidget {
     this.scrollDirection = Axis.vertical,
     this.scrollPhysics,
     bool? scrollPrimary,
-  })  : scrollPrimary = scrollPrimary ?? scrollController == null && identical(scrollDirection, Axis.vertical),
-        super(key: key);
+  }) : scrollPrimary = scrollPrimary ??
+            scrollController == null &&
+                identical(scrollDirection, Axis.vertical);
 
   /// This is the controller function that should handle fetching the list
   /// and updating in the state.
@@ -228,7 +229,8 @@ class PaginatedItemsBuilder<T> extends StatefulWidget {
   final SliverGridDelegate? gridDelegate;
 
   @override
-  State<PaginatedItemsBuilder<T>> createState() => _PaginatedItemsBuilderState<T>();
+  State<PaginatedItemsBuilder<T>> createState() =>
+      _PaginatedItemsBuilderState<T>();
 }
 
 class _PaginatedItemsBuilderState<T> extends State<PaginatedItemsBuilder<T>> {
@@ -247,7 +249,10 @@ class _PaginatedItemsBuilderState<T> extends State<PaginatedItemsBuilder<T>> {
 
   Future<void> fetchData({bool reset = false}) async {
     if (!mounted) return;
-    if (!reset && (widget.response != null && !widget.response!.hasMoreData && !_loadingMoreData)) return;
+    if (!reset &&
+        (widget.response != null &&
+            !widget.response!.hasMoreData &&
+            !_loadingMoreData)) return;
     setState(() {
       if (_initialLoading) {
         _initialLoading = false;
@@ -280,9 +285,10 @@ class _PaginatedItemsBuilderState<T> extends State<PaginatedItemsBuilder<T>> {
   }
 
   Widget _loaderBuilder() {
-    Widget _buildLoader() => mockItem != null
+    Widget buildLoader() => mockItem != null
         ? Shimmer.fromColors(
-            highlightColor: PaginatedItemsBuilder.config!.shimmerConfig.highlightColor,
+            highlightColor:
+                PaginatedItemsBuilder.config!.shimmerConfig.highlightColor,
             baseColor: PaginatedItemsBuilder.config!.shimmerConfig.baseColor,
             period: PaginatedItemsBuilder.config!.shimmerConfig.period,
             child: IgnorePointer(
@@ -295,9 +301,9 @@ class _PaginatedItemsBuilderState<T> extends State<PaginatedItemsBuilder<T>> {
         ? VisibilityDetector(
             key: _loaderKey,
             onVisibilityChanged: (_) => fetchData(),
-            child: _buildLoader(),
+            child: buildLoader(),
           )
-        : _buildLoader();
+        : buildLoader();
   }
 
   Widget _emptyWidget([String? text]) {
@@ -328,7 +334,8 @@ class _PaginatedItemsBuilderState<T> extends State<PaginatedItemsBuilder<T>> {
 
   @override
   void initState() {
-    _scrollController = widget.scrollController ?? (widget.scrollPrimary == true ? null : ScrollController());
+    _scrollController = widget.scrollController ??
+        (widget.scrollPrimary == true ? null : ScrollController());
 
     mockItem = PaginatedItemsBuilder.config?.mockItemGetter<T>();
 
@@ -340,7 +347,8 @@ class _PaginatedItemsBuilderState<T> extends State<PaginatedItemsBuilder<T>> {
     // });
     // }
 
-    PaginatedItemsBuilder.config ??= PaginatedItemsBuilderConfig.defaultConfig();
+    PaginatedItemsBuilder.config ??=
+        PaginatedItemsBuilderConfig.defaultConfig();
 
     super.initState();
   }
@@ -354,7 +362,8 @@ class _PaginatedItemsBuilderState<T> extends State<PaginatedItemsBuilder<T>> {
   @override
   Widget build(BuildContext context) {
     showLoader = (widget.paginate && (widget.response?.hasMoreData ?? false));
-    itemsScrollController = widget.scrollController == null ? _scrollController : null;
+    itemsScrollController =
+        widget.scrollController == null ? _scrollController : null;
     scrollPhysics = widget.scrollPhysics ??
         (widget.scrollPrimary == true ||
                 (widget.scrollPrimary == null &&
@@ -363,13 +372,19 @@ class _PaginatedItemsBuilderState<T> extends State<PaginatedItemsBuilder<T>> {
             ? const AlwaysScrollableScrollPhysics()
             : null);
 
-    if (widget.shrinkWrap && widget.neverScrollablePhysicsOnShrinkWrap && widget.scrollPhysics == null) {
+    if (widget.shrinkWrap &&
+        widget.neverScrollablePhysicsOnShrinkWrap &&
+        widget.scrollPhysics == null) {
       scrollPhysics = const NeverScrollableScrollPhysics();
     }
 
     (() {
-      final itemsLen = (widget.response?.items?.length ?? widget.loaderItemsCount) + (showLoader ? 1 : 0);
-      itemCount = widget.maxLength == null ? itemsLen : min(itemsLen, widget.maxLength!);
+      final itemsLen =
+          (widget.response?.items?.length ?? widget.loaderItemsCount) +
+              (showLoader ? 1 : 0);
+      itemCount = widget.maxLength == null
+          ? itemsLen
+          : min(itemsLen, widget.maxLength!);
     })();
 
     if (widget.response?.items?.isEmpty ?? false) {
@@ -387,7 +402,9 @@ class _PaginatedItemsBuilderState<T> extends State<PaginatedItemsBuilder<T>> {
     }
   }
 
-  Widget _buildItems() => widget.itemsDisplayType == ItemsDisplayType.list ? _buildListView() : _buildGridView();
+  Widget _buildItems() => widget.itemsDisplayType == ItemsDisplayType.list
+      ? _buildListView()
+      : _buildGridView();
 
   ListView _buildListView() {
     return ListView.separated(

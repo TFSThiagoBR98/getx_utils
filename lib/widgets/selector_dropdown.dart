@@ -28,7 +28,7 @@ class SelectorDropdownFormfield<T> extends StatelessWidget {
   final String? hintText;
 
   const SelectorDropdownFormfield(
-      {Key? key,
+      {super.key,
       this.onChanged,
       this.labelText,
       this.visible = true,
@@ -50,8 +50,7 @@ class SelectorDropdownFormfield<T> extends StatelessWidget {
       this.hintText,
       this.onTap,
       required this.items,
-      this.selectedItem})
-      : super(key: key);
+      this.selectedItem});
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +65,7 @@ class SelectorDropdownFormfield<T> extends StatelessWidget {
           items: items,
           dropdownBuilder: ((context, selectedItem) {
             return Text(selectedItem?.label ?? '',
-                style: Theme.of(context).textTheme.subtitle1);
+                style: Theme.of(context).textTheme.titleMedium);
           }),
           itemAsString: (item) => item.label,
           compareFn: (item1, item2) => item1.id == item2.id,

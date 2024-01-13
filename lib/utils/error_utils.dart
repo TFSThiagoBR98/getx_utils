@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:ferry/typed_links.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ndialog/ndialog.dart';
 import 'package:universal_io/io.dart';
@@ -32,12 +31,14 @@ Future<T> runFutureWithErrorDialog<T>(
       throw rethrowAuth(e);
     } catch (e) {
       dialog?.dismiss();
-      displayErrorDialog(e, onError: onError, onRetry: onRetry, onSuccess: onSuccess);
+      displayErrorDialog(e,
+          onError: onError, onRetry: onRetry, onSuccess: onSuccess);
       rethrow;
     }
   } catch (e) {
     dialog?.dismiss();
-    displayErrorDialog(e, onError: onError, onRetry: onRetry, onSuccess: onSuccess);
+    displayErrorDialog(e,
+        onError: onError, onRetry: onRetry, onSuccess: onSuccess);
     rethrow;
   }
 }
@@ -73,7 +74,8 @@ Exception rethrowAuth(GraphQLErrorException exception) {
           );
         default:
           if (error.message.contains('Validation failed')) {
-            return ValidationException(fields: error.extensions?['validation'] as Map?);
+            return ValidationException(
+                fields: error.extensions?['validation'] as Map?);
           } else {
             return Exception('Unknown Error');
           }
@@ -82,13 +84,17 @@ Exception rethrowAuth(GraphQLErrorException exception) {
   }
 
   if (exception.linkException != null) {
-    if (exception.linkException is ServerException && exception.linkException!.originalException is DioError) {
-      return exception.linkException!.originalException! as DioError;
-    } else if (exception.linkException is ServerException && exception.linkException!.originalException is Exception) {
+    if (exception.linkException is ServerException &&
+        exception.linkException!.originalException is DioException) {
+      return exception.linkException!.originalException! as DioException;
+    } else if (exception.linkException is ServerException &&
+        exception.linkException!.originalException is Exception) {
       return exception.linkException!.originalException! as Exception;
-    } else if (exception.linkException is LinkException && exception.linkException!.originalException is DioError) {
-      return exception.linkException!.originalException! as DioError;
-    } else if (exception.linkException is LinkException && exception.linkException!.originalException is Exception) {
+    } else if (exception.linkException is LinkException &&
+        exception.linkException!.originalException is DioException) {
+      return exception.linkException!.originalException! as DioException;
+    } else if (exception.linkException is LinkException &&
+        exception.linkException!.originalException is Exception) {
       return exception.linkException!.originalException! as Exception;
     } else {
       return exception;
@@ -98,32 +104,54 @@ Exception rethrowAuth(GraphQLErrorException exception) {
   return Exception('Unknown Error');
 }
 
-void displayErrorDialog(dynamic error, {required Function onError, VoidCallback? onRetry, VoidCallback? onSuccess}) {
+void displayErrorDialog(dynamic error,
+    {required Function onError,
+    VoidCallback? onRetry,
+    VoidCallback? onSuccess}) {
   if (error is AuthException) {
-    error.callDialog(onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
+    error
+        .callDialog(onRetry: onRetry, onSuccess: onSuccess)
+        .whenComplete(() => onError);
   } else if (error is PermissionException) {
-    error.callDialog(onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
+    error
+        .callDialog(onRetry: onRetry, onSuccess: onSuccess)
+        .whenComplete(() => onError);
   } else if (error is AuthWrongException) {
-    error.callDialog(onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
+    error
+        .callDialog(onRetry: onRetry, onSuccess: onSuccess)
+        .whenComplete(() => onError);
   } else if (error is RegisterMustVerifyEmailException) {
-    error.callDialog(onSuccess: onSuccess).whenComplete(() => onSuccess ?? () {});
+    error
+        .callDialog(onSuccess: onSuccess)
+        .whenComplete(() => onSuccess ?? () {});
   } else if (error is OutdatedClientException) {
-    error.callDialog(onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
+    error
+        .callDialog(onRetry: onRetry, onSuccess: onSuccess)
+        .whenComplete(() => onError);
   } else if (error is ValidationException) {
-    error.callDialog(onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
+    error
+        .callDialog(onRetry: onRetry, onSuccess: onSuccess)
+        .whenComplete(() => onError);
   } else if (error is PaymentRefusedException) {
-    error.callDialog(onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
+    error
+        .callDialog(onRetry: onRetry, onSuccess: onSuccess)
+        .whenComplete(() => onError);
   } else if (error is AccountDeletationInProgressException) {
-    error.callDialog(onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
+    error
+        .callDialog(onRetry: onRetry, onSuccess: onSuccess)
+        .whenComplete(() => onError);
   } else if (error is ServerErrorException) {
-    error.callDialog(onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
+    error
+        .callDialog(onRetry: onRetry, onSuccess: onSuccess)
+        .whenComplete(() => onError);
   } else if (error is GraphQLErrorException) {
     var r = rethrowAuth(error);
-    return displayErrorDialog(r, onError: onError, onRetry: onRetry, onSuccess: onSuccess);
-  } else if (error is DioError) {
-    if (error.type == DioErrorType.connectTimeout ||
-        error.type == DioErrorType.receiveTimeout ||
-        error.type == DioErrorType.sendTimeout) {
+    return displayErrorDialog(r,
+        onError: onError, onRetry: onRetry, onSuccess: onSuccess);
+  } else if (error is DioException) {
+    if (error.type == DioExceptionType.connectionTimeout ||
+        error.type == DioExceptionType.receiveTimeout ||
+        error.type == DioExceptionType.sendTimeout) {
       showDialog<void>(
         context: appContext!,
         builder: (context) => ErrorDialog(
@@ -134,7 +162,45 @@ void displayErrorDialog(dynamic error, {required Function onError, VoidCallback?
             onRetry: onRetry),
         barrierDismissible: false,
       ).whenComplete(() => onError);
-    } else if (error.type == DioErrorType.other) {
+    } else if (error.type == DioExceptionType.badCertificate) {
+      showDialog<void>(
+        context: appContext!,
+        builder: (context) => ErrorDialog(
+            errorMessage: 'Falha ao conectar ao Servidor\n'
+                'Falha na verificação de segurança, não é possível conectar no momento\n',
+            onRetry: onRetry),
+        barrierDismissible: false,
+      ).whenComplete(() => onError);
+    } else if (error.type == DioExceptionType.badResponse) {
+      showDialog<void>(
+        context: appContext!,
+        builder: (context) => ErrorDialog(
+            errorMessage: 'Falha ao conectar ao Servidor\n'
+                'Resposta inválida do servidor\n'
+                'Entre em contato com o suporte.\n',
+            onRetry: onRetry),
+        barrierDismissible: false,
+      ).whenComplete(() => onError);
+    } else if (error.type == DioExceptionType.cancel) {
+      showDialog<void>(
+        context: appContext!,
+        builder: (context) => ErrorDialog(
+            errorMessage: 'Falha ao conectar ao Servidor\n'
+                'Conexão cancelada antes de obter os dados do servidor',
+            onRetry: onRetry),
+        barrierDismissible: false,
+      ).whenComplete(() => onError);
+    } else if (error.type == DioExceptionType.connectionError) {
+      showDialog<void>(
+        context: appContext!,
+        builder: (context) => ErrorDialog(
+            errorMessage: 'Falha ao conectar ao Servidor\n'
+                'Não foi possível fazer uma conexão no momento\n'
+                'Verifique sua conexão com a internet e tente novamente\n',
+            onRetry: onRetry),
+        barrierDismissible: false,
+      ).whenComplete(() => onError);
+    } else if (error.type == DioExceptionType.unknown) {
       showDialog<void>(
         context: appContext!,
         builder: (context) => ErrorDialog(
@@ -176,12 +242,14 @@ void displayErrorDialog(dynamic error, {required Function onError, VoidCallback?
         showDialog<void>(
           context: appContext!,
           builder: (context) => ErrorDialog(
-              errorMessage: 'Você fez várias requisições em um curto periodo de tempo\n'
+              errorMessage:
+                  'Você fez várias requisições em um curto periodo de tempo\n'
                   'Muitas tentativas de conexão, tente mais tarde\n',
               onRetry: onRetry),
           barrierDismissible: false,
         ).whenComplete(() => onError);
-      } else if (error.response!.statusCode! >= 500 || error.response!.statusCode! <= 599) {
+      } else if (error.response!.statusCode! >= 500 ||
+          error.response!.statusCode! <= 599) {
         showDialog<void>(
           context: appContext!,
           builder: (context) => ErrorDialog(

@@ -6,7 +6,12 @@ class MediaDisplayer extends StatelessWidget {
   final VoidCallback? onDelete;
   final Color? cardColor;
 
-  const MediaDisplayer({Key? key, required this.image, this.onTap, this.onDelete, this.cardColor}) : super(key: key);
+  const MediaDisplayer(
+      {super.key,
+      required this.image,
+      this.onTap,
+      this.onDelete,
+      this.cardColor});
 
   @override
   Widget build(BuildContext context) {
