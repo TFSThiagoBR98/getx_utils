@@ -1,37 +1,33 @@
 {
-    "dart.flutterSdkPath": ".fvm/versions/3.16.7",
-    // Remove .fvm files from search
-    "search.exclude": {
-        "**/.fvm": true,
-        "**/__generated__": true
-    },
-    // Remove from file watching
-    "files.watcherExclude": {
-        "**/.fvm": true,
-        "**/__generated__": true
-
-    },
-    "[dart]": {
-        "editor.formatOnSave": true,
-        "editor.formatOnType": true,
-        "editor.rulers": [
-            80
-        ],
-        "editor.codeActionsOnSave": {
-            "source.organizeImports": true
-        },
-        "editor.selectionHighlight": false,
-        "editor.suggest.snippetsPreventQuickSuggestions": false,
-        "editor.suggestSelection": "first",
-        "editor.tabCompletion": "onlySnippets",
-        "editor.wordBasedSuggestions": "off"
-    },
-    
-    "dart.debugSdkLibraries": true,
-    "dart.debugExternalPackageLibraries": true,
-    "dart.analysisExcludedFolders": [
-        ".fvm",
-        "lib/__generated__",
-        "lib/graphql/**/__generated__"
+  "dart.flutterSdkPath": ".fvm/versions/3.16.9",
+  "search.exclude": {
+    "**/.fvm": true,
+    "**/__generated__": true
+  },
+  "files.watcherExclude": {
+    "**/.fvm": true,
+    "**/__generated__": true
+  },
+  "[dart]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "editor.rulers": [
+      80
     ],
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": true
+    },
+    "editor.selectionHighlight": false,
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "editor.suggestSelection": "first",
+    "editor.tabCompletion": "onlySnippets",
+    "editor.wordBasedSuggestions": "off"
+  },
+  "dart.debugSdkLibraries": true,
+  "dart.debugExternalPackageLibraries": true,
+  "dart.analysisExcludedFolders": [
+    ".fvm",
+    "lib/__generated__",
+    "lib/graphql/**/__generated__"
+  ]
 }
