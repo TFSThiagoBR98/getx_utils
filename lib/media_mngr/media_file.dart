@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 class MediaFile<T> {
   final T? model;
+  final String? collection;
   final XFile? file;
   final ImageProvider<Object>? image;
 
-  const MediaFile({this.model, this.file, this.image});
+  const MediaFile({this.model, this.file, this.image, this.collection});
 }
