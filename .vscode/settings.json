@@ -1,5 +1,5 @@
 {
-  "dart.flutterSdkPath": ".fvm/versions/3.16.9",
+  "dart.flutterSdkPath": ".fvm/versions/3.19.6",
   "search.exclude": {
     "**/.fvm": true,
     "**/__generated__": true
@@ -15,7 +15,7 @@
       80
     ],
     "editor.codeActionsOnSave": {
-      "source.organizeImports": true
+      "source.organizeImports": "explicit"
     },
     "editor.selectionHighlight": false,
     "editor.suggest.snippetsPreventQuickSuggestions": false,

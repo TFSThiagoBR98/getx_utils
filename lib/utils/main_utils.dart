@@ -18,8 +18,7 @@ Future<void> initFlutterApp() async {
   });
 }
 
-final appRouteKey =
-    GlobalKey<NavigatorState>(debugLabel: 'Key Created by default');
+final appRouteKey = GlobalKey<NavigatorState>(debugLabel: 'Key Created by default');
 
 final NumberFormat lformatMoney = NumberFormat.currency(
   locale: 'pt_BR',
@@ -33,6 +32,14 @@ final NumberFormat lformatDouble = NumberFormat.currency(
 
 String stringDecimalToMoney(String decimalValue) {
   return decimal2money(Decimal.tryParse(decimalValue) ?? Decimal.zero);
+}
+
+int decimalToInt(Decimal value) {
+  return value.shift(2).toBigInt().toInt();
+}
+
+Decimal intToDecimal(int value) {
+  return Decimal.fromBigInt(BigInt.from(value)).shift(-2);
 }
 
 Decimal money2decimal(String value) {
@@ -71,9 +78,7 @@ Future<XFile?> selectImagePicker(BuildContext context) async {
                         style: TextStyle(fontSize: 20.0),
                       ),
                       onPressed: () async {
-                        picker
-                            .pickImage(source: ImageSource.camera)
-                            .then((file) => Navigator.of(context).pop(file));
+                        picker.pickImage(source: ImageSource.camera).then((file) => Navigator.of(context).pop(file));
                       },
                     ),
                   ),
@@ -85,9 +90,7 @@ Future<XFile?> selectImagePicker(BuildContext context) async {
                         style: TextStyle(fontSize: 20.0),
                       ),
                       onPressed: () {
-                        picker
-                            .pickImage(source: ImageSource.gallery)
-                            .then((file) => Navigator.of(context).pop(file));
+                        picker.pickImage(source: ImageSource.gallery).then((file) => Navigator.of(context).pop(file));
                       },
                     ),
                   ),
