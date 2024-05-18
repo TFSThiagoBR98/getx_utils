@@ -30,14 +30,12 @@ Future<T> runFutureWithErrorDialog<T>(BuildContext context,
       throw rethrowAuth(e);
     } catch (e) {
       dialog?.dismiss();
-      displayErrorDialog(context,
-          error: e, onError: onError, onRetry: onRetry, onSuccess: onSuccess);
+      displayErrorDialog(context, error: e, onError: onError, onRetry: onRetry, onSuccess: onSuccess);
       rethrow;
     }
   } catch (e) {
     dialog?.dismiss();
-    displayErrorDialog(context,
-        error: e, onError: onError, onRetry: onRetry, onSuccess: onSuccess);
+    displayErrorDialog(context, error: e, onError: onError, onRetry: onRetry, onSuccess: onSuccess);
     rethrow;
   }
 }
@@ -73,8 +71,9 @@ Exception rethrowAuth(GraphQLErrorException exception) {
           );
         default:
           if (error.message.contains('Validation failed')) {
-            return ValidationException(
-                fields: error.extensions?['validation'] as Map?);
+            return ValidationException(fields: error.extensions?['validation'] as Map?);
+          } else if (error.message.contains('[Keycloak Guard]')) {
+            return AuthException();
           } else {
             return Exception('Unknown Error');
           }
@@ -83,17 +82,13 @@ Exception rethrowAuth(GraphQLErrorException exception) {
   }
 
   if (exception.linkException != null) {
-    if (exception.linkException is ServerException &&
-        exception.linkException!.originalException is DioException) {
+    if (exception.linkException is ServerException && exception.linkException!.originalException is DioException) {
       return exception.linkException!.originalException! as DioException;
-    } else if (exception.linkException is ServerException &&
-        exception.linkException!.originalException is Exception) {
+    } else if (exception.linkException is ServerException && exception.linkException!.originalException is Exception) {
       return exception.linkException!.originalException! as Exception;
-    } else if (exception.linkException is LinkException &&
-        exception.linkException!.originalException is DioException) {
+    } else if (exception.linkException is LinkException && exception.linkException!.originalException is DioException) {
       return exception.linkException!.originalException! as DioException;
-    } else if (exception.linkException is LinkException &&
-        exception.linkException!.originalException is Exception) {
+    } else if (exception.linkException is LinkException && exception.linkException!.originalException is Exception) {
       return exception.linkException!.originalException! as Exception;
     } else {
       return exception;
@@ -104,50 +99,28 @@ Exception rethrowAuth(GraphQLErrorException exception) {
 }
 
 void displayErrorDialog(BuildContext context,
-    {required dynamic error,
-    required Function onError,
-    VoidCallback? onRetry,
-    VoidCallback? onSuccess}) {
+    {required dynamic error, required Function onError, VoidCallback? onRetry, VoidCallback? onSuccess}) {
   if (error is AuthException) {
-    error
-        .callDialog(context, onRetry: onRetry, onSuccess: onSuccess)
-        .whenComplete(() => onError);
+    error.callDialog(context, onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
   } else if (error is PermissionException) {
-    error
-        .callDialog(context, onRetry: onRetry, onSuccess: onSuccess)
-        .whenComplete(() => onError);
+    error.callDialog(context, onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
   } else if (error is AuthWrongException) {
-    error
-        .callDialog(context, onRetry: onRetry, onSuccess: onSuccess)
-        .whenComplete(() => onError);
+    error.callDialog(context, onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
   } else if (error is RegisterMustVerifyEmailException) {
-    error
-        .callDialog(context, onSuccess: onSuccess)
-        .whenComplete(() => onSuccess ?? () {});
+    error.callDialog(context, onSuccess: onSuccess).whenComplete(() => onSuccess ?? () {});
   } else if (error is OutdatedClientException) {
-    error
-        .callDialog(context, onRetry: onRetry, onSuccess: onSuccess)
-        .whenComplete(() => onError);
+    error.callDialog(context, onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
   } else if (error is ValidationException) {
-    error
-        .callDialog(context, onRetry: onRetry, onSuccess: onSuccess)
-        .whenComplete(() => onError);
+    error.callDialog(context, onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
   } else if (error is PaymentRefusedException) {
-    error
-        .callDialog(context, onRetry: onRetry, onSuccess: onSuccess)
-        .whenComplete(() => onError);
+    error.callDialog(context, onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
   } else if (error is AccountDeletationInProgressException) {
-    error
-        .callDialog(context, onRetry: onRetry, onSuccess: onSuccess)
-        .whenComplete(() => onError);
+    error.callDialog(context, onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
   } else if (error is ServerErrorException) {
-    error
-        .callDialog(context, onRetry: onRetry, onSuccess: onSuccess)
-        .whenComplete(() => onError);
+    error.callDialog(context, onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
   } else if (error is GraphQLErrorException) {
     var r = rethrowAuth(error);
-    return displayErrorDialog(context,
-        error: r, onError: onError, onRetry: onRetry, onSuccess: onSuccess);
+    return displayErrorDialog(context, error: r, onError: onError, onRetry: onRetry, onSuccess: onSuccess);
   } else if (error is DioException) {
     if (error.type == DioExceptionType.connectionTimeout ||
         error.type == DioExceptionType.receiveTimeout ||
@@ -242,14 +215,12 @@ void displayErrorDialog(BuildContext context,
         showDialog<void>(
           context: context,
           builder: (context) => ErrorDialog(
-              errorMessage:
-                  'Você fez várias requisições em um curto periodo de tempo\n'
+              errorMessage: 'Você fez várias requisições em um curto periodo de tempo\n'
                   'Muitas tentativas de conexão, tente mais tarde\n',
               onRetry: onRetry),
           barrierDismissible: false,
         ).whenComplete(() => onError);
-      } else if (error.response!.statusCode! >= 500 ||
-          error.response!.statusCode! <= 599) {
+      } else if (error.response!.statusCode! >= 500 || error.response!.statusCode! <= 599) {
         showDialog<void>(
           context: context,
           builder: (context) => ErrorDialog(
