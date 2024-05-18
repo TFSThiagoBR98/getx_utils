@@ -5,8 +5,7 @@ class ErrorDialog extends StatefulWidget {
   final VoidCallback? onRetry;
   final VoidCallback? onOk;
 
-  const ErrorDialog(
-      {super.key, this.errorMessage = '', this.onRetry, this.onOk});
+  const ErrorDialog({super.key, this.errorMessage = '', this.onRetry, this.onOk});
 
   @override
   State<ErrorDialog> createState() => _ErrorDialogState();
@@ -83,8 +82,7 @@ class _ErrorDialogState extends State<ErrorDialog> {
                         }
                       },
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                            Colors.blue.shade700),
+                        backgroundColor: WidgetStateProperty.all<Color>(Colors.blue.shade700),
                       ),
                       child: const Padding(
                         padding: EdgeInsets.all(8.0),

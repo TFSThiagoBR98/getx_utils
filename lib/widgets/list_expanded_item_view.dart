@@ -25,10 +25,7 @@ class ListExpandedItemView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
-      leading: leading ??
-          CircleAvatar(
-              backgroundImage:
-                  image ?? const AssetImage('assets/images/item.webp')),
+      leading: leading ?? CircleAvatar(backgroundImage: image ?? const AssetImage('assets/images/item.webp')),
       title: Text(
         name,
         style: Theme.of(context).textTheme.titleLarge,
@@ -70,8 +67,7 @@ class ListExpandedItemView extends StatelessWidget {
                       height: 70,
                       child: OutlinedButton.icon(
                         style: ButtonStyle(
-                          shape: MaterialStateProperty.all<OutlinedBorder?>(
-                              RoundedRectangleBorder(
+                          shape: WidgetStateProperty.all<OutlinedBorder?>(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(3.0),
                           )),
                         ),
@@ -87,13 +83,11 @@ class ListExpandedItemView extends StatelessWidget {
                       height: 70,
                       child: OutlinedButton.icon(
                         style: ButtonStyle(
-                          shape: MaterialStateProperty.all<OutlinedBorder?>(
-                              RoundedRectangleBorder(
+                          shape: WidgetStateProperty.all<OutlinedBorder?>(RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(3.0),
                           )),
                         ),
-                        onPressed:
-                            onPayment != null ? () => onPayment!(id) : null,
+                        onPressed: onPayment != null ? () => onPayment!(id) : null,
                         icon: const Icon(Icons.payment_outlined),
                         label: const Text('Pagamentos'),
                       ),

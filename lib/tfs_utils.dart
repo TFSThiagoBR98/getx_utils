@@ -29,7 +29,6 @@ export 'pagination/models/paginated_items_builder_config.dart';
 export 'pagination/models/paginated_items_response.dart';
 export 'pagination/paginated_items_builder.dart';
 export 'pagination/sliver_paginated_builder.dart';
-export 'pagseguro/pagseguro.dart';
 export 'provider/base_provider.dart';
 export 'provider/base_repository.dart';
 export 'provider/base_server_provider.dart';

@@ -58,8 +58,7 @@ class _WarningDialogState extends State<WarningDialog> {
                       }
                     },
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.green.shade700),
+                      backgroundColor: WidgetStateProperty.all<Color>(Colors.green.shade700),
                     ),
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),

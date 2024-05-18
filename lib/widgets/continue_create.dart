@@ -5,8 +5,7 @@ class ContinueCreateDialog extends StatefulWidget {
   final VoidCallback? onConfirm;
   final VoidCallback? onCancel;
 
-  const ContinueCreateDialog(
-      {super.key, this.message = '', this.onConfirm, this.onCancel});
+  const ContinueCreateDialog({super.key, this.message = '', this.onConfirm, this.onCancel});
 
   @override
   State<ContinueCreateDialog> createState() => _ContinueCreateDialogState();
@@ -53,8 +52,7 @@ class _ContinueCreateDialogState extends State<ContinueCreateDialog> {
                       }
                     },
                     style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.red.shade700),
+                      backgroundColor: WidgetStateProperty.all<Color>(Colors.red.shade700),
                     ),
                     child: const Padding(
                       padding: EdgeInsets.all(20.0),
@@ -76,8 +74,7 @@ class _ContinueCreateDialogState extends State<ContinueCreateDialog> {
                       }
                     },
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.green.shade700),
+                      backgroundColor: WidgetStateProperty.all<Color>(Colors.green.shade700),
                     ),
                     child: const Padding(
                       padding: EdgeInsets.all(20.0),

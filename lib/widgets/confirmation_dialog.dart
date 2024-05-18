@@ -5,8 +5,7 @@ class ConfirmationDialog extends StatefulWidget {
   final VoidCallback? onConfirm;
   final VoidCallback? onCancel;
 
-  const ConfirmationDialog(
-      {super.key, this.message = '', this.onConfirm, this.onCancel});
+  const ConfirmationDialog({super.key, this.message = '', this.onConfirm, this.onCancel});
 
   @override
   State<ConfirmationDialog> createState() => _ConfirmationDialogState();
@@ -57,8 +56,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                       }
                     },
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Colors.green.shade700),
+                      backgroundColor: WidgetStateProperty.all<Color>(Colors.green.shade700),
                     ),
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),
@@ -85,8 +83,7 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                       }
                     },
                     style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all<Color>(Colors.red.shade700),
+                      backgroundColor: WidgetStateProperty.all<Color>(Colors.red.shade700),
                     ),
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),

@@ -61,8 +61,7 @@ class TFSDateTimeController {
   }
 
   Future<DateTime?> selectPeriod(BuildContext context) async {
-    if (format == TFSDateTimeControllerDisplayFormat.date ||
-        format == TFSDateTimeControllerDisplayFormat.datetime) {
+    if (format == TFSDateTimeControllerDisplayFormat.date || format == TFSDateTimeControllerDisplayFormat.datetime) {
       var range = await showDatePicker(
         initialDate: data ?? DateTime(2019),
         firstDate: DateTime(1900),
@@ -75,30 +74,25 @@ class TFSDateTimeController {
 
       if (range != null) {
         if (data != null) {
-          data = DateTime(
-              range.year, range.month, range.day, data!.hour, data!.minute);
+          data = DateTime(range.year, range.month, range.day, data!.hour, data!.minute);
         } else {
           data = DateTime(range.year, range.month, range.day, 0, 0);
         }
       }
     }
 
-    if (format == TFSDateTimeControllerDisplayFormat.time ||
-        format == TFSDateTimeControllerDisplayFormat.datetime) {
-      // ignore: use_build_context_synchronously
+    if (format == TFSDateTimeControllerDisplayFormat.time || format == TFSDateTimeControllerDisplayFormat.datetime) {
       var range = await showTimePicker(
-        initialTime: data != null
-            ? TimeOfDay.fromDateTime(data!)
-            : const TimeOfDay(hour: 00, minute: 00),
+        initialTime: data != null ? TimeOfDay.fromDateTime(data!) : const TimeOfDay(hour: 00, minute: 00),
         useRootNavigator: true,
         initialEntryMode: TimePickerEntryMode.input,
+        // ignore: use_build_context_synchronously
         context: context,
       );
 
       if (range != null) {
         if (data != null) {
-          data = DateTime(
-              data!.year, data!.month, data!.day, range.hour, range.minute);
+          data = DateTime(data!.year, data!.month, data!.day, range.hour, range.minute);
         } else {
           data = DateTime(2019, 1, 1, range.hour, range.minute);
         }

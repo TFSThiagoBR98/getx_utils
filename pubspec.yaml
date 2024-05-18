@@ -1,11 +1,11 @@
 name: tfs_utils
 description: Some utilities for my apps
-version: 4.0.0
+version: 4.1.0
 homepage: "https://tfs.dev.br"
 
 environment:
-  sdk: '>=3.2.4 <4.0.0'
-  flutter: ">=3.16.0"
+  sdk: '>=3.4.0 <4.0.0'
+  flutter: ">=3.22.0"
 
 dependencies:
   flutter:
@@ -29,8 +29,6 @@ dependencies:
   shimmer: ">=2.0.0"
   intl: ">=0.17.0"
   dio: ">=4.0.6"
-  fast_rsa: ">=3.4.7"
-  sodium_libs: ">=1.2.5"
   crypto: ">=3.0.1"
 
 dev_dependencies:
