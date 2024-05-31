@@ -2,16 +2,20 @@ import 'package:flutter/material.dart' hide Builder;
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-enum TFSDateTimeControllerDisplayFormat { date, time, datetime }
+import 'tfs_datetime_controller.dart';
 
-class TFSDateTimeController {
+class TFSSplitedDateTimeController {
   late final Rxn<DateTime> dataRx;
   DateTime? get data => dataRx.value;
   set data(DateTime? value) => dataRx.value = value;
 
-  final Rx<TextEditingController> _controller = TextEditingController().obs;
-  TextEditingController get controller => _controller.value;
-  set controller(TextEditingController value) => _controller.value = value;
+  final Rx<TextEditingController> _dateController = TextEditingController().obs;
+  TextEditingController get dateController => _dateController.value;
+  set dateController(TextEditingController value) => _dateController.value = value;
+
+  final Rx<TextEditingController> _timeController = TextEditingController().obs;
+  TextEditingController get timeController => _timeController.value;
+  set timeController(TextEditingController value) => _timeController.value = value;
 
   final TFSDateTimeControllerDisplayFormat format;
 
@@ -42,27 +46,49 @@ class TFSDateTimeController {
   }
 
   String? toInternalFormat() {
+    return toFormat(internalFormat);
+  }
+
+  String? toDisplayFormat() {
+    return toFormat(displayFormat);
+  }
+
+  String? toFormat(String format) {
     if (data == null) return null;
     try {
-      return DateFormat(internalFormat).format(data!);
+      return DateFormat(format).format(data!);
     } on FormatException {
       return null;
+    }
+  }
+
+  void setDataFromDateTime(DateTime time) {
+    try {
+      data = time;
+      dateController.text = DateFormat(displayDateFormat).format(data!);
+      timeController.text = DateFormat(displayTimeFormat).format(data!);
+    } on FormatException {
+      data = null;
+      dateController.text = '';
+      timeController.text = '';
     }
   }
 
   void setData(String value) {
     try {
       data = DateFormat(internalFormat).parse(value);
-      controller.text = DateFormat(displayFormat).format(data!);
+      dateController.text = DateFormat(displayDateFormat).format(data!);
+      timeController.text = DateFormat(displayTimeFormat).format(data!);
     } on FormatException {
       data = null;
-      controller.text = '';
+      dateController.text = '';
+      timeController.text = '';
     }
   }
 
   Future<DateTime?> selectDatePeriod(BuildContext context) async {
     var range = await showDatePicker(
-      initialDate: data ?? DateTime(2019),
+      initialDate: data ?? DateTime.now(),
       firstDate: DateTime(1900),
       useRootNavigator: true,
       initialEntryMode: DatePickerEntryMode.calendar,
@@ -78,6 +104,8 @@ class TFSDateTimeController {
         data = DateTime(range.year, range.month, range.day, 0, 0);
       }
     }
+
+    updateTimeController();
 
     return data;
   }
@@ -99,33 +127,23 @@ class TFSDateTimeController {
       }
     }
 
+    updateTimeController();
+
     return data;
   }
 
   void updateTimeController() {
     if (data == null) {
-      controller.text = '';
+      dateController.text = '';
+      timeController.text = '';
       return;
     }
 
-    controller.text = DateFormat(displayFormat).format(data!);
+    dateController.text = DateFormat(displayDateFormat).format(data!);
+    timeController.text = DateFormat(displayTimeFormat).format(data!);
   }
 
-  Future<DateTime?> selectPeriod(BuildContext context) async {
-    if (format == TFSDateTimeControllerDisplayFormat.date || format == TFSDateTimeControllerDisplayFormat.datetime) {
-      data = await selectDatePeriod(context);
-    }
-
-    if (format == TFSDateTimeControllerDisplayFormat.time || format == TFSDateTimeControllerDisplayFormat.datetime) {
-      // ignore: use_build_context_synchronously
-      data = await selectTimePeriod(context);
-    }
-
-    updateTimeController();
-    return data;
-  }
-
-  TFSDateTimeController(this.format) {
+  TFSSplitedDateTimeController(this.format) {
     dataRx = Rxn<DateTime>();
   }
 }

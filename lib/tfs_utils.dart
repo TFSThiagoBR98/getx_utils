@@ -9,6 +9,7 @@ export 'app/tfs_link_list_controller.dart';
 export 'app/tfs_list_multi_select_controller.dart';
 export 'app/tfs_list_select_controller.dart';
 export 'app/tfs_money_percentage_controller.dart';
+export 'app/tfs_splited_datetime_controller.dart';
 export 'app/tfs_text_controller.dart';
 export 'app/uppercase_formatter.dart';
 export 'exceptions/account_deletation_in_progress.dart';
