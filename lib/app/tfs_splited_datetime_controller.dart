@@ -123,7 +123,8 @@ class TFSSplitedDateTimeController {
       if (data != null) {
         data = DateTime(data!.year, data!.month, data!.day, range.hour, range.minute);
       } else {
-        data = DateTime(2019, 1, 1, range.hour, range.minute);
+        final now = DateTime.now();
+        data = DateTime(now.year, now.month, now.day, range.hour, range.minute);
       }
     }
 
