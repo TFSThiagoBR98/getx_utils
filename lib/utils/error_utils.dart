@@ -118,6 +118,8 @@ void displayErrorDialog(BuildContext context,
     error.callDialog(context, onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
   } else if (error is ServerErrorException) {
     error.callDialog(context, onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
+  } else if (error is GenericErrorException) {
+    error.callDialog(context, onRetry: onRetry, onSuccess: onSuccess).whenComplete(() => onError);
   } else if (error is GraphQLErrorException) {
     var r = rethrowAuth(error);
     return displayErrorDialog(context, error: r, onError: onError, onRetry: onRetry, onSuccess: onSuccess);
